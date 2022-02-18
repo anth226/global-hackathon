@@ -1,0 +1,255 @@
+@import "./variables.scss";
+@import "./base.scss";
+@import "./pages.scss";
+@import "./auth.scss";
+@import "./user.scss";
+@import "./dashboard.scss";
+@import "./organization.scss";
+@import "./challenge.scss";
+@import "./profile/index.scss";
+@import "./project.scss";
+@import "./message.scss";
+@import "./admin.scss";
+@import "./notification.scss";
+@import "./gallery.scss";
+@import "./home.scss";
+@import "./counter.scss";
+@import "./help.scss";
+@import "./resource.scss";
+@import "./privacy.scss";
+@import "./component.scss";
+@import "../containers/identity/style.scss";
+@import "../containers/blockchain/style.scss";
+
+@font-face {
+  font-family: "Poppins";
+  src: url("../assets/fonts/Poppins-Light.ttf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("../assets/fonts/Poppins-Regular.ttf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("../assets/fonts/Poppins-Medium.ttf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("../assets/fonts/Poppins-SemiBold.ttf") format("opentype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("../assets/fonts/Poppins-Bold.ttf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("../assets/fonts/Poppins-ExtraBold.ttf") format("opentype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.layout {
+  width: 100%;
+  min-height: 100vh;
+  overflow-y: auto;
+  background-color: white;
+  color: #333;
+  font-family: "Poppins";
+  position: relative;
+  .ant-badge {
+    color: inherit;
+  }
+}
+
+.ant-modal {
+  font-family: "Poppins";
+}
+
+.admin-nav {
+  // background-image: linear-gradient(
+  //   rgb(173, 124, 196),
+  //   rgb(71, 38, 97),
+  //   rgb(55, 21, 75)
+  // ) !important;
+  background-color: #ebd0f1 !important;
+}
+
+.main-nav {
+  width: 100%;
+  z-index: 100;
+  background-color: $white;
+  box-shadow: 0px 0px 5px $gray-2;
+  height: 70px;
+  position: absolute;
+  .navbar-brand img {
+    height: 40px;
+  }
+  .container-nav {
+    padding: 9px 5%;
+  }
+
+  @media screen and (max-width: 768px) {
+    height: 60px;
+  }
+}
+
+.nav-body {
+  .nav-item a {
+    color: #333 !important;
+    font-weight: 500;
+    .ant-badge {
+      color: #333;
+      padding-top: 5px;
+    }
+  }
+  button a {
+    color: gray !important;
+  }
+  button a:hover {
+    color: black !important;
+  }
+  .anticon {
+    vertical-align: 5px !important;
+  }
+  .nav-item .super-link {
+    color: #084479 !important;
+    font-weight: 600;
+    &:hover {
+      color: #153355 !important;
+    }
+  }
+}
+
+.ant-badge {
+  font-size: inherit !important;
+  .ant-badge-count {
+    height: 16px;
+    min-width: 16px;
+    border-radius: 8px;
+    right: -2px;
+    padding: 0 5px;
+    line-height: 16px;
+    top: 5px;
+  }
+}
+
+.anticon {
+  vertical-align: 2px !important;
+}
+
+.content {
+  padding: 50px;
+  min-height: calc(100vh - 150px);
+  margin: 0 auto;
+  margin-top: 70px;
+  & .summary {
+    color: white !important;
+  }
+
+  .ant-page-header {
+    padding: 0 !important;
+  }
+
+  .sun-editor-editable {
+    font-family: inherit;
+    font-size: 16px;
+    background-color: transparent;
+    padding: 0;
+    margin-bottom: 10px;
+    p,
+    ul {
+      margin-bottom: 5px;
+    }
+  }
+}
+
+.footer {
+  background-image: linear-gradient(58deg, #0056f5, #33ccf4);
+  background-color: #0e7681;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  a {
+    color: white;
+    &:hover {
+      color: white;
+      text-decoration: none;
+    }
+    img {
+      width: 120px;
+      height: auto;
+    }
+  }
+}
+
+.ant-dropdown-placement-bottomRight {
+  top: 20px !important;
+  & ul {
+    border-radius: 7px;
+    padding: 10px;
+  }
+  & h5 {
+    font-size: 13px;
+    font-weight: bolder;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .content {
+    padding: 30px 15px !important;
+  }
+  h3 {
+    font-size: 1.4rem !important;
+  }
+  h5 {
+    font-size: 1.1rem !important;
+  }
+  .main-nav {
+    .navbar-brand img {
+      height: 30px;
+    }
+  }
+  .footer {
+    img {
+      height: 35px !important;
+    }
+    .container {
+      flex-direction: column;
+    }
+    .footer-list {
+      margin-top: 20px;
+      text-align: left;
+    }
+  }
+}

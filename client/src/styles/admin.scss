@@ -1,0 +1,177 @@
+.table-photo {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+}
+
+.unresolved-report {
+  background-color: #defafa;
+}
+
+.site-layout {
+  overflow-y: auto;
+  margin-top: 0 !important;
+}
+
+.message-box {
+  .ant-tabs-bar {
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab {
+    border-color: #ddd;
+  }
+  .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab-active {
+    border-bottom: 0;
+  }
+}
+
+.admin-const {
+  padding-top: 10px;
+  min-height: 60vh;
+  
+  .const-block {
+    margin-top: 20px;
+    margin-bottom: 50px;
+
+    .const-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+
+    .const-label {
+      margin-left: 10px;
+    }
+
+    .const-field {
+      min-height: 100px;
+      background: white;
+      border: 2px inset #ccc;
+      padding: 10px;
+
+      .ant-tag {
+        margin-bottom: 7px;
+      }
+    }
+    .add-box {
+      display: flex;
+      width: 400px;
+    }
+  }
+
+  .profile-add-section {
+    margin-top: 50px;
+    display: flex;
+    max-width: 500px;
+  }
+
+  .profile-form-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+
+    .anticon {
+      font-size: 1.2rem;
+      color: #777;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    input, button {
+      width: 80%;
+      max-width: 350px;
+    }
+  }
+
+}
+
+.column-btn {
+  padding-top: 0 !important;
+}
+
+.admin-action {
+  .ant-btn {
+    padding-left: 0;
+  }
+}
+
+.admin-settings-block {
+  position: relative;
+  background-color: white;
+  border: 1px solid $gray-300;
+  box-shadow: 1px 1px 15px $gray-2;
+  padding: 30px;
+  padding-bottom: 70px;
+  margin-bottom: 50px;
+
+  .btn-admin-save {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+  }
+}
+
+.admin-list-column {
+  display: flex;
+
+  .list-box {
+    margin-left: 50px;
+
+    .ant-radio-wrapper {
+      margin-right: 50px;
+    }
+
+    .list-column-box {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 300px;
+      height: 200px;
+      background-color: $gray-300;
+
+      .row {
+        width: 96%;
+      }
+
+      .col {
+        padding-left: 5px;
+        padding-right: 5px;
+
+      }
+
+      .list-tile {
+        width: 100%;
+        height: 100px;
+        background-color: white;
+        border-radius: 10px;
+      }
+    }
+  }
+}
+
+.btn-no-padding {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  height: auto !important;
+}
+
+.ant-collapse-header {
+  color: $blue-3 !important;
+}
+
+.hidden-table {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .admin-list-column {
+    flex-direction: column;
+
+    .list-box {
+      margin-left: 0px !important;
+    }
+  }
+}

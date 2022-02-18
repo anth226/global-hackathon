@@ -1,0 +1,110 @@
+.policy-header {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 40px;
+  img {
+    margin-bottom: 40px;
+    width: 300px;
+  }
+  .entry-title {
+    text-shadow: 0em 0.1em 0.1em #aaa;
+  }
+}
+
+.policy-onetab {
+  margin-left: 15px;
+}
+
+.policy-italic {
+  font-weight: 600;
+  font-style: italic;
+}
+
+.policy-important {
+  text-align: center;
+  width: 100%;
+  font-weight: 600;
+  border: 1px solid $gray-900;
+  padding: 20px 0;
+  margin-bottom: 30px;
+}
+
+.privacy-modal {
+  top: 50px !important;
+  .ant-modal-body {
+    font-size: 15px;
+  }
+}
+
+.unsub-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .sub-title {
+    color: #2e75f8;
+    font-size: 36px;
+    font-weight: 100;
+    margin-top: 30px;
+  }
+  .sub-desc {
+    color: #444;
+    text-align: center;
+    max-width: 600px;
+  }
+}
+
+.agree-btns {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  max-width: 400px;
+  margin: auto;
+  margin-top: 40px;
+  .ant-btn {
+    width: 120px;
+  }
+}
+
+.unsubscribe_modal {
+  .ant-modal-content {
+    border-radius: 7px;
+  }
+  .ant-modal-body {
+    padding: 50px 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      .blue-btn {
+        width: 200px;
+        color: white;
+        border: 1px solid #0056f5;
+        background-color: #0056f5;
+        text-align: center;
+        padding: 5px;
+        font-size: 14px;
+        border-radius: 3px;
+        margin: auto;
+        margin-top: 20px;
+        display: block;
+        transition: all 0.5s;
+        &:hover {
+          background-color: #2972fa;
+        }
+      }
+    }
+
+    @media screen and (max-width: 768px) {
+      padding: 30px 30px;
+      .btn-group .blue-btn {
+        width: 150px;
+      }
+    }
+  }
+}

@@ -1,0 +1,96 @@
+.big-uploader {
+  max-width: 250px;
+  position: relative;
+
+  .ant-upload-select-picture-card {
+    width: 100% !important;
+    height: auto !important;
+    padding: 40px 30px !important;
+  }
+
+  .ant-upload-text {
+    margin-top: 20px;
+  }
+  .upload-remove {
+    position: absolute;
+    top: 26px;
+    right: 17px;
+    opacity: 0;
+    transition-property: opacity;
+    transition-duration: 0.7s, 0.7s;
+  }
+}
+
+.big-uploader:hover .upload-remove {
+  opacity: 1;
+}
+
+.cropper {
+  position: relative;
+  height: 400px;
+}
+
+.location-profile-box {
+  .content-box {
+    border: 1px dashed $purple-blue;
+    padding: 20px;
+    margin-bottom: 30px;
+  }
+}
+
+.instruct_modal {
+  .ant-modal-content {
+    background-color: #182456;
+    border-radius: 5px;
+  }
+  .ant-modal-close-x {
+    color: white;
+    font-size: 20px;
+  }
+  h4 {
+    color: white;
+    text-align: center;
+  }
+  .instructs {
+    padding: 120px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+    .blue-btn {
+      width: 310px;
+      color: white;
+      background-color: #497ef0;
+      border: none;
+      text-align: center;
+      padding: 6px;
+      font-size: 15x;
+      border-radius: 4px;
+      margin: auto;
+      display: block;
+      &:hover {
+        background-color: #4086f5;
+        box-shadow: 1px 1px 5px #999;
+      }
+    }
+  }
+  .instruct-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    iframe {
+      width: 640px;
+      height: 360px;
+      margin-top: 15px;
+      @media screen and (max-width: 768px) {
+        width: 320px;
+        height: 180px;
+      }
+    }
+    .download {
+      color: white;
+      text-decoration: underline;
+      margin-top: 15px;
+    }
+  }
+}

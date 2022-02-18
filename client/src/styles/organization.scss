@@ -1,0 +1,229 @@
+.organization {
+  .ant-list-item-meta-title {
+    font-size: 20px !important;
+  }
+  .ant-list-item-meta-description {
+    font-size: 17px !important;
+  }
+  .create-section {
+    width: 90%;
+    max-width: 900px;
+    margin: 0 auto;
+    margin-top: 40px;
+    background-color: white;
+    border-radius: 5px;
+    min-height: 300px;
+    padding: 5% 10% 5% 10%;
+  }
+}
+
+.ant-descriptions-row {
+  .ant-descriptions-item-label {
+    font-size: 13px;
+    font-weight: bold;
+  }
+}
+
+.invite-box {
+  background: white;
+  padding: 50px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 15px #aaa;
+  width: 100%;
+  max-width: 700px;
+  margin: auto;
+  h3 {
+    line-height: 30px;
+  }
+}
+
+@media (max-width: 520px) {
+  .organization {
+    .create-section {
+      width: 100%;
+      padding: 10px 20px 10px 20px;
+    }
+  }
+}
+
+.list-view {
+  h4 {
+    margin-bottom: 10px;
+  }
+  .list-view-btn {
+    height: 50px;
+    color: blue;
+  }
+
+  .list-view-btn:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  .challenge_item {
+    cursor: pointer;
+  }
+
+  .challenge_item:hover h4 {
+    color: black !important;
+  }
+  .homepage-card {
+    width: 300px;
+    margin: 10px 16px 10px 0px;
+    border-radius: 10px;
+    background: $white;
+    position: relative;
+    &:active,
+    &:hover {
+      box-shadow: 5px 5px 10px;
+    }
+    a {
+      color: rgb(4, 9, 37) !important;
+    }
+  }
+  .name {
+    width: 100%;
+  }
+  .participant_dashboard {
+    width: 100%;
+    background: white;
+    border-radius: 14px;
+    padding: 15px;
+    margin: 8px;
+    margin-left: 0px;
+  }
+}
+.ant-input-suffix {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn-profile {
+  background-image: linear-gradient(
+    rgb(64, 70, 104),
+    rgb(21, 29, 77),
+    rgb(26, 36, 93)
+  );
+  display: inline-block;
+  padding: 10px;
+  width: 200px;
+  border-radius: 10px;
+  color: white;
+  font-size: 18px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cancel {
+  background-image: none;
+  color: black;
+}
+
+.org-logo-box {
+  width: 100%;
+  height: auto;
+  border: 5px solid white;
+  border-radius: 10px;
+}
+
+.team-table {
+  padding: 0 3px;
+  th {
+    border: none !important;
+    color: #aaa !important;
+    outline: none;
+  }
+  tr {
+    td:first-child,
+    th:first-child {
+      text-align: center;
+    }
+  }
+
+  .sortable {
+    cursor: pointer;
+  }
+
+  tbody {
+    box-shadow: 0px 2px 8px #ccc;
+    td {
+      background-color: white;
+      border-top: none !important;
+      vertical-align: unset !important;
+      border-bottom: 1px solid #dee2e6;
+      padding: 20px 10px;
+      word-break: break-all;
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+  }
+}
+
+.with-action {
+  tr {
+    td:last-child,
+    th:last-child {
+      text-align: center;
+      width: 80px;
+    }
+  }
+}
+
+.blue-popover {
+  display: flex;
+  flex-direction: column;
+
+  ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0;
+    li {
+      padding: 8px 2px;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      color: #888;
+      cursor: pointer;
+      border-bottom: 1px solid #aaa;
+      &:hover {
+        color: lightblue;
+      }
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .btn-form-group .btn-profile {
+    width: 130px !important;
+  }
+  .invite-box {
+    padding: 20px;
+  }
+  .ant-descriptions-row {
+    .ant-descriptions-item-container {
+      flex-direction: column;
+    }
+  }
+  .team-table {
+    font-size: 13px;
+    th,
+    td {
+      min-width: 110px;
+    }
+  }
+  .with-action {
+    tr {
+      td:last-child,
+      th:last-child {
+        text-align: center;
+        width: 60px !important;
+        min-width: 60px;
+      }
+    }
+  }
+}

@@ -1,0 +1,104 @@
+.message-box {
+  height: calc(100vh - 73px);
+  overflow-y: auto;
+  aside {
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  .ant-menu-item {
+    display: flex;
+    align-items: center;
+    height: 55px !important;
+    margin-bottom: 0 !important;
+    margin-top: 0 !important;
+    img.anticon {
+      width: 36px;
+      height: 36px;
+      border-radius: 18px;
+      min-width: 36px;
+      vertical-align: -0.18em !important;
+    }
+    .menu-name {
+      width: 100px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .ant-badge .ant-badge-count {
+      right: 10px;
+    }
+  }
+
+  .ant-menu-inline-collapsed {
+    .search-conversation {
+      display: none;
+    }
+    img.anticon {
+      margin-left: -10px;
+    }
+  }
+
+  .message-input {
+    display: flex;
+    gap: 10px;
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+}
+
+.site-layout .site-layout-background {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #fff;
+  padding: 10px 24px;
+  min-height: calc(100vh - 133px);
+
+  .ant-comment-actions {
+    margin-top: -22px;
+    float: right;
+    display: none;
+  }
+  .ant-comment:hover .ant-comment-actions {
+    display: block;
+  }
+
+  .ant-comment-content-detail {
+    margin-right: 90px;
+  }
+}
+
+.btn-invite-teamchat {
+  margin-left: auto;
+}
+
+.link-block {
+  float: right;
+  color: $blue !important;
+}
+
+@media screen and (max-width: 768px) {
+  .site-layout .site-layout-background {
+    .ant-comment-actions {
+      margin-top: 0;
+      float: left;
+    }
+    .ant-comment-content-detail {
+      margin-right: 0;
+    }
+  }
+  .message-input {
+    flex-direction: column;
+  }
+  .btn-invite-teamchat {
+    margin-top: 5px;
+  }
+}
+
+.ant-menu-inline-collapsed-tooltip {
+  display: none;
+}

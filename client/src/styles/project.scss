@@ -1,0 +1,253 @@
+.project-user {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  img {
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    margin-left: 10px;
+  }
+}
+
+.comment {
+  .ant-collapse-content {
+    background-color: #ddeeff !important;
+    max-height: 700px;
+    overflow-y: auto;
+  }
+}
+
+.project-unfollow {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  button {
+    margin: 2px;
+  }
+}
+
+.homepage-card .project-invite {
+  position: absolute;
+  display: flex;
+  right: 30px;
+  top: 25px;
+  z-index: 100;
+}
+
+@media screen and (max-width: 768px) {
+  .homepage-card .project-invite {
+    position: relative;
+    right: 0px;
+    top: 10px;
+  }
+}
+
+.ant-result {
+  background-color: white;
+}
+
+.project-editor {
+  padding: 0 !important;
+  .ql-toolbar.ql-snow {
+    border: 0;
+    border-bottom: 1px solid #ccc;
+  }
+  .ql-container.ql-snow {
+    border: 0;
+  }
+}
+
+.formatted {
+  margin-bottom: 10px;
+  p,
+  ul {
+    margin-bottom: 3px;
+  }
+}
+
+.produced-by {
+  font-size: 14px;
+  .challenge-link {
+    font-weight: 600;
+    &:hover {
+      text-decoration: underline !important;
+    }
+  }
+}
+
+.project-header {
+  display: flex;
+  justify-content: space-between;
+
+  .btn-project-access {
+    font-size: 30px !important;
+    padding: 0 !important;
+    color: black !important;
+  }
+}
+
+.ant-dropdown-menu-item {
+  a:hover {
+    text-decoration: none !important;
+  }
+}
+
+.demo-option-label-item {
+  img {
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+  }
+}
+
+.project-share-select {
+  display: flex;
+
+  .ant-select {
+    margin-top: 10px;
+  }
+  button {
+    margin-top: 10px;
+    width: 120px;
+  }
+}
+
+.btn-footer-group {
+  display: flex;
+  justify-content: center;
+}
+
+@media screen and (max-width: 768px) {
+  .project-share-select {
+    flex-direction: column;
+  }
+}
+
+.review-card {
+  width: 100%;
+  background: white;
+  border-radius: 14px;
+  padding: 20px !important;
+  position: relative;
+
+  .review-title {
+    width: 100%;
+    text-align: center;
+  }
+
+  .wide-card-img {
+    width: 40%;
+
+    img {
+      height: auto;
+      width: 95%;
+    }
+  }
+
+  .wide-card-desc {
+    width: 60%;
+    padding-left: 10px;
+
+    p {
+      font-size: 14px;
+      line-height: 130%;
+      overflow: hidden;
+      max-height: 110px;
+      max-width: 90%;
+      text-overflow: ellipsis;
+      margin-bottom: 0;
+    }
+
+    .anticon {
+      padding-top: 6px;
+      font-size: 22px;
+      margin-left: 5px;
+      color: #1890ff;
+      margin-right: 5px;
+    }
+  }
+
+  .custom-card-like {
+    position: absolute;
+    bottom: -5px;
+    left: 18px;
+  }
+
+  .slider-block {
+    margin-bottom: 18px;
+    .slider-title {
+      font-size: 13px;
+      margin-bottom: 5px;
+    }
+  }
+
+  .ant-slider {
+    margin-top: 0;
+    .ant-slider-handle {
+      width: 10px;
+      height: 10px;
+      margin-top: -3px;
+    }
+  }
+}
+
+.vote-form {
+  .btn-form-group {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 20px;
+  }
+
+  .ant-form-item {
+    margin-bottom: 15px;
+  }
+}
+
+.slider-comment {
+  padding: 0 10px;
+  border: 2px inset;
+  background: #f5f5f5;
+  margin-top: 30px;
+}
+
+.project-address {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.ghost-btn {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase;
+  border: 1px solid #333 !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px !important;
+  height: 38px !important;
+  letter-spacing: 1px;
+}
+
+.ghost-btn.wide,
+.black-btn.wide {
+  height: 50px !important;
+  padding-left: 28px !important;
+  padding-right: 28px !important;
+}
+
+.black-btn {
+  background-color: black !important;
+  color: white !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px !important;
+  border: 1px solid black !important;
+  height: 38px !important;
+  letter-spacing: 1px;
+}

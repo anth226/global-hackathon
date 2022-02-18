@@ -1,0 +1,220 @@
+.identity-container {
+  .general-form {
+    background: white;
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+    margin-top: 15vh;
+    margin-bottom: 30px;
+    border-radius: 5px;
+    .form-header {
+      padding: 30px 12% 20px;
+      h5 {
+        color: black;
+        font-weight: bold;
+      }
+    }
+    .form-body {
+      background: $gray;
+      padding: 30px 12%;
+      border-top: 2px solid #e2eff7;
+      border-bottom-right-radius: 5px;
+      border-bottom-left-radius: 5px;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .general-form {
+      margin-top: 6vh;
+      .form-header {
+        padding: 20px 8% 13px;
+      }
+      .form-body {
+        padding: 30px 8%;
+      }
+    }
+  }
+}
+
+.login-forgot {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 60px;
+  .ant-form-item-control-input-content {
+    margin-top: -8px;
+  }
+}
+
+.auth {
+  margin: 0 auto;
+  margin-top: 20vh;
+  margin-bottom: 50px;
+  width: 90%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  form {
+    width: 80%;
+    margin: 0 auto;
+  }
+}
+
+.auth-wide {
+  align-items: unset !important;
+  margin-top: 10vh !important;
+}
+
+.auth-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.qr-image {
+  text-align: center;
+  img {
+    width: 150px;
+  }
+}
+
+.org-item {
+  cursor: pointer;
+}
+
+.login-page {
+  width: 90%;
+  max-width: 700px;
+  margin: 0 auto;
+  min-height: calc(100vh - 150px);
+  font-size: 13px;
+  padding-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .login-remember {
+    width: 100%;
+    text-align: left;
+  }
+
+  .signup-btn {
+    width: 300px;
+    margin: 20px auto;
+  }
+
+  .register-city {
+    display: flex;
+    justify-content: space-between;
+    .ant-form-item {
+      width: 48%;
+    }
+  }
+
+  #org_register {
+    text-align: left;
+  }
+}
+
+.forgot-form {
+  padding-top: 50px !important;
+}
+
+.avatar-uploader {
+  width: 110px;
+  margin: 0 auto;
+}
+
+.verify-redirect {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  margin: 50px auto;
+  a {
+    color: white;
+  }
+}
+
+.verify-link {
+  color: blue !important;
+  font-weight: 600;
+}
+
+.login-verify {
+  font-weight: 600;
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: blue !important;
+}
+
+.register-modal {
+  .ant-card {
+    margin-bottom: 10px;
+  }
+  .active {
+    box-shadow: 1px 3px 9px rgb(93, 190, 93);
+    .ant-card-cover {
+      color: rgb(93, 190, 93);
+    }
+  }
+  .ant-card-cover {
+    padding: 15px;
+    font-size: 80px;
+    width: 200px;
+  }
+}
+
+.ant-collapse-extra {
+  button:hover {
+    background-color: #eee;
+  }
+}
+
+.location-select-box {
+  border: 1px solid #aaaaef;
+  padding: 20px;
+  background: #f8f8fc;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.location-item {
+  width: 100%;
+  .ant-space-item {
+    margin-bottom: 15px;
+  }
+  .ant-radio-wrapper {
+    width: 100%;
+    p {
+      margin-bottom: 3px;
+    }
+  }
+}
+
+.register-btnbox {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.fileread-modal {
+  .ant-modal-body {
+    text-align: center;
+  }
+}
+
+.fileread-modal.transparent .ant-modal-content {
+  background: transparent;
+  box-shadow: none;
+}
+
+@media screen and (max-width: 768px) {
+  .register-modal {
+    .ant-card-cover {
+      width: 300px;
+    }
+  }
+}

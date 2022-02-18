@@ -1,0 +1,31 @@
+.dashboard {
+  width: 100%;
+  min-height: 50vh;
+}
+
+.integra-badge {
+  top: 100px;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 30px;
+  img {
+    height: 70px;
+  }
+}
+
+.chat-host {
+  font-weight: 600;
+  margin-top: 15px;
+  display: block;
+  .anticon {
+    margin-left: 5px;
+  }
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.content .ant-alert-close-icon {
+  padding-top: 5px;
+  font-size: 16px;
+}

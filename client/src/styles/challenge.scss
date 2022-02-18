@@ -1,0 +1,99 @@
+.project-card {
+  border: 15px solid rgb(26, 36, 93);
+  border-radius: 14px;
+  background-color: white;
+  width: 100%;
+  padding-top: 90%;
+  position: relative;
+
+  .avatar-img {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+
+    img {
+      width: 100%;
+      height: auto;
+      max-height: 100%;
+    }
+  }
+}
+
+.with-back {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.edit-chal {
+  width: 100%;
+  text-align: center;
+
+  span {
+    border-radius: 5px !important;
+    cursor: pointer;
+    box-shadow: 1px 1px 1px;
+  }
+  span:hover {
+    color: rgb(26, 36, 93);
+  }
+}
+
+.share-btn {
+  width: fit-content;
+  border-radius: 7px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    cursor: pointer;
+  }
+}
+
+.challenge-creator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    margin-top: 5px;
+    height: 30px;
+    width: auto;
+  }
+}
+
+.btn-challenge-action {
+  margin-left: auto;
+}
+
+.chl-intro-img {
+  background-image: url("../assets/img/challenge_intro.png");
+  background-size: cover;
+  background-position: center;
+  max-height: 22.5vw;
+  width: 100%;
+  height: 170px;
+  border: 1px solid #dadce0;
+  border-radius: 8px;
+  margin-top: 12px;
+  margin-bottom: 20px;
+}
+
+.chl-intro-body {
+  p {
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .chl-intro-body {
+    h2 {
+      font-size: 20px;
+    }
+  }
+}

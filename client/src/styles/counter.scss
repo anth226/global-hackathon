@@ -1,0 +1,33 @@
+.countdown-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.countdown-item {
+    color: $blue-1;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    line-height: 20px;
+    position: relative;
+    width: 100%;
+}
+
+.countdown-item span {
+    color: #333;
+    font-size: 12px;
+    line-height: 5px;
+    font-weight: 600;
+}
+
+.countdown-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 70px;
+  height: 70px;
+}

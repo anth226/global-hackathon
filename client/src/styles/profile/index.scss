@@ -1,0 +1,95 @@
+@import "./stage-bar.scss";
+@import "./footer-button.scss";
+
+.profile {
+  background-color: #efefef;
+  width: 100%;
+  min-height: 60vh;
+
+  .profile-section {
+    width: 90%;
+    max-width: 900px;
+    margin: 0 auto;
+    margin-top: 100px;
+    background-color: white;
+    border-radius: 5px;
+    min-height: 300px;
+    .profile-header {
+      padding: 20px 50px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eeeeee;
+    }
+  }
+
+  .step {
+    padding: 5%;
+    .challenge {
+      width: unset !important;
+      margin-bottom: 10px;
+      background-color: #fff;
+      &.active,
+      &:hover {
+        box-shadow: 5px 5px 10px;
+      }
+    }
+  }
+  .ant-upload.ant-upload-select-picture-card {
+    width: 150px;
+    height: 150px;
+  }
+ 
+}
+
+.profile-head {
+  padding-left: 5px;
+}
+
+.profile-orgname {
+  margin-top: 10px;
+  display: flex;
+  p {
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 15px;
+    background-color: #ddd;
+    padding: 0px 10px;
+  }
+  div {
+    cursor: pointer;
+    &:hover {
+      color: tomato;
+    }
+  }
+}
+
+.site-tag-plus {
+  background: #fff !important;
+  height: 25px !important;
+  border-radius: 5px !important;
+
+}
+.site-tag-check {
+  background: linear-gradient(
+    rgb(64, 70, 104),
+    rgb(21, 29, 77),
+    rgb(26, 36, 93)
+  ) !important;
+  color: #fff !important;
+  height: 25px !important;
+  border-radius: 5px !important;
+}
+
+.profile-btn {
+  width: 300px;
+  margin: 20px auto;
+}
+
+.see-more {
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  color: grey;
+  &:hover {
+    color: rgb(26, 36, 93);
+  }
+}

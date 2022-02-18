@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta prefix='og: http://ogp.me/ns#' property='og:image' content='<%= logo %>' />
+    <meta prefix='og: http://ogp.me/ns#' property='og:url' content='https://glh-ft-global-challenge.azurewebsites.net/api/public/challenge/<%= _id %>' />
+    <meta prefix='og: http://ogp.me/ns#' property='og:title' content='<%= challenge_name %>' />
+    <meta prefix='og: http://ogp.me/ns#' property='og:description' content='<%= short_description %>' />
+    <meta prefix='og: http://ogp.me/ns#' property='og:type' content='article' />
+
+    <meta name='twitter:title' content='<%= challenge_name %>' />
+    <meta name='twitter:description' content='<%= short_description %>' />
+    <meta name='twitter:image' content='<%= logo %>' />
+    <meta name='twitter:card' content='summary_large_image' />
+    <meta name='twitter:creator' content='@mikerinow' />
+    <meta name='twitter:site' content='@IntegraLedger'>
+
+    <title><%= challenge_name %></title>
+    <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1' />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+
+    <style type="text/css">
+      .layout {
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;
+        background-color: #f0f0f1;
+        color: #151d4d;
+      }
+      .main-nav {
+          width: 100%;
+          z-index: 100;
+          padding: 2px 4%;
+          background-image: linear-gradient(#5c6698,#1a245d,#151d4d);
+          box-shadow: 0 2px 2px -2px rgba(0,0,0,.2);
+      }
+      .nav-link {
+        color: white !important;
+      }
+      .content {
+          padding: 40px;
+          min-height: 82vh;
+          margin: 0 auto;
+      }
+      .user-dashboard {
+          margin: 0 auto;
+      }
+      .project-card {
+          border: 15px solid #1a245d;
+          border-radius: 14px;
+          background-color: #fff;
+          width: 100%;
+          padding-top: 90%;
+          position: relative;
+      }
+      .avatar-img {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 0;
+          bottom: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 15px;
+      }
+      .avatar-img img {
+          width: 100%;
+          height: auto;
+          max-height: 100%;
+      }
+      .footer {
+          padding: 10px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: #fff;
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.5.0.min.js"
+      integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div id="root">
+      <div class="layout">
+        <div class="main-nav">
+          <nav class="navbar navbar-expand-lg navbar-light">
+            <a class="navbar-brand" href="https://challenge.globallegalhackathon.com/">
+              <img
+                src="https://plast-asset.s3.amazonaws.com/glh-white.png"
+                width="144"
+                height="43"
+                alt="logo"
+              />
+            </a>
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="https://challenge.globallegalhackathon.com/login">Login</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="https://challenge.globallegalhackathon.com/register">Register</a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+        <div class="content container">
+          <div class="user-dashboard list-view">
+            <div class="row">
+              <div class="mb-3 col-md-6 col-xl-4">
+                <div class="project-card">
+                  <div class="avatar-img">
+                    <img
+                      src="<%= logo %>"
+                      alt="logo"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-xl-8">
+                <h3><%= challenge_name %></h3>
+                <p><%= short_description %></p>
+                <br />
+                <b>Who will this challenge benefit?</b>
+                <p><%= benefit %></p><br />
+                <div><%- description %></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer">
+          <img
+            class="mx-3"
+            src="https://plast-asset.s3.amazonaws.com/ft.png"
+            width="150px"
+            height="60px"
+            alt=""
+          />
+          <img
+            class="mx-3"
+            src="https://hackathon-ftglhchallenge.s3.us-east-2.amazonaws.com/rsg_logo.jpg"
+            alt=""
+            height="50px"
+          />
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

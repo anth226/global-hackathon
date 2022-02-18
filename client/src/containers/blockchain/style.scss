@@ -1,0 +1,26 @@
+.blockchain-card {
+  width: 100%;
+  margin-top: 50px;
+  padding: 30px;
+  background: white;
+  border-radius: 5px;
+  box-shadow: 1px 1px 10px $gray-600;
+}
+
+.blockchain-result {
+  .opted {
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 800px;
+    text-overflow: ellipsis;
+    @media screen and (max-width: 998px) {
+      max-width: 400px;
+    }
+  }
+}
+
+.transaction-iframe {
+  width: 100%;
+  min-height: 70vh;
+  margin-top: 10px;
+}

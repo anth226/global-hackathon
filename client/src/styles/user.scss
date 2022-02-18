@@ -1,0 +1,224 @@
+.user-dashboard {
+  margin: 0 auto;
+
+  .ant-avatar {
+    background-color: white;
+  }
+
+  .usertype {
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: -5px;
+    .bullet {
+      background-color: #39ad39;
+      width: 12px;
+      height: 12px;
+      border-radius: 6px;
+      background-image: radial-gradient(closest-side at 40% 35%, #eee, #39ad39);
+    }
+  }
+
+  .view-more {
+    color: #111;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: underline;
+  }
+}
+
+.user-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 25px;
+  border-radius: 14px;
+  img {
+    width: 200px;
+    height: auto;
+  }
+}
+
+.ant-alert {
+  border-radius: 5px !important;
+  margin-bottom: 20px !important;
+  padding-top: 5px !important;
+  padding-bottom: 8px !important;
+}
+
+.profile-alert {
+  a {
+    color: blue !important;
+    font-weight: 600 !important;
+  }
+}
+
+.inv-box {
+  background: white;
+  padding: 30px;
+
+  .ant-input-suffix .anticon {
+    color: $blue;
+    font-size: 20px;
+    &:hover {
+      font-size: 21px;
+    }
+  }
+
+  .ant-input-disabled,
+  .ant-input:disabled,
+  .ant-input-affix-wrapper-disabled {
+    cursor: default;
+  }
+
+  .invite-title {
+    display: block;
+    margin-top: 50px;
+    font-weight: 600;
+    font-size: 16px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+  }
+
+  .user-list {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    a {
+      color: #111;
+      font-weight: 600;
+    }
+    .mailbox {
+      font-size: 18px;
+      color: $blue;
+    }
+  }
+
+  .ant-empty-description {
+    display: none;
+  }
+  .pending-users .ant-empty-image {
+    .ant-empty-img-simple {
+      display: none;
+    }
+    &::after {
+      content: "No Participants Pending Yet";
+      font-size: 18px;
+    }
+  }
+  .approved-users .ant-empty-image {
+    .ant-empty-img-simple {
+      display: none;
+    }
+    &::after {
+      content: "No Participants Approved Yet";
+      font-size: 18px;
+    }
+  }
+}
+
+.user-span {
+  margin-bottom: 20px;
+  p {
+    font-size: 12px !important;
+    font-weight: bold;
+    margin-bottom: 5px !important;
+  }
+
+  .user-personal {
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 15px;
+    background-color: white;
+  }
+
+  a {
+    color: inherit !important;
+  }
+}
+
+.choose-host {
+  .location-form {
+    width: 100%;
+    max-width: 700px;
+    background: white;
+    border-radius: 5px;
+    margin: auto;
+
+    .form-body {
+      padding: 30px 10%;
+      .ant-radio-wrapper {
+        margin-right: 30px;
+        font-size: 16px;
+        font-weight: 600;
+      }
+      .form-label {
+        color: #777;
+        font-weight: 500;
+        font-size: 13px;
+      }
+      h5 {
+        font-size: 18px;
+      }
+      .ant-space .ant-radio-wrapper {
+        margin-right: 0;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .country-box {
+        margin-bottom: 25px;
+        .ant-select {
+          width: 100%;
+        }
+      }
+    }
+    .btn-group {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+      .blue-btn {
+        width: 200px;
+        color: white;
+        border: 1px solid #0056f5;
+        background-color: #0056f5;
+        text-align: center;
+        padding: 5px;
+        font-size: 14px;
+        border-radius: 3px;
+        margin: auto;
+        margin-top: 20px;
+        display: block;
+        &:disabled {
+          cursor: not-allowed;
+          opacity: 0.6;
+        }
+      }
+      .outline-btn {
+        width: 200px;
+        color: #0056f5;
+        text-align: center;
+        border: 1px solid #0056f5;
+        padding: 5px;
+        font-size: 14px;
+        border-radius: 3px;
+        margin: auto;
+        display: block;
+      }
+    }
+  }
+}
+
+.social-icon {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  a img {
+    width: 40px;
+  }
+}
