@@ -18,6 +18,21 @@ exports.createLocation = async (req, res, next) => {
   }
 };
 
+exports.createOtherLocation = async (req, res, next) => {
+  try {
+    const email = req.body.email;
+    let creator = await User.findOne({ email });
+    let location = new Location(req.body.location);
+    location.creator = creator._id;
+    location = await location.save();
+    creator.profile.other_locations.push(location._id);
+    await creator.save();
+    return res.status(201).json({ message: "success" });
+  } catch (err) {
+    return next(err);
+  }
+};
+
 exports.updateLocation = async (req, res, next) => {
   const id = req.body._id;
   delete req.body._id;

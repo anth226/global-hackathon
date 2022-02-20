@@ -12,7 +12,7 @@ exports.listAdminUsers = async (req, res, next) => {
   try {
     let users = await User.find({ role: { $ne: ROLE_BLOCK } }).select(
       "_id email profile verified role"
-    ).populate("profile.org").populate("profile.location");
+    ).populate("profile.org").populate("profile.location profile.other_locations");
     return res.status(201).json({
       participants: users,
     });

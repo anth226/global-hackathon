@@ -31,6 +31,7 @@ const UserSchema = new Schema(
       org_role: { type: String },
       location: { type: Schema.Types.ObjectId, ref: "Location" },
       location_role: { type: String, default: "Member" },
+      other_locations: [{ type: Schema.Types.ObjectId, ref: "Location" }],
       photo: { type: String },
       address: { type: String },
       country: { type: String },
