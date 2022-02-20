@@ -1,34 +1,32 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Row, Col, Container } from "reactstrap";
 import { MailOutlined } from "@ant-design/icons";
 import {
-  Alert,
-  Skeleton,
-  Button,
-  Descriptions,
-  Modal,
-  Tabs,
-  Input,
+  Alert, Button,
+  Descriptions, Input, Modal, Skeleton, Tabs
 } from "antd";
-import { Header, Footer } from "../../components/template";
-import sampleUrl from "../../assets/img/user-avatar.png";
-import history from "../../history";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { Col, Container, Row } from "reactstrap";
+import { protectedTest, updateUserLocation } from "../../actions/auth";
+import { createOtherLocation, listLocation } from "../../actions/location";
+import { fetchOneConversation, startConversation } from "../../actions/message";
+import { getRule } from "../../actions/rule";
+import sampleUrl from "../../assets/img/user-avatar.png";
+import { Footer, Header } from "../../components/template";
+import history from "../../history";
 import LocationModal from "../location";
+import LocationForm from "../location/location-form";
 import Invites from "./invite";
 import MessageTab from "./message";
-import { startConversation, fetchOneConversation } from "../../actions/message";
-import { updateUserLocation, protectedTest } from "../../actions/auth";
-import { getRule } from "../../actions/rule";
-import { listLocation } from "../../actions/location";
 import { ChooseHostForm } from "./profile-form";
 const { TabPane } = Tabs;
 
 class UserDashboard extends Component {
   state = {
     showLocationModal: false,
+    showCreateLocationModal: false,
     showMessageModal: false,
+    selectedLocation: null,
     chatText: "",
     showChooseHostModal: false,
     agreedRule: false,
@@ -46,8 +44,12 @@ class UserDashboard extends Component {
     this.setState({ loaded: true });
   };
 
-  toggleLocationModal = () => {
-    this.setState({ showLocationModal: !this.state.showLocationModal });
+  toggleLocationModal = (location) => {
+    this.setState({ showLocationModal: !this.state.showLocationModal,selectedLocation:location });
+  };
+
+  toggleCreateLocationModal = () => {
+    this.setState({ showCreateLocationModal: !this.state.showCreateLocationModal });
   };
 
   toggleChooseHostModal = () => {
@@ -97,6 +99,12 @@ class UserDashboard extends Component {
     await protectedTest();
   };
 
+  submitLocation = async (data) => {
+    const {createOtherLocation,user} = this.props
+    await createOtherLocation(data,user.email)
+    this.toggleCreateLocationModal()
+  }
+
   renderRulesAlert = () => {
     const valid = (
       <div>
@@ -113,13 +121,16 @@ class UserDashboard extends Component {
     const { user, loc } = this.props;
     const {
       showLocationModal,
+      showCreateLocationModal,
       showMessageModal,
+      selectedLocation,
       chatText,
       showChooseHostModal,
       loaded,
       agreedRule,
     } = this.state;
     const userInfo = user.profile;
+    
     return (
       <React.Fragment>
         <Header />
@@ -141,8 +152,22 @@ class UserDashboard extends Component {
           >
             <LocationModal
               onNext={this.toggleLocationModal}
-              location={userInfo.location}
+              location={selectedLocation}
               isAdmin={userInfo && userInfo.location_role === "Admin"}
+            />
+          </Modal>
+        )}
+        {showCreateLocationModal && (
+          <Modal
+            title={"Add Location"}
+            visible={showCreateLocationModal}
+            width={900}
+            footer={false}
+            onCancel={this.toggleCreateLocationModal}
+          >
+            <LocationForm
+              onSubmit={this.submitLocation}
+              location={{}}
             />
           </Modal>
         )}
@@ -186,9 +211,12 @@ class UserDashboard extends Component {
     if (!userInfo) {
       return this.renderSpin();
     }
+    const is_multi_city = userInfo?.location?.multi_city === "Yes";
     const usertype =
       userInfo.location_role === "Admin" ? "Host" : "Participant";
-    return (
+    
+      const displayLocations = [userInfo.location,...is_multi_city ? userInfo.other_locations: []]
+      return (
       <Row>
         <Col xl={4} md={5} className="mb-3">
           <div className="user-card">
@@ -208,31 +236,31 @@ class UserDashboard extends Component {
             {usertype} <div className="bullet" />
           </div>
           <h5>
-            <b>Location information</b>
+            <b>Locations information</b>
           </h5>
-          {userInfo.location && (
+          {displayLocations.map((location,index) => (
+          <div style={{borderBottom: index < displayLocations.length-1 ? "1px solid gray":"",marginBottom:40, paddingBottom:10}}>
             <Descriptions column={2}>
               <Descriptions.Item label="Venue">
-                {userInfo.location.venue}
+                {location.venue}
               </Descriptions.Item>
               <Descriptions.Item label="Organization">
-                {userInfo.location.organization}
+                {location.organization}
               </Descriptions.Item>
               <Descriptions.Item label="Venue Country">
-                {userInfo.location.venue_country}
+                {location.venue_country}
               </Descriptions.Item>
               <Descriptions.Item label="Venue City">
-                {userInfo.location.venue_city}
+                {location.venue_city}
               </Descriptions.Item>
               <Descriptions.Item label="Venue Street">
-                {userInfo.location.venue_street}
+                {location.venue_street}
               </Descriptions.Item>
               <Descriptions.Item label="Venue Zipcode">
-                {userInfo.location.venue_zip}
+                {location.venue_zip}
               </Descriptions.Item>
             </Descriptions>
-          )}
-          {!userInfo.location && (
+          {!location && (
             <React.Fragment>
               <Descriptions column={2}>
                 <Descriptions.Item label="Country">
@@ -255,13 +283,13 @@ class UserDashboard extends Component {
             <Link
               className="view-more"
               to="#"
-              onClick={this.toggleLocationModal}
+              onClick={()=>this.toggleLocationModal(location)}
             >
               View More
             </Link>
           )}
           {userInfo.location_role === "Admin" &&
-            userInfo.location.status !== "approved" && (
+            location.status !== "approved" && (
               <Alert
                 message="Your location is in pending status, we are reviewing your submission"
                 type="info"
@@ -269,14 +297,23 @@ class UserDashboard extends Component {
                 className="mt-4"
               />
             )}
-          {usertype !== "Host" && userInfo.location && (
+          {usertype !== "Host" && location && (
             <Link
               to="#"
               className="chat-host"
-              onClick={() => this.onOpenChat(userInfo.location.creator)}
+              onClick={() => this.onOpenChat(location.creator)}
             >
               Contact Host <MailOutlined />
             </Link>
+          )}
+          </div>
+          ))}
+          {usertype === "Host" && is_multi_city && (
+            
+          <Button type="primary" onClick={this.toggleCreateLocationModal}>
+            Add Location
+          </Button>
+        
           )}
         </Col>
       </Row>
@@ -328,4 +365,5 @@ export default connect(mapStateToProps, {
   protectedTest,
   listLocation,
   getRule,
+  createOtherLocation
 })(UserDashboard);

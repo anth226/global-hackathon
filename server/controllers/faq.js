@@ -1,5 +1,4 @@
 const Faq = require("../models/faq");
-
 exports.createFaq = (req, res, next) => {
   const faq = new Faq(req.body);
   faq.save((err, fd) => {
@@ -11,7 +10,6 @@ exports.createFaq = (req, res, next) => {
     });
   });
 };
-
 exports.updateFaq = async (req, res, next) => {
   const id = req.body._id;
   delete req.body._id;

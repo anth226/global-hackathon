@@ -27,7 +27,7 @@ exports.login = async (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
   try {
-    let user = await User.findOne({ email }).populate("profile.location");
+    let user = await User.findOne({ email }).populate("profile.location profile.other_locations");
     if (!user) {
       return res.status(401).json({ error: "No user with the email" });
     }
@@ -66,7 +66,7 @@ exports.analyze = async (req, res, next) => {
     return res.status(401).json({ error: "No user identity!" });
   }
   try {
-    let user = await User.findOne({ integra_id }).populate("profile.location");
+    let user = await User.findOne({ integra_id }).populate("profile.location profile.other_locations");
     if (!user) {
       return res.status(401).json({ error: "No user with the data" });
     }
