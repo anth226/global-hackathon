@@ -18,7 +18,7 @@ exports.viewProfile = async (req, res, next) => {
   const userId = req.params.userId;
   try {
     let user = await User.findById(userId)
-      .populate("profile.location");
+      .populate("profile.location profile.other_locations");
     const userToReturn = setUserInfo(user);
     return res.status(200).json({ user: userToReturn });
   } catch (err) {
@@ -29,7 +29,7 @@ exports.viewProfile = async (req, res, next) => {
 exports.getUserSession = async (req, res, next) => {
   try {
     let user = await User.findById(req.user._id)
-      .populate("profile.location");
+      .populate("profile.location profile.other_locations");
     const userToReturn = setUserInfo(user);
     return res.status(200).json({ user: userToReturn });
   } catch (err) {

@@ -1,11 +1,10 @@
-import { API_URL, errorMessage, createNotification } from "./index";
-import Client from "./api";
 import { message } from "antd";
+import Client from "./api";
+import { API_URL, createNotification, errorMessage } from "./index";
 import {
-  FETCH_LOCATION_LIST,
+  FETCH_HOSTED_USERS, FETCH_LOCATION_LIST,
   FETCH_PENDING_LOCATIONS,
-  SET_INVITE_LOCATION,
-  FETCH_HOSTED_USERS,
+  SET_INVITE_LOCATION
 } from "./types";
 
 export function listLocation() {
@@ -44,7 +43,23 @@ export function createLocation(location, email) {
     try {
       await client.post(`${API_URL}/location`, { location, email });
       message.success(
-        "Your locaion is created, We are reviewing your location submission!"
+        "Your location is created, We are reviewing your location submission!"
+      );
+      return true;
+    } catch (err) {
+      createNotification("Create Location", errorMessage(err));
+      return false;
+    }
+  };
+}
+
+export function createOtherLocation(location, email) {
+  const client = Client();
+  return async (dispatch) => {
+    try {
+      await client.post(`${API_URL}/location/other`, { location, email });
+      message.success(
+        "Your location is created, We are reviewing your location submission!"
       );
       return true;
     } catch (err) {
@@ -56,7 +71,7 @@ export function createLocation(location, email) {
 
 export function updateLocation(values) {
   const client = Client(true);
-  return async (dispatch) => {
+  return async (dispatch,getState) => {
     try {
       await client.put(`${API_URL}/location`, values);
       message.success("Location has been updated successfully!");
