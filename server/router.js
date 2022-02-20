@@ -552,6 +552,8 @@ module.exports = function (app) {
   apiRoutes.use("/location", locationRoutes);
   // create location route
   locationRoutes.post("/", LocationController.createLocation);
+  // create other location route
+  locationRoutes.post("/other", LocationController.createOtherLocation);
   // get location list route
   locationRoutes.get("/", LocationController.listLocation);
   // get pending location list route
