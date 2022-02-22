@@ -32,7 +32,7 @@ module.exports = {
   test_db: "mern-starter-test",
 
   //twilio Info
-  TWILIO_ACCOUNT_SID: "SKefd3126fcf7f6a168c00a9a3d6e0bcb8",
+  TWILIO_ACCOUNT_SID: "ACd3bc95c831225538ea0433137745fdf4",
   TWILIO_API_KEY: "SKefd3126fcf7f6a168c00a9a3d6e0bcb8",
   TWILIO_API_SECRET: "7pA69BYVUmS72del7cndetJoLtgjOT03",
 };

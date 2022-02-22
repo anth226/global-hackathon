@@ -22,36 +22,8 @@ const express = require("express"),
   // app.use(express.json({limit: '50mb'}));
   // app.use(express.urlencoded({limit: '50mb'}));
 
-  var AccessToken = require("twilio").jwt.AccessToken;
-  var VideoGrant = AccessToken.VideoGrant;
 
   app.set("view engine", "ejs");
-
-  // Endpoint to generate twilio access token
-  app.get("/api/token", function (request, response) {
-    var identity = request.query.name || faker.name.findName();
-
-    // Create an access token which we will sign and return to the client,
-    // containing the grant we just created
-    var token = new AccessToken(
-      config.TWILIO_ACCOUNT_SID,
-      config.TWILIO_API_KEY,
-      config.TWILIO_API_SECRET
-    );
-
-    // Assign the generated identity to the token
-    token.identity = identity;
-
-    const grant = new VideoGrant();
-    // Grant token access to the Video API features
-    token.addGrant(grant);
-
-    // Serialize the token to a JWT string and include it in a JSON response
-    response.send({
-      identity: identity,
-      token: token.toJwt(),
-    });
-  });
 
 // Start the server
 let server;
