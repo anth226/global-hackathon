@@ -125,7 +125,7 @@ const Room = ({ room, breakoutRoomList, parentSid, joinRoom, leaveRoom }) => {
           );
         })}
       </div>
-      <div className="d-flex justify-content-center">
+      <div className="d-flex justify-content-center pt-3">
         <button
           className="btn btn-outline-primary mx-2"
           onClick={() => setisModalOpen(true)}
