@@ -1,7 +1,7 @@
 const { Twilio } = require("twilio");
 const twilio = require("twilio");
 const config = require("../config/main");
-const Room = require("../models/Room");
+const Room = require("../models/room");
 
 const twilioClient = new Twilio(
   config.TWILIO_API_KEY,
