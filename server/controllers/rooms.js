@@ -18,6 +18,7 @@ const createRoom = async (request, response) => {
   // Get the room name from the request body.
   // If no room name is provided, the name will be set to the room's SID.
   const roomName = request.body.roomName || "";
+  const projectId = request.body.projectId || "";
 
   try {
     // Call the Twilio video API to create the new room.
@@ -28,6 +29,7 @@ const createRoom = async (request, response) => {
 
     const mainRoom = {
       _id: room.sid,
+      projectId,
       _rev: "",
       breakouts: [],
     };
@@ -203,7 +205,8 @@ const listActiveBreakouts = async (request, response) => {
   try {
     // Get the last 20 rooms that are still currently in progress.
     const rooms = await twilioClient.video.rooms.list({
-      status: "in-progress",
+      _id: request.params.roomSid,
+      // status: "in-progress",
       limit: 20,
     });
 
