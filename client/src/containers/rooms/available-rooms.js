@@ -27,7 +27,7 @@ export default function AvailableRooms() {
 
   function fetchRooms() {
     axios
-      .get("http://localhost:8080/api/rooms")
+      .get(`${process.env.REACT_APP_API_HOST}/rooms`)
       .then((data) => {
         setrooms(data.data.rooms);
       })
@@ -40,7 +40,7 @@ export default function AvailableRooms() {
     try {
       // Fetch an access token from the server
       const response = await axios.post(
-        "http://localhost:8080/api/rooms/token",
+        `${process.env.REACT_APP_API_HOST}/rooms/token`,
         {
           identity,
           roomSid,

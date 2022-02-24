@@ -11,7 +11,7 @@ export default function CreateRoom() {
     setIsLoading(true);
 
     axios
-      .post("http://localhost:8080/api/rooms/main", { roomName })
+      .post(`${process.env.REACT_APP_API_HOST}/rooms/main`, { roomName })
       .then((data) => {
         setroomName("");
       })
