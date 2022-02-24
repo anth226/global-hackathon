@@ -2,6 +2,7 @@ import { Skeleton } from "antd";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Container } from "reactstrap";
+import { io } from "socket.io-client";
 import "../../styles/room/room.css";
 
 export default function AvailableRooms() {
@@ -9,6 +10,19 @@ export default function AvailableRooms() {
   const [isLoading, setisLoading] = useState(true);
 
   useEffect(() => {
+    const socket = io(
+      process.env.REACT_APP_SOCKET_URL || "http://localhost:8080",
+      {
+        transports: ["websocket"],
+      }
+    );
+
+    // Listen for events
+    socket.on("Main room created", () => fetchRooms());
+    fetchRooms();
+  }, []);
+
+  function fetchRooms() {
     axios
       .get("http://localhost:8080/api/rooms/")
       .then((data) => {
@@ -16,16 +30,16 @@ export default function AvailableRooms() {
       })
       .catch((er) => console.error(er))
       .finally(() => setisLoading(false));
-  }, []);
+  }
 
   return (
     <Container>
       <div className="pb-5">
         <h2 className="py-2">Current rooms to join</h2>
         <div className="row">
-          {isLoading
+          {isLoading && rooms.length === 0
             ? [1, 2, 3].map((i) => (
-                <div className="p-2 col-12 col-md-6 col-lg-4">
+                <div key={i} className="p-2 col-12 col-md-6 col-lg-4">
                   <Skeleton />
                 </div>
               ))
