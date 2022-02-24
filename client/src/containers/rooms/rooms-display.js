@@ -1,216 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { connect, Room as VideoRoom } from "twilio-video";
+import React from "react";
 import "./rooms-display.module.css";
-import io, { Socket } from "socket.io-client";
-import Room from "./Room";
-import { Container } from "reactstrap";
 import { Footer, Header } from "../../components/template";
 import CreateRoom from "./create-room";
 import AvailableRooms from "./available-rooms";
 
 function RoomsDisplay() {
-  // State variables
-  const [identity, setIdentity] = useState("");
-  const [room, setRoom] = useState();
-  const [roomList, setRoomList] = useState([]);
-  const [showControls, setShowControls] = useState(true);
-  const [newRoomName, setNewRoomName] = useState("");
-  const [parentSid, setParentSid] = useState("");
-  const [socket, setSocket] = useState(null);
-
-  useEffect(() => {
-    if (process.env.REACT_APP_SOCKET_URL) {
-      const socket = io(process.env.REACT_APP_SOCKET_URL, {
-        transports: ["websocket"],
-      });
-
-      // Listen for events
-      socket.on("Main room created", () => listRooms());
-      socket.on("Breakout room created", () => listRooms());
-
-      setSocket(socket);
-    }
-
-    listRooms();
-
-    // Clean up the listeners when the component is about to unmount.
-    return () => {
-      if (socket) {
-        socket.off("Main room created");
-        socket.off("Breakout room created");
-      }
-    };
-  }, []);
-
-  // Show or hide the controls when a user checks the checkbox.
-  const onCheckboxChange = () => {
-    setShowControls(!showControls);
-  };
-
-  // List all of the available main rooms
-  const listRooms = async () => {
-    console.log("list rooms");
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_HOST}/rooms`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      const data = await response.json();
-      console.log(data);
-      setRoomList(data.rooms);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  // Create a new breakout room
-  const createBreakoutRoom = async () => {
-    // For now, disallow creating nested breakout rooms.
-    // If the current room isn't a main room, don't let a new breakout be created.
-    if (!roomList.find((mainRoom) => room?.sid === mainRoom._id)) {
-      console.log("Creating nested breakout rooms is not yet implemented.");
-      return;
-    }
-
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_HOST}/rooms/breakout`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ roomName: newRoomName, parentSid: room?.sid }),
-        }
-      );
-
-      await response.json();
-      setNewRoomName("");
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  // Join a video room
-  const joinRoom = async (roomSid, breakout = false) => {
-    try {
-      // If you're already in another video room, disconnect from that room first
-      if (room) {
-        await room.disconnect();
-      }
-
-      // Fetch an access token from the server
-      const response = await fetch(
-        `${process.env.REACT_APP_API_HOST}/rooms/token`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            identity,
-            roomSid,
-          }),
-        }
-      );
-
-      const data = await response.json();
-
-      // Connect to the video room
-      const videoRoom = await connect(data.accessToken, {
-        audio: true,
-        video: { width: 640, height: 480 },
-      });
-
-      // Save this video room in the state
-      setRoom(videoRoom);
-      if (!breakout) setParentSid(videoRoom.sid);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  // Leave a video room
-  const leaveRoom = async () => {
-    if (room) {
-      // Detach and remove all the tracks
-      room.localParticipant.tracks.forEach((publication) => {
-        if (
-          publication.track.kind === "audio" ||
-          publication.track.kind === "video"
-        ) {
-          publication.track.stop();
-          const attachedElements = publication.track.detach();
-          attachedElements.forEach((element) => element.remove());
-        }
-      });
-
-      room.disconnect();
-      setRoom(undefined);
-    }
-  };
-
-  const getBreakoutRooms = () => {
-    // Select the current room from the roomList and return its breakout rooms.
-    if (room) {
-      const roomInfo = roomList.find((mainRoom) => mainRoom._id === room.sid);
-      if (roomInfo) {
-        return roomInfo.breakouts;
-      }
-    }
-
-    // If there are no breakout rooms, return an empty array.
-    return [];
-  };
+  // useEffect(() => {
+  //   // Clean up the listeners when the component is about to unmount.
+  //   return () => {
+  //     if (socket) {
+  //       socket.off("Main room created");
+  //       socket.off("Breakout room created");
+  //     }
+  //   };
+  // }, []);
 
   return (
     <React.Fragment>
-      {/* <Container> */}
-      <Header title="Project chat rooms" />
-      <div className="rooms-app">
+      <div className="h-screen">
+        <Header title="Project chat rooms" />
         <div className="pt-5">
           <CreateRoom />
         </div>
-        {/* {room === undefined ? (
-          <div className="start">
-            <input
-              value={identity}
-              onChange={(event) => {
-                setIdentity(event.target.value);
-              }}
-              placeholder="Enter your name"
-            />
-          </div>
-        ) : (
-          <Room
-            room={room}
-            joinRoom={joinRoom}
-            leaveRoom={leaveRoom}
-            breakoutRoomList={getBreakoutRooms()}
-            parentSid={parentSid}
-          />
-        )} */}
-
-        {/* <div className="video-rooms-list">
-          {room == null && roomList?.length > 0 && (
-            <h3>Video Rooms - Click a button to join</h3>
-          )}
-          {room == null &&
-            roomList?.map((room) => {
-              return (
-                <button
-                  disabled={identity === "" ? true : false}
-                  key={room._id}
-                  onClick={() => joinRoom(room._id)}
-                >
-                  {room.name}
-                </button>
-              );
-            })}
-        </div> */}
         <AvailableRooms />
       </div>
       <Footer />
