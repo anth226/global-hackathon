@@ -1,9 +1,7 @@
 const { Twilio } = require("twilio");
 const twilio = require("twilio");
-const PouchDB = require("pouchdb");
 const config = require("../config/main");
-
-const db = new PouchDB("video_rooms");
+const Room = require("../models/Room");
 
 const twilioClient = new Twilio(
   config.TWILIO_API_KEY,
@@ -28,15 +26,14 @@ const createRoom = async (request, response) => {
     });
 
     const mainRoom = {
-      _id: room.sid,
-      projectId,
-      _rev: "",
+      sid: room.sid,
+      project: projectId,
       breakouts: [],
     };
 
     try {
       // Save the document in the db.
-      await db.put(mainRoom);
+      await Room.create(mainRoom);
 
       response.status(200).send({
         message: `New video room ${room.uniqueName} created`,
@@ -85,9 +82,9 @@ const createBreakoutRoom = async (request, response) => {
 
     try {
       // Save the new breakout room on its parent's record (main room).
-      const mainRoom = await db.get(parentSid);
+      const mainRoom = await Room.findOne({ sid: parentSid });
       mainRoom.breakouts.push(breakoutRoom.sid);
-      await db.put(mainRoom);
+      mainRoom.save();
 
       // Return the full room details in the response.
       response.status(200).send({
@@ -128,13 +125,11 @@ const listActiveRooms = async (request, response) => {
 
     try {
       // Retrieve the room documents from the database.
-      let dbRooms = await db.allDocs({
-        include_docs: true,
-      });
+      let dbRooms = await Room.find();
 
       // Filter the documents to include only the main rooms that are active.
-      let dbActiveRooms = dbRooms.rows.filter((mainRoomRecord) => {
-        return activeRoomSids.includes(mainRoomRecord.id) && mainRoomRecord;
+      let dbActiveRooms = dbRooms.filter((mainRoomRecord) => {
+        return activeRoomSids.includes(mainRoomRecord.sid) && mainRoomRecord;
       });
 
       // Create a list of MainRoomItem that will associate a room's id with its name and breakout rooms.
@@ -146,11 +141,11 @@ const listActiveRooms = async (request, response) => {
         dbActiveRooms.forEach((row) => {
           // Find the specific main room in the list of rooms returned from the Twilio Rooms API.
           const activeMainRoom = rooms.find((mainRoom) => {
-            return mainRoom.sid === row.doc._id;
+            return mainRoom.sid === row.sid;
           });
 
           // Get the list of breakout rooms from this room's document.
-          const breakoutSids = row.doc.breakouts;
+          const breakoutSids = row.breakouts;
 
           // Filter to select only the breakout rooms that are active according to
           // the response from the Twilio Rooms API.
@@ -164,13 +159,13 @@ const listActiveRooms = async (request, response) => {
           // Get the names of each breakout room from the API response.
           activeBreakoutRooms.forEach((breakoutRoom) => {
             breakouts.push({
-              _id: breakoutRoom.sid,
+              sid: breakoutRoom.sid,
               name: breakoutRoom.uniqueName,
             });
           });
 
           const videoRoom = {
-            _id: activeMainRoom.sid,
+            sid: activeMainRoom.sid,
             name: activeMainRoom.uniqueName,
             breakouts: breakouts,
           };
@@ -215,13 +210,11 @@ const listActiveBreakouts = async (request, response) => {
 
     try {
       // Retrieve the room documents from the database.
-      let dbRooms = await db.allDocs({
-        include_docs: true,
-      });
+      let dbRooms = await Room.find();
 
       // Filter the documents to include only the main rooms that are active.
-      let dbActiveRooms = dbRooms.rows.filter((mainRoomRecord) => {
-        return activeRoomSids.includes(mainRoomRecord.id) && mainRoomRecord;
+      let dbActiveRooms = dbRooms.filter((mainRoomRecord) => {
+        return activeRoomSids.includes(mainRoomRecord.sid) && mainRoomRecord;
       });
 
       // Create a list of MainRoomItem that will associate a room's id with its name and breakout rooms.
@@ -233,11 +226,11 @@ const listActiveBreakouts = async (request, response) => {
         dbActiveRooms.forEach((row) => {
           // Find the specific main room in the list of rooms returned from the Twilio Rooms API.
           const activeMainRoom = rooms.find((mainRoom) => {
-            return mainRoom.sid === row.doc._id;
+            return mainRoom.sid === row.sid;
           });
 
           // Get the list of breakout rooms from this room's document.
-          const breakoutSids = row.doc.breakouts;
+          const breakoutSids = row.breakouts;
 
           // Filter to select only the breakout rooms that are active according to
           // the response from the Twilio Rooms API.
@@ -251,13 +244,13 @@ const listActiveBreakouts = async (request, response) => {
           // Get the names of each breakout room from the API response.
           activeBreakoutRooms.forEach((breakoutRoom) => {
             breakouts.push({
-              _id: breakoutRoom.sid,
+              sid: breakoutRoom.sid,
               name: breakoutRoom.uniqueName,
             });
           });
 
           const videoRoom = {
-            _id: activeMainRoom.sid,
+            sid: activeMainRoom.sid,
             name: activeMainRoom.uniqueName,
             breakouts: breakouts,
           };
@@ -267,7 +260,7 @@ const listActiveBreakouts = async (request, response) => {
       }
 
       const searchedRoom = videoRooms.find(
-        (r) => r._id == request.params.roomSid
+        (r) => r.sid == request.params.roomSid
       );
 
       // Return the list of active rooms to the client side.
