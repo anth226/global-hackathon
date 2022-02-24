@@ -3,13 +3,17 @@ import { connect, Room as VideoRoom } from "twilio-video";
 import "./rooms-display.module.css";
 import io, { Socket } from "socket.io-client";
 import Room from "./Room";
+import { Container } from "reactstrap";
+import { Footer, Header } from "../../components/template";
+import CreateRoom from "./create-room";
+import AvailableRooms from "./available-rooms";
 
 function RoomsDisplay() {
   // State variables
   const [identity, setIdentity] = useState("");
   const [room, setRoom] = useState();
   const [roomList, setRoomList] = useState([]);
-  const [showControls, setShowControls] = useState(false);
+  const [showControls, setShowControls] = useState(true);
   const [newRoomName, setNewRoomName] = useState("");
   const [parentSid, setParentSid] = useState("");
   const [socket, setSocket] = useState(null);
@@ -57,28 +61,6 @@ function RoomsDisplay() {
       const data = await response.json();
       console.log(data);
       setRoomList(data.rooms);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  // Create a new main room
-  const createRoom = async () => {
-    try {
-      const response = await fetch("http://localhost:8080/api/rooms/main", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          roomName: newRoomName,
-        }),
-      });
-
-      await response.json();
-
-      // Once the new room is created, set this input field to be blank
-      setNewRoomName("");
     } catch (err) {
       console.log(err);
     }
@@ -179,73 +161,54 @@ function RoomsDisplay() {
   };
 
   return (
-    <div className="rooms-app">
-      <label className="start">
-        <input
-          type="checkbox"
-          checked={showControls}
-          onChange={onCheckboxChange}
-        />
-        Show Room Controls
-      </label>
-
-      {showControls && (
-        <div className="controls">
-          <label className="start">
-            Name your room:
+    <React.Fragment>
+      {/* <Container> */}
+      <Header title="Project chat rooms" />
+      <div className="rooms-app">
+        <div className="pt-5">
+          <CreateRoom />
+        </div>
+        {/* {room === undefined ? (
+          <div className="start">
             <input
-              value={newRoomName}
+              value={identity}
               onChange={(event) => {
-                setNewRoomName(event.target.value);
+                setIdentity(event.target.value);
               }}
+              placeholder="Enter your name"
             />
-          </label>
-          <button
-            disabled={newRoomName === "" ? true : false}
-            onClick={room ? createBreakoutRoom : createRoom}
-          >
-            {room ? "Create Breakout Room" : "Create Room"}
-          </button>
-        </div>
-      )}
-      {room === undefined ? (
-        <div className="start">
-          <input
-            value={identity}
-            onChange={(event) => {
-              setIdentity(event.target.value);
-            }}
-            placeholder="Enter your name"
+          </div>
+        ) : (
+          <Room
+            room={room}
+            joinRoom={joinRoom}
+            leaveRoom={leaveRoom}
+            breakoutRoomList={getBreakoutRooms()}
+            parentSid={parentSid}
           />
-        </div>
-      ) : (
-        <Room
-          room={room}
-          joinRoom={joinRoom}
-          leaveRoom={leaveRoom}
-          breakoutRoomList={getBreakoutRooms()}
-          parentSid={parentSid}
-        />
-      )}
+        )} */}
 
-      <div className="video-rooms-list">
-        {room == null && roomList?.length > 0 && (
-          <h3>Video Rooms - Click a button to join</h3>
-        )}
-        {room == null &&
-          roomList?.map((room) => {
-            return (
-              <button
-                disabled={identity === "" ? true : false}
-                key={room._id}
-                onClick={() => joinRoom(room._id)}
-              >
-                {room.name}
-              </button>
-            );
-          })}
+        {/* <div className="video-rooms-list">
+          {room == null && roomList?.length > 0 && (
+            <h3>Video Rooms - Click a button to join</h3>
+          )}
+          {room == null &&
+            roomList?.map((room) => {
+              return (
+                <button
+                  disabled={identity === "" ? true : false}
+                  key={room._id}
+                  onClick={() => joinRoom(room._id)}
+                >
+                  {room.name}
+                </button>
+              );
+            })}
+        </div> */}
+        <AvailableRooms />
       </div>
-    </div>
+      <Footer />
+    </React.Fragment>
   );
 }
 

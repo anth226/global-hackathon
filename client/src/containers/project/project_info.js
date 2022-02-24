@@ -280,7 +280,7 @@ class ProjectInfo extends React.Component {
                 type="primary"
                 onClick={() => {
                   // history.push(`/create-meeting/${this.props.projectId}`);
-                  history.push(`/rooms`);
+                  history.push(`/project/${curProj._id}/rooms`);
                 }}
               >
                 Go to break out room
