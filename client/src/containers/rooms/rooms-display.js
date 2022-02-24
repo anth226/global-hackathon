@@ -51,7 +51,7 @@ function RoomsDisplay() {
   const listRooms = async () => {
     console.log("list rooms");
     try {
-      const response = await fetch("http://localhost:8080/api/rooms/", {
+      const response = await fetch(`${process.env.REACT_APP_API_HOST}/rooms`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -76,13 +76,16 @@ function RoomsDisplay() {
     }
 
     try {
-      const response = await fetch("http://localhost:8080/api/rooms/breakout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ roomName: newRoomName, parentSid: room?.sid }),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_HOST}/rooms/breakout`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ roomName: newRoomName, parentSid: room?.sid }),
+        }
+      );
 
       await response.json();
       setNewRoomName("");
@@ -100,16 +103,19 @@ function RoomsDisplay() {
       }
 
       // Fetch an access token from the server
-      const response = await fetch("http://localhost:8080/api/rooms/token", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          identity,
-          roomSid,
-        }),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_HOST}/rooms/token`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            identity,
+            roomSid,
+          }),
+        }
+      );
 
       const data = await response.json();
 

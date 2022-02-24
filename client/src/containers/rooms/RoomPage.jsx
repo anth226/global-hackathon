@@ -46,7 +46,7 @@ export default function RoomPage() {
       }
       //get a new access token
       const response = await axios.post(
-        "http://localhost:8080/api/rooms/token",
+        `${process.env.REACT_APP_API_HOST}/rooms/token`,
         {
           identity: "sandbergjcauqes@gmail.com",
           roomSid,

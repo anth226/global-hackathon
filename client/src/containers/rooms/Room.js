@@ -50,7 +50,7 @@ const Room = ({ room, breakoutRoomList, parentSid, joinRoom, leaveRoom }) => {
 
   function getBreakouts() {
     axios
-      .get(`http://localhost:8080/rooms/breakout/${room.sid}`)
+      .get(`${process.env.REACT_APP_API_HOST}/rooms/breakout/${room.sid}`)
       .then((res) => setbreakouts(res.data))
       .catch((err) => console.error(err));
   }
@@ -59,7 +59,7 @@ const Room = ({ room, breakoutRoomList, parentSid, joinRoom, leaveRoom }) => {
     e.preventDefault();
 
     axios
-      .post("http://localhost:8080/api/rooms/breakout", {
+      .post(`${process.env.REACT_APP_API_HOST}/rooms/breakout`, {
         roomName: breakOutName,
         parentSid: room?.sid,
       })
