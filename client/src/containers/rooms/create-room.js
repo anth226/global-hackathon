@@ -1,8 +1,6 @@
-import { Header } from "antd/lib/layout/layout";
 import axios from "axios";
 import React, { useState } from "react";
 import { Container } from "reactstrap";
-import { Footer } from "../../components/template";
 
 export default function CreateRoom() {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,7 +14,6 @@ export default function CreateRoom() {
       .post("http://localhost:8080/api/rooms/main", { roomName })
       .then((data) => {
         setroomName("");
-        window.alert("Room created successfully");
       })
       .catch((err) => {
         window.alert("Error occurred creating a room");

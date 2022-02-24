@@ -1,11 +1,14 @@
 import { Skeleton } from "antd";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { Container } from "reactstrap";
 import { io } from "socket.io-client";
 import "../../styles/room/room.css";
 
 export default function AvailableRooms() {
+  const history = useHistory();
+
   const [rooms, setrooms] = useState([]);
   const [isLoading, setisLoading] = useState(true);
 
@@ -24,13 +27,31 @@ export default function AvailableRooms() {
 
   function fetchRooms() {
     axios
-      .get("http://localhost:8080/api/rooms/")
+      .get("http://localhost:8080/api/rooms")
       .then((data) => {
         setrooms(data.data.rooms);
       })
       .catch((er) => console.error(er))
       .finally(() => setisLoading(false));
   }
+
+  const joinRoom = async (roomSid, breakout = false) => {
+    let identity = "sandbergjacquyes";
+    try {
+      // Fetch an access token from the server
+      const response = await axios.post(
+        "http://localhost:8080/api/rooms/token",
+        {
+          identity,
+          roomSid,
+        }
+      );
+
+      history.push(`/rooms/${roomSid}?token=${response.data.accessToken}`);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <Container>
@@ -55,6 +76,7 @@ export default function AvailableRooms() {
                       <button
                         className="position-absolute join-btn"
                         className="btn btn-primary"
+                        onClick={() => joinRoom(room._id)}
                       >
                         Join room
                       </button>
