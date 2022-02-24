@@ -51,7 +51,7 @@ const Room = ({ room, breakoutRoomList, parentSid, joinRoom, leaveRoom }) => {
   function getBreakouts() {
     axios
       .get(`${process.env.REACT_APP_API_HOST}/rooms/breakout/${room.sid}`)
-      .then((res) => setbreakouts(res.data))
+      .then((res) => setbreakouts(res.data.breakouts))
       .catch((err) => console.error(err));
   }
 
@@ -116,7 +116,7 @@ const Room = ({ room, breakoutRoomList, parentSid, joinRoom, leaveRoom }) => {
         {breakouts.map((room) => {
           return (
             <button
-              className="btn btn-outline-primary"
+              className="btn btn-outline-primary mx-2"
               key={room._id}
               onClick={() => changeRoom(room._id, false)}
             >
@@ -134,7 +134,7 @@ const Room = ({ room, breakoutRoomList, parentSid, joinRoom, leaveRoom }) => {
         </button>
         {room.sid !== parentSid && (
           <button
-            className="btn btn-primary"
+            className="btn btn-primary mx-2"
             onClick={() => changeRoom(parentSid, true)}
           >
             Return to Main Room
