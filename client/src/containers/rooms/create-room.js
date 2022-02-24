@@ -1,17 +1,23 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Container } from "reactstrap";
+import { useParams } from "react-router-dom";
 
 export default function CreateRoom() {
   const [isLoading, setIsLoading] = useState(false);
   const [roomName, setroomName] = useState("");
+
+  const { id } = useParams();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
 
     axios
-      .post(`${process.env.REACT_APP_API_HOST}/rooms/main`, { roomName })
+      .post(`${process.env.REACT_APP_API_HOST}/rooms/main`, {
+        roomName,
+        projectId: id,
+      })
       .then((data) => {
         setroomName("");
       })
