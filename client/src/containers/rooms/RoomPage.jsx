@@ -26,7 +26,7 @@ export default function RoomPage() {
     try {
       const videoRoom = await connect(token, {
         audio: true,
-        video: { width: 900, height: 500 },
+        video: { width: 800, height: 500 },
       });
 
       // Save this video room in the state
@@ -55,7 +55,7 @@ export default function RoomPage() {
 
       const videoRoom = await connect(response.data.accessToken, {
         audio: true,
-        video: { width: 900, height: 500 },
+        video: { width: 800, height: 500 },
       });
 
       // Save this video room in the state
