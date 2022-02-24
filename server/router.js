@@ -876,7 +876,7 @@ module.exports = function (app) {
     RoomsController.createBreakoutRoom
   );
   roomsRoutes.get("/", RoomsController.listActiveRooms);
-  roomsRoutes.get("/token", RoomsController.getToken);
+  roomsRoutes.post("/token", RoomsController.getToken);
 
   // // List faq route
   // faqRoutes.get("/", requireAuth, FaqController.listFaq);
