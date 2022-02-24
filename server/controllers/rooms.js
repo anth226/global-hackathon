@@ -182,6 +182,99 @@ const listActiveRooms = async (request, response) => {
         rooms: videoRooms,
       });
     } catch (error) {
+      console.log(error);
+      return response.status(400).send({
+        message: `Error retrieving video rooms from db`,
+        error,
+      });
+    }
+  } catch (error) {
+    return response.status(400).send({
+      message: `Unable to list active rooms`,
+      error,
+    });
+  }
+};
+
+/**
+ * List active video breakout rooms
+ */
+const listActiveBreakouts = async (request, response) => {
+  try {
+    // Get the last 20 rooms that are still currently in progress.
+    const rooms = await twilioClient.video.rooms.list({
+      status: "in-progress",
+      limit: 20,
+    });
+
+    // Get a list of active room sids.
+    let activeRoomSids = rooms.map((room) => room.sid);
+
+    try {
+      // Retrieve the room documents from the database.
+      let dbRooms = await db.allDocs({
+        include_docs: true,
+      });
+
+      // Filter the documents to include only the main rooms that are active.
+      let dbActiveRooms = dbRooms.rows.filter((mainRoomRecord) => {
+        return activeRoomSids.includes(mainRoomRecord.id) && mainRoomRecord;
+      });
+
+      // Create a list of MainRoomItem that will associate a room's id with its name and breakout rooms.
+      let videoRooms = [];
+
+      // For each of the active rooms from the db, get the details for that main room and its breakout rooms.
+      // Then pass that data into an array to return to the client side.
+      if (dbActiveRooms) {
+        dbActiveRooms.forEach((row) => {
+          // Find the specific main room in the list of rooms returned from the Twilio Rooms API.
+          const activeMainRoom = rooms.find((mainRoom) => {
+            return mainRoom.sid === row.doc._id;
+          });
+
+          // Get the list of breakout rooms from this room's document.
+          const breakoutSids = row.doc.breakouts;
+
+          // Filter to select only the breakout rooms that are active according to
+          // the response from the Twilio Rooms API.
+          const activeBreakoutRooms = rooms.filter((breakoutRoom) => {
+            return breakoutSids.includes(breakoutRoom.sid);
+          });
+
+          // Create a list of BreakoutRoomItems that will contain each breakout room's name and id.
+          let breakouts = [];
+
+          // Get the names of each breakout room from the API response.
+          activeBreakoutRooms.forEach((breakoutRoom) => {
+            breakouts.push({
+              _id: breakoutRoom.sid,
+              name: breakoutRoom.uniqueName,
+            });
+          });
+
+          const videoRoom = {
+            _id: activeMainRoom.sid,
+            name: activeMainRoom.uniqueName,
+            breakouts: breakouts,
+          };
+          // Add this room to the list of rooms to return to the client side.
+          videoRooms.push(videoRoom);
+        });
+      }
+
+      const searchedRoom = videoRooms.find(
+        (r) => r._id == request.params.roomSid
+      );
+
+      // Return the list of active rooms to the client side.
+      return response.status(200).send({
+        breakouts: (searchedRoom?.breakouts || []).map((br) => {
+          return { ...br, parentSid: searchedRoom._id };
+        }),
+      });
+    } catch (error) {
+      console.log(error);
       return response.status(400).send({
         message: `Error retrieving video rooms from db`,
         error,
@@ -224,4 +317,10 @@ const getToken = (request, response) => {
   });
 };
 
-module.exports = { createRoom, createBreakoutRoom, listActiveRooms, getToken };
+module.exports = {
+  createRoom,
+  createBreakoutRoom,
+  listActiveRooms,
+  getToken,
+  listActiveBreakouts,
+};
