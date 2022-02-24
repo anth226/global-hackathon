@@ -118,8 +118,12 @@ class Routes extends React.Component {
           <Route path="/challenges" component={ChallengesList} />
           <Route path="/challenge/:id" component={Challenge} />
           <Route path="/participants" component={ParticipantsList} />
+          <Route exact path="/project/:id" component={RequireAuth(Project)} />
           <Route path="/projects" component={Projectslist} />
-          <Route path="/project/:id" component={RequireAuth(Project)} />
+          <Route
+            path="/project/:id/rooms"
+            component={RequireAuth(RoomsDisplay)}
+          />
           <Route
             path="/create-meeting/:id"
             component={RequireAuth(createMeeting)}
