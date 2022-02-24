@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Room as VideoRoom } from "twilio-video";
 import Participant from "./Participant";
 
 const Room = ({ room, breakoutRoomList, parentSid, joinRoom, leaveRoom }) => {
   const [remoteParticipants, setRemoteParticipants] = useState(
     Array.from(room.participants.values())
   );
+  const [roomBreakouts, setroomBreakouts] = useState([]);
 
   // Whenever the room changes, set up listeners
   useEffect(() => {
@@ -33,7 +33,7 @@ const Room = ({ room, breakoutRoomList, parentSid, joinRoom, leaveRoom }) => {
 
   return (
     <div className="room">
-      <h2 className="roomName">{room.name}</h2>
+      <h3 className="px-2">{room.name} room</h3>
       <div className="participants">
         <Participant
           key={room.localParticipant.identity}
@@ -44,7 +44,7 @@ const Room = ({ room, breakoutRoomList, parentSid, joinRoom, leaveRoom }) => {
         ))}
       </div>
       <div className="breakouts-list">
-        {breakoutRoomList.length > 0 && <h3>Breakout Rooms</h3>}
+        {breakoutRoomList.length > 0 && <h5 className="p-2">Breakout Rooms</h5>}
 
         {breakoutRoomList.map((room) => {
           return (
@@ -58,12 +58,19 @@ const Room = ({ room, breakoutRoomList, parentSid, joinRoom, leaveRoom }) => {
           );
         })}
       </div>
-      {room.sid !== parentSid && (
-        <button onClick={() => changeRoom(parentSid, true)}>
-          Return to Main Room
+      <div className="d-flex justify-content-center">
+        {room.sid !== parentSid && (
+          <button
+            className="btn btn-primary"
+            onClick={() => changeRoom(parentSid, true)}
+          >
+            Return to Main Room
+          </button>
+        )}
+        <button className="btn btn-danger" onClick={() => leaveRoom(true)}>
+          Leave room
         </button>
-      )}
-      <button onClick={leaveRoom}>Leave Video Call</button>
+      </div>
     </div>
   );
 };
