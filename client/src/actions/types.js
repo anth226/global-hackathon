@@ -158,3 +158,8 @@ export const FETCH_LOCATION_LIST = "fetch_location_list",
   FETCH_PENDING_LOCATIONS = "fetch_pending_locations",
   FETCH_HOSTED_USERS = "fetch_hosted_users",
   SET_INVITE_LOCATION = "set_invite_location";
+
+//= =====================
+// Meeting Actions
+//= =====================
+export const FETCH_MEETING_INFO = "fetch_meeting_info"

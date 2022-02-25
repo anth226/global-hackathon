@@ -75,6 +75,10 @@ import Unsubscribe from "./containers/glhcontact/unsubscribe";
 import RequireAuth from "./containers/auth/require_auth";
 import { protectedTest } from "./actions/auth";
 import { listFieldData } from "./actions/profile";
+import createMeeting from "./containers/meeting/create-meeting";
+import attendMeeting from "./containers/meeting/attend-meeting";
+import RoomsDisplay from "./containers/rooms/rooms-display";
+import RoomPage from "./containers/rooms/RoomPage";
 
 class Routes extends React.Component {
   componentDidMount = async () => {
@@ -115,8 +119,22 @@ class Routes extends React.Component {
           <Route path="/challenges" component={ChallengesList} />
           <Route path="/challenge/:id" component={Challenge} />
           <Route path="/participants" component={ParticipantsList} />
+          <Route exact path="/project/:id" component={RequireAuth(Project)} />
           <Route path="/projects" component={Projectslist} />
-          <Route path="/project/:id" component={RequireAuth(Project)} />
+          <Route
+            path="/project/:id/rooms"
+            component={RequireAuth(RoomsDisplay)}
+          />
+          <Route path="/rooms/:id" component={RequireAuth(RoomPage)} />
+          <Route
+            path="/create-meeting/:id"
+            component={RequireAuth(createMeeting)}
+          />
+          <Route
+            path="/meeting/:token"
+            component={RequireAuth(attendMeeting)}
+          />
+          <Route path="/rooms" component={RequireAuth(RoomsDisplay)} />
           <Route path="/gallery/:id" component={Gallery} />
           <Route path="/gallery" component={ListGallery} />
           <Route path="/admin" component={RequireAuth(AdminDashboard)} />

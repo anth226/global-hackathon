@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Row, Col, Button } from "reactstrap";
-import { Popconfirm, Menu, Dropdown, Modal, Input } from "antd";
+import { Row, Col } from "reactstrap";
+import { Popconfirm, Menu, Dropdown, Modal, Input, Button } from "antd";
 import { EllipsisOutlined, LikeOutlined, LikeFilled } from "@ant-design/icons";
 import {
   getParticipant,
@@ -163,8 +163,7 @@ class ProjectInfo extends React.Component {
       label,
       isJudge,
     } = this.props;
-    const { showContactModal, visible, modalContent, chatText } =
-      this.state;
+    const { showContactModal, visible, modalContent, chatText } = this.state;
     if (!curProj.likes) curProj.likes = [];
     let creator = curProj.participant ? curProj.participant.profile : {};
     const isVoter = loginMode === 0 && curProj.likes.includes(user._id);
@@ -276,7 +275,17 @@ class ProjectInfo extends React.Component {
               )}
               <span> {curProj.likes.length}</span>
             </p>
-
+            <div>
+              <Button
+                type="primary"
+                onClick={() => {
+                  // history.push(`/create-meeting/${this.props.projectId}`);
+                  history.push(`/project/${curProj._id}/rooms`);
+                }}
+              >
+                Go to break out room
+              </Button>
+            </div>
             {!this.checkFollowProject() &&
               !isCreator &&
               loginMode === 0 &&
