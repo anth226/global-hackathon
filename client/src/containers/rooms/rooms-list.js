@@ -52,7 +52,7 @@ export default function AvailableRooms() {
       console.error(err);
     }
   };
-
+  
   return (
     <Container>
       <div className="pb-5">
@@ -65,7 +65,7 @@ export default function AvailableRooms() {
                 </div>
               ))
             : rooms.map((room) => (
-                <div key={room._id} className="p-2 col-12 col-md-6 col-lg-4">
+                <div key={room.sid} className="p-2 col-12 col-md-6 col-lg-4">
                   <div className="position-relative">
                     <img
                       alt="Meeting avatar"
@@ -76,7 +76,7 @@ export default function AvailableRooms() {
                       <h6 className="p-2">{room.name}</h6>
                       <button
                         className="btn btn-primary position-absolute join-btn"
-                        onClick={() => joinRoom(room._id)}
+                        onClick={() => joinRoom(room.sid)}
                       >
                         Join room
                       </button>

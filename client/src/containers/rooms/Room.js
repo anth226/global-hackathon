@@ -117,8 +117,8 @@ const Room = ({ room, breakoutRoomList, parentSid, joinRoom, leaveRoom }) => {
           return (
             <button
               className="btn btn-outline-primary mx-2"
-              key={room._id}
-              onClick={() => changeRoom(room._id, false)}
+              key={room.sid}
+              onClick={() => changeRoom(room.sid, false)}
             >
               {room.name}
             </button>
