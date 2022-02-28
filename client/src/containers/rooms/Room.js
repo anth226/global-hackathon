@@ -72,17 +72,67 @@ const Room = ({ room, breakoutRoomList, parentSid, joinRoom, leaveRoom }) => {
       .finally(() => setisModalOpen(false));
   }
 
+  function copyLink() {
+    const link = `${window.origin}/rooms/join/${room.sid}`;
+    navigator.clipboard.writeText(link);
+    alert("Lin copied");
+  }
+
   return (
     <div className="room">
-      <h3 className="px-2">{room.name} room</h3>
-      <div className="participants">
-        <Participant
-          key={room.localParticipant.identity}
-          participant={room.localParticipant}
-        />
-        {remoteParticipants.map((participant) => (
-          <Participant key={participant.identity} participant={participant} />
-        ))}
+      <div className="row">
+        <div className="col-sm-12 col-md-9 col-lg-8">
+          <h3 className="px-2">{room.name} room</h3>
+          <div className="participants">
+            <Participant
+              key={room.localParticipant.identity}
+              participant={room.localParticipant}
+            />
+            {remoteParticipants.map((participant) => (
+              <Participant
+                key={participant.identity}
+                participant={participant}
+              />
+            ))}
+          </div>
+          <div className="d-flex justify-content-center pt-3">
+            <button className="btn btn-info mx-2" onClick={copyLink}>
+              Copy link to room
+            </button>
+            <button
+              className="btn btn-outline-primary mx-2"
+              onClick={() => setisModalOpen(true)}
+            >
+              Create breakout
+            </button>
+            {room.sid !== parentSid && (
+              <button
+                className="btn btn-primary mx-2"
+                onClick={() => changeRoom(parentSid, true)}
+              >
+                Return to Main Room
+              </button>
+            )}
+            <button className="btn btn-danger" onClick={() => leaveRoom(true)}>
+              Leave room
+            </button>
+          </div>
+        </div>
+        <div className="breakouts-list col-sm-12 col-md-3 col-lg-4">
+          {breakouts.length > 0 && <h5 className="p-2">Breakout Rooms</h5>}
+
+          {breakouts.map((room) => {
+            return (
+              <button
+                className="btn btn-outline-primary mx-2"
+                key={room.sid}
+                onClick={() => changeRoom(room.sid, false)}
+              >
+                {room.name}
+              </button>
+            );
+          })}
+        </div>
       </div>
       <Modal onClosed={() => setisModalOpen(false)} isOpen={isModalOpen}>
         <div className="px-5 pt-4 pb-5">
@@ -110,40 +160,6 @@ const Room = ({ room, breakoutRoomList, parentSid, joinRoom, leaveRoom }) => {
           </form>
         </div>
       </Modal>
-      <div className="breakouts-list">
-        {breakouts.length > 0 && <h5 className="p-2">Breakout Rooms</h5>}
-
-        {breakouts.map((room) => {
-          return (
-            <button
-              className="btn btn-outline-primary mx-2"
-              key={room.sid}
-              onClick={() => changeRoom(room.sid, false)}
-            >
-              {room.name}
-            </button>
-          );
-        })}
-      </div>
-      <div className="d-flex justify-content-center pt-3">
-        <button
-          className="btn btn-outline-primary mx-2"
-          onClick={() => setisModalOpen(true)}
-        >
-          Create breakout
-        </button>
-        {room.sid !== parentSid && (
-          <button
-            className="btn btn-primary mx-2"
-            onClick={() => changeRoom(parentSid, true)}
-          >
-            Return to Main Room
-          </button>
-        )}
-        <button className="btn btn-danger" onClick={() => leaveRoom(true)}>
-          Leave room
-        </button>
-      </div>
     </div>
   );
 };
