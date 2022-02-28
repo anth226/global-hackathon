@@ -193,6 +193,19 @@ const listActiveRooms = async (request, response) => {
   }
 };
 
+const getRoomBySid = async (request, response) => {
+  try {
+    const room = await Room.findOne({ sid: request.params.sid });
+    return response.status(200).send(room);
+  } catch (error) {
+    console.error(error);
+    return response.status(400).send({
+      message: `Unable to list active rooms`,
+      error,
+    });
+  }
+};
+
 /**
  * List active video breakout rooms
  */
@@ -319,4 +332,5 @@ module.exports = {
   listActiveRooms,
   getToken,
   listActiveBreakouts,
+  getRoomById: getRoomBySid,
 };
