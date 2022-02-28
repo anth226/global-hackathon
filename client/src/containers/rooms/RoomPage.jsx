@@ -23,7 +23,8 @@ export default function RoomPage() {
       try {
         const videoRoom = await connect(token, {
           audio: true,
-          video: { width: 800, height: 500 },
+          video: true,
+          // video: { width: "auto", height: "auto" },
         });
 
         // Save this video room in the state
@@ -55,7 +56,7 @@ export default function RoomPage() {
 
       const videoRoom = await connect(response.data.accessToken, {
         audio: true,
-        video: { width: 800, height: 500 },
+        video: true, // { width: "auto", height: "auto" },
       });
 
       // Save this video room in the state
@@ -103,7 +104,7 @@ export default function RoomPage() {
                 joinRoom={changeRoom}
               />
             ) : (
-              <div className="bg-black w-75 h-100 d-flex justify-content-center align-items-center">
+              <div className="bg-black h-100 d-flex justify-content-center align-items-center">
                 <img src="/images/rolling.gif" alt="loading...." width={80} />
               </div>
             )}
