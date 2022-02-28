@@ -68,14 +68,14 @@ export default function AvailableRooms() {
                 <div key={room._id} className="p-2 col-12 col-md-6 col-lg-4">
                   <div className="position-relative">
                     <img
+                      alt="Meeting avatar"
                       src="https://images.pexels.com/photos/4049992/pexels-photo-4049992.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=300&w=400"
                       className="d-block w-100 object-cover"
                     />
                     <div>
                       <h6 className="p-2">{room.name}</h6>
                       <button
-                        className="position-absolute join-btn"
-                        className="btn btn-primary"
+                        className="btn btn-primary position-absolute join-btn"
                         onClick={() => joinRoom(room._id)}
                       >
                         Join room

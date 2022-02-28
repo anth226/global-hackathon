@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Redirect, useLocation, useHistory } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import { Footer, Header } from "../../components/template";
-import { connect, Room as VideoRoom } from "twilio-video";
+import { connect } from "twilio-video";
 import { Container } from "reactstrap";
 import Room from "./Room";
 import axios from "axios";
@@ -19,24 +19,24 @@ export default function RoomPage() {
   }
 
   useEffect(() => {
+    const initiate = async () => {
+      try {
+        const videoRoom = await connect(token, {
+          audio: true,
+          video: { width: 800, height: 500 },
+        });
+
+        // Save this video room in the state
+        setroom(videoRoom);
+        setParentSid(videoRoom.sid);
+      } catch (err) {
+        console.error(err);
+        alert("Error occurred trying to join meeting...");
+      }
+    };
+
     initiate();
   }, []);
-
-  const initiate = async () => {
-    try {
-      const videoRoom = await connect(token, {
-        audio: true,
-        video: { width: 800, height: 500 },
-      });
-
-      // Save this video room in the state
-      setroom(videoRoom);
-      setParentSid(videoRoom.sid);
-    } catch (err) {
-      console.error(err);
-      alert("Error occurred trying to join meeting...");
-    }
-  };
 
   const changeRoom = async (roomSid, breakout = false) => {
     try {
@@ -104,7 +104,7 @@ export default function RoomPage() {
               />
             ) : (
               <div className="bg-black w-75 h-100 d-flex justify-content-center align-items-center">
-                <img src="/images/rolling.gif" width={80} />
+                <img src="/images/rolling.gif" alt="loading...." width={80} />
               </div>
             )}
           </div>
