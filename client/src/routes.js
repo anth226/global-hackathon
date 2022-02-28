@@ -79,6 +79,7 @@ import createMeeting from "./containers/meeting/create-meeting";
 import attendMeeting from "./containers/meeting/attend-meeting";
 import RoomsDisplay from "./containers/rooms/rooms-index";
 import RoomPage from "./containers/rooms/RoomPage";
+import JoinRoom from "./containers/rooms/join-room";
 
 class Routes extends React.Component {
   componentDidMount = async () => {
@@ -125,6 +126,7 @@ class Routes extends React.Component {
             path="/project/:id/rooms"
             component={RequireAuth(RoomsDisplay)}
           />
+          <Route path="/rooms/join/:id" component={RequireAuth(JoinRoom)} />
           <Route path="/rooms/:id" component={RequireAuth(RoomPage)} />
           <Route
             path="/create-meeting/:id"

@@ -31,7 +31,7 @@ export default function RoomPage() {
         setroom(videoRoom);
         setParentSid(videoRoom.sid);
       } catch (err) {
-        console.error(err);
+        console.log(err);
         alert("Error occurred trying to join meeting...");
       }
     };
@@ -49,7 +49,7 @@ export default function RoomPage() {
       const response = await axios.post(
         `${process.env.REACT_APP_API_HOST}/rooms/token`,
         {
-          identity: "sandbergjcauqes@gmail.com",
+          identity: Date.now().toString(36),
           roomSid,
         }
       );

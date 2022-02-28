@@ -36,7 +36,7 @@ export default function AvailableRooms() {
   }
 
   const joinRoom = async (roomSid, breakout = false) => {
-    let identity = "sandbergjacquyes";
+    let identity = Date.now().toString(36);
     try {
       // Fetch an access token from the server
       const response = await axios.post(
@@ -52,7 +52,7 @@ export default function AvailableRooms() {
       console.error(err);
     }
   };
-  
+
   return (
     <Container>
       <div className="pb-5">
