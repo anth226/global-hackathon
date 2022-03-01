@@ -236,7 +236,7 @@ class UserDashboard extends Component {
             {usertype} <div className="bullet" />
           </div>
           <h5>
-            <b>Locations information</b>
+            <b>Location information</b>
           </h5>
           {displayLocations.map((location, index) => (
             <div
