@@ -255,6 +255,7 @@ export const ChooseLocationForm = ({
         </div>
         {country && !nooption && (
           <div className="location-select-box">
+            {flocs.length === 0 && <p>No hosts in this location</p>}
             <Form.Item
               name="location"
               rules={[
