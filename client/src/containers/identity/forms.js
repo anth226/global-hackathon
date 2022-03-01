@@ -211,6 +211,13 @@ export const ChooseLocationForm = ({
     onSetLocation({ country, city });
   };
 
+  const handleCountryChange = (country) => {
+    setCountry(country);
+    setCity("");
+    if (locations.filter((item) => item.venue_country === country).length > 0)
+      setNooption(false);
+  };
+
   const flocs = locations.filter((item) => item.venue_country === country);
   return (
     <Form name="locationform" className="location-form" onFinish={onFinish}>
@@ -223,7 +230,7 @@ export const ChooseLocationForm = ({
         <div className="location-selectbox">
           <div className="country-box">
             <span className="form-label">Country</span>
-            <Select size="large" showSearch onChange={setCountry}>
+            <Select size="large" showSearch onChange={handleCountryChange}>
               {countries.map((item) => (
                 <Select.Option key={item.name} value={item.name}>
                   {item.name}
@@ -241,6 +248,7 @@ export const ChooseLocationForm = ({
                 size="large"
                 onChange={(e) => setCity(e.target.value)}
                 placeholder="City"
+                value={city}
               />
             </div>
           )}
@@ -299,7 +307,7 @@ export const ChooseLocationForm = ({
           footer={false}
           onCancel={onHideModal}
         >
-          <LocationProfile location={location} />
+          <LocationProfile locations={locations} location={location} />
         </Modal>
       )}
     </Form>
