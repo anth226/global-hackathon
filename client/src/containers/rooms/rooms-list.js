@@ -36,7 +36,7 @@ export default function AvailableRooms() {
   }
 
   const joinRoom = async (roomSid, breakout = false) => {
-    let identity = "sandbergjacquyes";
+    let identity = Date.now().toString(36);
     try {
       // Fetch an access token from the server
       const response = await axios.post(
@@ -65,18 +65,18 @@ export default function AvailableRooms() {
                 </div>
               ))
             : rooms.map((room) => (
-                <div key={room._id} className="p-2 col-12 col-md-6 col-lg-4">
+                <div key={room.sid} className="p-2 col-12 col-md-6 col-lg-4">
                   <div className="position-relative">
                     <img
+                      alt="Meeting avatar"
                       src="https://images.pexels.com/photos/4049992/pexels-photo-4049992.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=300&w=400"
                       className="d-block w-100 object-cover"
                     />
                     <div>
                       <h6 className="p-2">{room.name}</h6>
                       <button
-                        className="position-absolute join-btn"
-                        className="btn btn-primary"
-                        onClick={() => joinRoom(room._id)}
+                        className="btn btn-primary position-absolute join-btn"
+                        onClick={() => joinRoom(room.sid)}
                       >
                         Join room
                       </button>

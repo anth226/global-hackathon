@@ -2,7 +2,7 @@ import React from "react";
 import "./rooms-display.module.css";
 import { Footer, Header } from "../../components/template";
 import CreateRoom from "./create-room";
-import AvailableRooms from "./available-rooms";
+import AvailableRooms from "./rooms-list";
 
 function RoomsDisplay() {
   // useEffect(() => {

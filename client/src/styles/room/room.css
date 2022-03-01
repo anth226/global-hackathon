@@ -2,3 +2,9 @@
     right: 10px;
     bottom: 20px;
 }
+.participant video{
+    display: block;
+    max-width: 100%;
+    width: 100%;
+    min-height: 300px;
+}
