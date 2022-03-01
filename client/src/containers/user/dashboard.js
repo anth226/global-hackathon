@@ -84,7 +84,7 @@ class UserDashboard extends Component {
 
   handleOk = () => {
     const { chatText } = this.state;
-    const hostId = this.props.user.profile.location.creator;
+    const hostId = this.props.user.profile.location?.creator;
     if (!chatText || !hostId) return;
     this.props.startConversation({
       recipient: hostId,
@@ -100,10 +100,10 @@ class UserDashboard extends Component {
   };
 
   submitLocation = async (data) => {
-    const {createOtherLocation,user} = this.props
-    await createOtherLocation(data,user.email)
-    this.toggleCreateLocationModal()
-  }
+    const { createOtherLocation, user } = this.props;
+    await createOtherLocation(data, user.email);
+    this.toggleCreateLocationModal();
+  };
 
   renderRulesAlert = () => {
     const valid = (
@@ -130,7 +130,7 @@ class UserDashboard extends Component {
       agreedRule,
     } = this.state;
     const userInfo = user.profile;
-    
+
     return (
       <React.Fragment>
         <Header />
@@ -139,7 +139,7 @@ class UserDashboard extends Component {
           <div className="user-dashboard">{this.renderUserInfo(userInfo)}</div>
           {userInfo &&
             userInfo.location_role === "Admin" &&
-            userInfo.location.status === "approved" &&
+            userInfo.location?.status === "approved" &&
             this.renderHostBlock()}
         </Container>
         {showLocationModal && (
@@ -165,10 +165,7 @@ class UserDashboard extends Component {
             footer={false}
             onCancel={this.toggleCreateLocationModal}
           >
-            <LocationForm
-              onSubmit={this.submitLocation}
-              location={{}}
-            />
+            <LocationForm onSubmit={this.submitLocation} location={{}} />
           </Modal>
         )}
         {showChooseHostModal && (
@@ -214,9 +211,12 @@ class UserDashboard extends Component {
     const is_multi_city = userInfo?.location?.multi_city === "Yes";
     const usertype =
       userInfo.location_role === "Admin" ? "Host" : "Participant";
-    
-      const displayLocations = [userInfo.location,...is_multi_city ? userInfo.other_locations: []]
-      return (
+
+    const displayLocations = [
+      userInfo.location,
+      ...(is_multi_city ? userInfo.other_locations : []),
+    ];
+    return (
       <Row>
         <Col xl={4} md={5} className="mb-3">
           <div className="user-card">
@@ -238,82 +238,87 @@ class UserDashboard extends Component {
           <h5>
             <b>Locations information</b>
           </h5>
-          {displayLocations.map((location,index) => (
-          <div style={{borderBottom: index < displayLocations.length-1 ? "1px solid gray":"",marginBottom:40, paddingBottom:10}}>
-            <Descriptions column={2}>
-              <Descriptions.Item label="Venue">
-                {location.venue}
-              </Descriptions.Item>
-              <Descriptions.Item label="Organization">
-                {location.organization}
-              </Descriptions.Item>
-              <Descriptions.Item label="Venue Country">
-                {location.venue_country}
-              </Descriptions.Item>
-              <Descriptions.Item label="Venue City">
-                {location.venue_city}
-              </Descriptions.Item>
-              <Descriptions.Item label="Venue Street">
-                {location.venue_street}
-              </Descriptions.Item>
-              <Descriptions.Item label="Venue Zipcode">
-                {location.venue_zip}
-              </Descriptions.Item>
-            </Descriptions>
-          {!location && (
-            <React.Fragment>
+          {displayLocations.map((location, index) => (
+            <div
+              style={{
+                borderBottom:
+                  index < displayLocations.length - 1 ? "1px solid gray" : "",
+                marginBottom: 40,
+                paddingBottom: 10,
+              }}
+            >
               <Descriptions column={2}>
-                <Descriptions.Item label="Country">
-                  {userInfo.country}
+                <Descriptions.Item label="Venue">
+                  {location?.venue || "N/A"}
                 </Descriptions.Item>
-                <Descriptions.Item label="City">
-                  {userInfo.city}
+                <Descriptions.Item label="Organization">
+                  {location?.organization || "N/A"}
+                </Descriptions.Item>
+                <Descriptions.Item label="Venue Country">
+                  {location?.venue_country || "N/A"}
+                </Descriptions.Item>
+                <Descriptions.Item label="Venue City">
+                  {location?.venue_city || "N/A"}
+                </Descriptions.Item>
+                <Descriptions.Item label="Venue Street">
+                  {location?.venue_street || "N/A"}
+                </Descriptions.Item>
+                <Descriptions.Item label="Venue Zipcode">
+                  {location?.venue_zip || "N/A"}
                 </Descriptions.Item>
               </Descriptions>
-              <Button
-                type="primary"
-                onClick={this.toggleChooseHostModal}
-                className="mt-2"
-              >
-                Choose a host
-              </Button>
-            </React.Fragment>
-          )}
-          {usertype === "Host" && (
-            <Link
-              className="view-more"
-              to="#"
-              onClick={()=>this.toggleLocationModal(location)}
-            >
-              View More
-            </Link>
-          )}
-          {userInfo.location_role === "Admin" &&
-            location.status !== "approved" && (
-              <Alert
-                message="Your location is in pending status, we are reviewing your submission"
-                type="info"
-                closable
-                className="mt-4"
-              />
-            )}
-          {usertype !== "Host" && location && (
-            <Link
-              to="#"
-              className="chat-host"
-              onClick={() => this.onOpenChat(location.creator)}
-            >
-              Contact Host <MailOutlined />
-            </Link>
-          )}
-          </div>
+              {!location && (
+                <React.Fragment>
+                  <Descriptions column={2}>
+                    <Descriptions.Item label="Country">
+                      {userInfo.country}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="City">
+                      {userInfo.city}
+                    </Descriptions.Item>
+                  </Descriptions>
+                  <Button
+                    type="primary"
+                    onClick={this.toggleChooseHostModal}
+                    className="mt-2"
+                  >
+                    Choose a host
+                  </Button>
+                </React.Fragment>
+              )}
+              {usertype === "Host" && (
+                <Link
+                  className="view-more"
+                  to="#"
+                  onClick={() => this.toggleLocationModal(location)}
+                >
+                  View More
+                </Link>
+              )}
+              {userInfo.location_role === "Admin" &&
+                location?.status !== "approved" && (
+                  <Alert
+                    message="Your location is in pending status, we are reviewing your submission"
+                    type="info"
+                    closable
+                    className="mt-4"
+                  />
+                )}
+              {usertype !== "Host" && location && (
+                <Link
+                  to="#"
+                  className="chat-host"
+                  onClick={() => this.onOpenChat(location?.creator)}
+                >
+                  Contact Host <MailOutlined />
+                </Link>
+              )}
+            </div>
           ))}
           {usertype === "Host" && is_multi_city && (
-            
-          <Button type="primary" onClick={this.toggleCreateLocationModal}>
-            Add Location
-          </Button>
-        
+            <Button type="primary" onClick={this.toggleCreateLocationModal}>
+              Add Location
+            </Button>
           )}
         </Col>
       </Row>
