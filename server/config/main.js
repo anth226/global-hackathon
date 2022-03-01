@@ -2,7 +2,7 @@ module.exports = {
   // Secret key for JWT signing and encryption
   secret: "mysecret",
   // Database connection information
-  database: 'mongodb://localhost:27017/customerportal',
+  database: 'mongodb://localhost:27017/glh-platform',
   // database: 'mongodb+srv://admin:Admin55555@cluster0-rxvkj.azure.mongodb.net/glh-platform?retryWrites=true&w=majority',
   // Setting port for server
   port: 8080,
