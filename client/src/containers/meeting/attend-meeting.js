@@ -1,22 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { Container, Button } from "reactstrap";
 import { Header, Footer } from "../../components/template";
-import {
-  Avatar,
-  List,
-  Card,
-  Skeleton,
-  Result,
-  Input,
-  Modal,
-  message,
-  Row,
-  Col,
-} from "antd";
+import { Row } from "antd";
 import { getMeetingInfo } from "../../actions/meeting";
-import history from "../../history";
 import VideoComponent from "./video-component";
 
 class AttendMeeting extends Component {

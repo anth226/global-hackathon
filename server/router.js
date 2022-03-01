@@ -877,6 +877,7 @@ module.exports = function (app) {
   );
   roomsRoutes.get("/breakout/:roomSid", RoomsController.listActiveBreakouts);
   roomsRoutes.get("/", RoomsController.listActiveRooms);
+  roomsRoutes.get("/:sid", RoomsController.getRoomById);
   roomsRoutes.post("/token", RoomsController.getToken);
 
   // // List faq route
