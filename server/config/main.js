@@ -2,8 +2,8 @@ module.exports = {
   // Secret key for JWT signing and encryption
   secret: "mysecret",
   // Database connection information
-  database:
-    "mongodb+srv://sandberg-g:jLx6i4RujUt84k4@cluster0.mjmat.mongodb.net/global-hackathon?retryWrites=true&w=majority",
+  database: 'mongodb://localhost:27017/customerportal',
+  // database: 'mongodb+srv://admin:Admin55555@cluster0-rxvkj.azure.mongodb.net/glh-platform?retryWrites=true&w=majority',
   // Setting port for server
   port: 8080,
   // Configuring Mailgun API for sending transactional email
