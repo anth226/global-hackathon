@@ -30,7 +30,6 @@ export default function JoinRoom() {
 
   const joinRoom = async (roomSid, breakout = false) => {
     let identity = Date.now().toString(36);
-    alert(identity);
     try {
       // Fetch an access token from the server
       const response = await axios.post(
