@@ -75,24 +75,24 @@ const Room = ({ room, breakoutRoomList, parentSid, joinRoom, leaveRoom }) => {
   function copyLink() {
     const link = `${window.origin}/rooms/join/${room.sid}`;
     navigator.clipboard.writeText(link);
-    alert("Lin copied");
   }
 
   return (
     <div className="room">
       <div className="row">
-        <div className="col-sm-12 col-md-9 col-lg-8">
+        <div className="col-sm-12 col-md-9">
           <h3 className="px-2">{room.name} room</h3>
-          <div className="participants">
-            <Participant
-              key={room.localParticipant.identity}
-              participant={room.localParticipant}
-            />
-            {remoteParticipants.map((participant) => (
+          <div className="participants row">
+            <div className="col-6 p-0 participant">
               <Participant
-                key={participant.identity}
-                participant={participant}
+                key={room.localParticipant.identity}
+                participant={room.localParticipant}
               />
+            </div>
+            {remoteParticipants.map((participant) => (
+              <div className="col-3 p-0 participant" key={participant.identity}>
+                <Participant participant={participant} />
+              </div>
             ))}
           </div>
           <div className="d-flex justify-content-center pt-3">
@@ -118,7 +118,7 @@ const Room = ({ room, breakoutRoomList, parentSid, joinRoom, leaveRoom }) => {
             </button>
           </div>
         </div>
-        <div className="breakouts-list col-sm-12 col-md-3 col-lg-4">
+        <div className="breakouts-list col-sm-12 col-md-3">
           {breakouts.length > 0 && <h5 className="p-2">Breakout Rooms</h5>}
 
           {breakouts.map((room) => {
