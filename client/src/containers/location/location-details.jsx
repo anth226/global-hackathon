@@ -24,6 +24,13 @@ export default function LocationDetails() {
       .catch((err) => console.error(err));
   }, []);
 
+  const handleMessage = async () => {
+    axios
+      .post(`${process.env.REACT_APP_API_HOST}/location/${id}/message`)
+      .then((res) => alert("Messages sent successfully."))
+      .catch((err) => console.error(err));
+  };
+
   return (
     <React.Fragment>
       <div className="h-screen">
