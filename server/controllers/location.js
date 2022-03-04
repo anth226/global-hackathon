@@ -61,6 +61,17 @@ exports.listLocation = (req, res, next) => {
     });
 };
 
+exports.findLocationById = (req, res, next) => {
+  Location.findById(req.params.id)
+    .populate({ path: "creator", select: "email profile" })
+    .exec((err, fds) => {
+      if (err) {
+        return next(err);
+      }
+      res.status(200).json(fds);
+    });
+};
+
 exports.listPendingLocation = (req, res, next) => {
   Location.find({ status: "pending" })
     .populate({ path: "creator", select: "email profile" })
