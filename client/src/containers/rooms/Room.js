@@ -5,7 +5,14 @@ import Participant from "./Participant";
 
 import { io } from "socket.io-client";
 
-const Room = ({ room, breakoutRoomList, parentSid, joinRoom, leaveRoom }) => {
+const Room = ({
+  room,
+  breakoutRoomList,
+  parentSid,
+  joinRoom,
+  leaveRoom,
+  unMute,
+}) => {
   const [remoteParticipants, setRemoteParticipants] = useState(
     Array.from(room.participants.values())
   );
@@ -99,6 +106,12 @@ const Room = ({ room, breakoutRoomList, parentSid, joinRoom, leaveRoom }) => {
             <button className="btn btn-info mx-2" onClick={copyLink}>
               Copy link to room
             </button>
+            <button className="btn btn-primary mx-2" onClick={unMute}>
+              Un mute
+            </button>
+            <button className="btn btn-danger" onClick={() => leaveRoom(true)}>
+              Leave room
+            </button>
             <button
               className="btn btn-outline-primary mx-2"
               onClick={() => setisModalOpen(true)}
@@ -113,9 +126,6 @@ const Room = ({ room, breakoutRoomList, parentSid, joinRoom, leaveRoom }) => {
                 Return to Main Room
               </button>
             )}
-            <button className="btn btn-danger" onClick={() => leaveRoom(true)}>
-              Leave room
-            </button>
           </div>
         </div>
         <div className="breakouts-list col-sm-12 col-md-3">
