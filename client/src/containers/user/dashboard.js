@@ -208,11 +208,6 @@ class UserDashboard extends Component {
     if (!userInfo) {
       return this.renderSpin();
     }
-
-    console.log("====================================");
-    console.log(userInfo);
-    console.log("====================================");
-
     const is_multi_city = userInfo?.location?.multi_city === "Yes";
     const usertype =
       userInfo.location_role === "Admin" ? "Host" : "Participant";
