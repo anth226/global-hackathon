@@ -485,3 +485,70 @@ function getEncryptedMessages(messages, key) {
   }
   return nmessages;
 }
+
+exports.sendChatMessage = async (
+  sender,
+  recipient,
+  composedMessage,
+  public_key
+) => {
+  const conversation = new Conversation({
+    participants: [sender._id, recipient],
+  });
+
+  try {
+    const newConversation = await conversation.save();
+    let message = new Message({
+      conversationId: newConversation._id,
+      body: composedMessage,
+      body_author: "",
+      author: sender._id,
+    });
+
+    if (public_key) {
+      const receptor = await User.findById(recipient);
+      let pubRes = await axios.get(
+        `https://integraledger.azure-api.net/api/v1.5/keyforowner/${receptor.integra_id}`
+      );
+      const recPubkey = pubRes.data.data[0].Record.keyValue;
+      const myPubkey = public_key;
+      if (!recPubkey || !myPubkey) {
+        return false;
+      }
+
+      const body = crypto
+        .publicEncrypt(recPubkey, Buffer.from(composedMessage))
+        .toString("hex");
+      const body_author = crypto
+        .publicEncrypt(myPubkey, Buffer.from(composedMessage))
+        .toString("hex");
+      message = new Message({
+        conversationId: newConversation._id,
+        body,
+        body_author,
+        author: sender._id,
+      });
+    }
+
+    const newMessage = await message.save();
+    let sent = false;
+    const io = sockets.io;
+    for (let key in io.sockets.sockets) {
+      if (io.sockets.sockets.hasOwnProperty(key)) {
+        if (utils.compareIds(recipient, io.sockets.sockets[key].userId)) {
+          io.sockets.sockets[key].emit("CREATE_CONVERSATION", {
+            message: newMessage,
+            conversationId: conversation._id,
+          });
+          sent = true;
+        }
+      }
+    }
+    if (!sent) {
+      sendUnreadMessage(sender, recipient, composedMessage);
+    }
+    return true;
+  } catch (err) {
+    return false;
+  }
+};
