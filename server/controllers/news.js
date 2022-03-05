@@ -34,7 +34,7 @@ exports.listNews = (req, res, next) => {
   News.find()
     .populate("project")
     .populate("location")
-    .then((res) => res.status(200).send(res))
+    .then((news) => res.status(200).send(news))
     .catch((err) => res.status(500).send(err));
 };
 
@@ -42,7 +42,7 @@ exports.getNewsById = (req, res, next) => {
   News.findById(re.params.id)
     .populate("project")
     .populate("location")
-    .then((res) => res.status(200).send(res))
+    .then((news) => res.status(200).send(news))
     .catch((err) => res.status(500).send(err));
 };
 
@@ -50,16 +50,20 @@ exports.getProjectNews = (req, res, next) => {
   News.find({ project: req.params.projectId })
     .populate("project")
     .populate("location")
-    .then((res) => res.status(200).send(res))
+    .then((news) => res.status(200).send(news))
     .catch((err) => res.status(500).send(err));
 };
 
 exports.getNewsByLocation = (req, res, next) => {
+  console.log(req.params);
   News.find({ location: req.params.locationId })
     .populate("project")
     .populate("location")
-    .then((res) => res.status(200).send(res))
-    .catch((err) => res.status(500).send(err));
+    .then((news) => res.status(200).send(news))
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send(err);
+    });
 };
 
 exports.deleteNews = (req, res, next) => {
