@@ -81,7 +81,7 @@ exports.messageParticipants = async (req, res, next) => {
     userIds.forEach((userId) => {
       chat
         .sendChatMessage(req.user, userId, req.body.message, null)
-        .then((d) => console.log("SENT"))
+        .then((d) => console.log(d))
         .catch((err) => console.error(err));
     });
 
