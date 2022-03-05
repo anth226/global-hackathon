@@ -75,20 +75,20 @@ exports.findLocationById = (req, res, next) => {
 
 exports.messageParticipants = async (req, res, next) => {
   try {
-    const users = await User.find({ location_role: "Member" });
+    const users = await User.find();
     const userIds = users.map((user) => user._id);
-
+    // send message to all
     userIds.forEach((userId) => {
-      req.params.recipient = userId;
-      req.body.composedMessage = req.body.message;
       chat
-        .newConversation(req, res, next)
-        .then(console.log("SENT"))
+        .sendChatMessage(req.user, userId, req.body.message, null)
+        .then((d) => console.log("SENT"))
         .catch((err) => console.error(err));
     });
-    res.status(201).json({
+
+    return res.status(201).json({
       message: "Messages sent successfully.",
     });
+
   } catch (err) {
     return next(err);
   }
