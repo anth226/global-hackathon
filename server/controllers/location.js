@@ -1,6 +1,7 @@
 const Location = require("../models/location");
 const User = require("../models/user");
 const sendgrid = require("../config/sendgrid");
+const chat = require("./chat");
 
 exports.createLocation = async (req, res, next) => {
   try {
@@ -70,6 +71,27 @@ exports.findLocationById = (req, res, next) => {
       }
       res.status(200).json(fds);
     });
+};
+
+exports.messageParticipants = async (req, res, next) => {
+  try {
+    const users = await User.find({ location_role: "Member" });
+    const userIds = users.map((user) => user._id);
+
+    userIds.forEach((userId) => {
+      req.params.recipient = userId;
+      req.body.composedMessage = req.body.message;
+      chat
+        .newConversation(req, res, next)
+        .then(console.log("SENT"))
+        .catch((err) => console.error(err));
+    });
+    res.status(201).json({
+      message: "Messages sent successfully.",
+    });
+  } catch (err) {
+    return next(err);
+  }
 };
 
 exports.listPendingLocation = (req, res, next) => {
