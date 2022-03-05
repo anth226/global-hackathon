@@ -89,6 +89,19 @@ export default function RoomPage() {
     }
   };
 
+  const unMute = async () => {
+    if (room) {
+      // Detach and remove all the tracks
+      room.localParticipant.tracks.forEach((publication) => {
+        if (publication.track.kind === "audio") {
+          publication.track.stop();
+          const attachedElements = publication.track.detach();
+          attachedElements.forEach((element) => element.remove());
+        }
+      });
+    }
+  };
+
   return (
     <React.Fragment>
       <Header />
@@ -102,6 +115,7 @@ export default function RoomPage() {
                 parentSid={parentSid}
                 leaveRoom={leaveRoom}
                 joinRoom={changeRoom}
+                unMute={unMute}
               />
             ) : (
               <div className="bg-black h-100 d-flex justify-content-center align-items-center">
