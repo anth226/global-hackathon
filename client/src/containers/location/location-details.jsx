@@ -6,8 +6,9 @@ import { useParams } from "react-router-dom";
 import { Descriptions, Input, Modal, Skeleton } from "antd";
 import axiosClient from "../../actions/api";
 import { message as notification } from "antd";
+import { connect } from "react-redux";
 
-export default function LocationDetails() {
+function LocationDetails({ user }) {
   const { id } = useParams();
   const [location, setLocation] = useState(undefined);
   const [news, setNews] = useState([]);
@@ -82,7 +83,9 @@ export default function LocationDetails() {
               <Skeleton />
             ) : (
               <div>
-                <h2 className="pb-3">Location details</h2>
+                <h2 className="text-primary font-weight-bold pb-3">
+                  Location details
+                </h2>
                 <Descriptions column={2}>
                   <Descriptions.Item label="Venue">
                     {location?.venue || "N/A"}
@@ -108,42 +111,51 @@ export default function LocationDetails() {
                 </Descriptions>
               </div>
             )}
-            <div className="py-2">
-              <button
-                className="btn btn-primary"
-                onClick={() => setIsMessageModalOpen(true)}
-              >
-                Mesage participants
-              </button>
-            </div>
-
-            <div className="d-flex justify-content-between py-4">
-              <h2>Latest news</h2>
-              <div>
+            {user?.profile?.location_role === "Admin" && (
+              <div className="py-2">
                 <button
-                  className="btn btn-primary"
-                  onClick={(e) => setIsWriteModalOpen(true)}
+                  className="btn btn-outline-primary"
+                  onClick={() => setIsMessageModalOpen(true)}
                 >
-                  New article
+                  Mesage participants
                 </button>
               </div>
+            )}
+
+            <div className="d-flex justify-content-between py-5">
+              <h2 className="text-primary font-weight-bold">Latest news</h2>
+              {user?.profile?.location_role === "Admin" && (
+                <div>
+                  <button
+                    className="btn btn-primary"
+                    onClick={(e) => setIsWriteModalOpen(true)}
+                  >
+                    New article
+                  </button>
+                </div>
+              )}
             </div>
-            <div className="row">
-              {newsLoading
-                ? [1, 2, 3].map((i) => <Skeleton key={i} className="col-4" />)
-                : news.map((n) => (
-                    <div className="p-3 col-4" key={n._id}>
-                      <h4 className="pb-2">{n.title}</h4>
+            {newsLoading
+              ? [1, 2, 3].map((i) => <Skeleton key={i} className="col-4" />)
+              : news.map((n) => (
+                  <div className="row py-3 ">
+                    <div className="col-12 col-md-10 col-lg-8" key={n._id}>
+                      <h4 className="pb-2 text-lg font-weight-bold">
+                        {n.title}
+                      </h4>
                       <p className="text-sm">{n.content}</p>
                     </div>
-                  ))}
-            </div>
+                    <p className="text-sm text-right col-md-2 col-lg-4">
+                      {new Date(n.createdAt).toDateString()}
+                    </p>
+                  </div>
+                ))}
           </div>
           <Modal
             onOk={handleMessage}
             okText={"Save article"}
             cancelText="Discard"
-            title="Write an article"
+            title="Write a message to participants"
             visible={isMessageModalOpen}
             closable
             on
@@ -191,3 +203,11 @@ export default function LocationDetails() {
     </React.Fragment>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.user.profile,
+  };
+};
+
+export default connect(mapStateToProps, {})(LocationDetails);
