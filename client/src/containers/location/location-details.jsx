@@ -29,7 +29,9 @@ export default function LocationDetails() {
 
   const handleMessage = async () => {
     client
-      .post(`${process.env.REACT_APP_API_HOST}/location/${id}/message`)
+      .post(`${process.env.REACT_APP_API_HOST}/location/${id}/message`, {
+        message,
+      })
       .then((res) => {
         alert("Messages sent successfully.");
         setIsMessageModalOpen(false);
