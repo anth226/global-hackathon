@@ -62,7 +62,7 @@ const LocationSchema = new Schema(
     },
     status: {
       type: String,
-      default: "approved",
+      default: "pending",
     },
     creator: {
       type: Schema.Types.ObjectId,
