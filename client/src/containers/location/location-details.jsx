@@ -5,6 +5,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Descriptions, Input, Modal, Skeleton } from "antd";
 import axiosClient from "../../actions/api";
+import { message as notification } from "antd";
 
 export default function LocationDetails() {
   const { id } = useParams();
@@ -33,7 +34,7 @@ export default function LocationDetails() {
         message,
       })
       .then((res) => {
-        alert("Messages sent successfully.");
+        notification.success("Messages sent successfully");
         setIsMessageModalOpen(false);
       })
       .catch((err) => console.error(err));
