@@ -117,8 +117,8 @@ export default function LocationDetails() {
               </button>
             </div>
 
-            <div className="d-flex justify-content-between py-5">
-              <h2>Lates news</h2>
+            <div className="d-flex justify-content-between py-4">
+              <h2>Latest news</h2>
               <div>
                 <button
                   className="btn btn-primary"
@@ -133,7 +133,7 @@ export default function LocationDetails() {
                 ? [1, 2, 3].map((i) => <Skeleton key={i} className="col-4" />)
                 : news.map((n) => (
                     <div className="p-3 col-4" key={n._id}>
-                      <h4 className="pb-1">{n.title}</h4>
+                      <h4 className="pb-2">{n.title}</h4>
                       <p className="text-sm">{n.content}</p>
                     </div>
                   ))}
