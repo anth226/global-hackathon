@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Container } from "reactstrap";
 import { useParams } from "react-router-dom";
+import { message } from "antd";
 
 export default function CreateRoom() {
   const [isLoading, setIsLoading] = useState(false);
@@ -20,9 +21,10 @@ export default function CreateRoom() {
       })
       .then((data) => {
         setroomName("");
+        message.success("Room created successfully");
       })
       .catch((err) => {
-        window.alert("Error occurred creating a room");
+        message.error("Error occurred creating a room");
       })
       .finally(() => setIsLoading(false));
   };

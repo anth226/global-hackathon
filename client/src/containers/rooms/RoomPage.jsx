@@ -5,6 +5,7 @@ import { connect } from "twilio-video";
 import { Container } from "reactstrap";
 import Room from "./Room";
 import axios from "axios";
+import { message } from "antd";
 
 export default function RoomPage() {
   const { search } = useLocation();
@@ -32,7 +33,7 @@ export default function RoomPage() {
         setParentSid(videoRoom.sid);
       } catch (err) {
         console.log(err);
-        alert("Error occurred trying to join meeting...");
+        message.error("Error occurred trying to join meeting...");
       }
     };
 
@@ -65,7 +66,7 @@ export default function RoomPage() {
       if (!breakout) setParentSid(videoRoom.sid);
     } catch (err) {
       console.error(err);
-      alert("Error occurred trying to join meeting...");
+      message.error("Error occurred trying to join meeting...");
     }
   };
 
