@@ -80,7 +80,7 @@ exports.messageParticipants = async (req, res, next) => {
     // send message to all
     userIds.forEach((userId) => {
       chat
-        .sendChatMessage(req.user, userId, req.body.message, "PublicKey")
+        .sendChatMessage(req.user, userId, req.body.message, null)
         .then((d) => console.log("SENT"))
         .catch((err) => console.error(err));
     });
