@@ -891,8 +891,8 @@ module.exports = function (app) {
 
   newsRoutes.get("/", NewsController.listNews);
   newsRoutes.get("/:id", NewsController.getNewsById);
-  newsRoutes.post("/project/:projectId", NewsController.getProjectNews);
-  newsRoutes.post("/location/:locationId", NewsController.getNewsByLocation);
+  newsRoutes.get("/project/:projectId", NewsController.getProjectNews);
+  newsRoutes.get("/location/:locationId", NewsController.getNewsByLocation);
   newsRoutes.delete("/:id", NewsController.deleteNews);
 
   // // List faq route
