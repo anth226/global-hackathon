@@ -4,6 +4,7 @@ import { Footer, Header } from "../../components/template";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Descriptions, Input, Modal, Skeleton } from "antd";
+import axiosClient from "../../actions/api";
 
 export default function LocationDetails() {
   const { id } = useParams();
@@ -14,8 +15,10 @@ export default function LocationDetails() {
     `Hello, \nThank you for your interest in attending this year's hackathon.`
   );
 
+  const client = axiosClient(true);
+
   useEffect(() => {
-    axios
+    client
       .get(`${process.env.REACT_APP_API_HOST}/location/${id}`)
       .then((res) => {
         setLocation(res.data);
@@ -25,7 +28,7 @@ export default function LocationDetails() {
   }, []);
 
   const handleMessage = async () => {
-    axios
+    client
       .post(`${process.env.REACT_APP_API_HOST}/location/${id}/message`)
       .then((res) => {
         alert("Messages sent successfully.");

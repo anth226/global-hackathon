@@ -822,7 +822,11 @@ module.exports = function (app) {
   // create other location route
   locationRoutes.post("/other", LocationController.createOtherLocation);
   //message participants
-  locationRoutes.post("/:id/message", LocationController.messageParticipants);
+  locationRoutes.post(
+    "/:id/message",
+    requireAuth,
+    LocationController.messageParticipants
+  );
   // get location list route
   locationRoutes.get("/", LocationController.listLocation);
   // get pending location list route
