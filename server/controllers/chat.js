@@ -513,7 +513,6 @@ exports.sendChatMessage = async (
       const recPubkey = pubRes.data.data[0].Record.keyValue;
       const myPubkey = public_key;
       if (!recPubkey || !myPubkey) {
-        console.error("No keys found");
         return false;
       }
 
@@ -550,7 +549,6 @@ exports.sendChatMessage = async (
     }
     return true;
   } catch (err) {
-    console.error(err);
     return false;
   }
 };
