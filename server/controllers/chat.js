@@ -492,10 +492,16 @@ exports.sendChatMessage = async (
   composedMessage,
   public_key
 ) => {
-  const conversation = new Conversation({
+
+  let conversation = await Conversation.findOne({
     participants: [sender._id, recipient],
   });
-
+  if (!conversation) {
+    conversation = new Conversation({
+      participants: [sender._id, recipient],
+    });
+  }
+  
   try {
     const newConversation = await conversation.save();
     let message = new Message({
