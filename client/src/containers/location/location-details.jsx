@@ -135,21 +135,27 @@ function LocationDetails({ user }) {
                 </div>
               )}
             </div>
-            {newsLoading
-              ? [1, 2, 3].map((i) => <Skeleton key={i} className="col-4" />)
-              : news.map((n) => (
-                  <div className="row py-3 ">
-                    <div className="col-12 col-md-10 col-lg-8" key={n._id}>
-                      <h4 className="pb-2 text-lg font-weight-bold">
-                        {n.title}
-                      </h4>
-                      <p className="text-sm">{n.content}</p>
-                    </div>
-                    <p className="text-sm text-right col-md-2 col-lg-4">
-                      {new Date(n.createdAt).toDateString()}
-                    </p>
+            {newsLoading ? (
+              [1, 2].map((i) => <Skeleton key={i} className="col-4" />)
+            ) : news.length === 0 ? (
+              <div className="pb-4 text-lg text-gray">
+                No news published so far.
+              </div>
+            ) : (
+              news.map((n) => (
+                <div className="row py-3 ">
+                  <div className="col-12 col-md-10 col-lg-8" key={n._id}>
+                    <h4 className="pb-2 text-lg font-weight-bold">{n.title}</h4>
+                    <p className="text-sm">{n.content}</p>
                   </div>
-                ))}
+                  <p className="text-sm text-right col-md-2 col-lg-4">
+                    {`${new Date(n.createdAt).toDateString()} ${new Date(
+                      n.createdAt
+                    ).toLocaleTimeString()}`}
+                  </p>
+                </div>
+              ))
+            )}
           </div>
           <Modal
             onOk={handleMessage}
