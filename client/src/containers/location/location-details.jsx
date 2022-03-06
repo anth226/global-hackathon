@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container } from "reactstrap";
-import { Footer, Header } from "../../components/template";
+import { BigUpload, Footer, Header } from "../../components/template";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Descriptions, Input, Modal, Skeleton } from "antd";
@@ -15,9 +15,7 @@ function LocationDetails({ user }) {
 
   const [isLoading, setisLoading] = useState(true);
   const [newsLoading, setNewsLoading] = useState(true);
-
-  const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
-  const [isWriteModalOpen, setIsWriteModalOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(null);
 
   const [message, setMessage] = useState(
     `Hello, \nThank you for your interest in attending this year's hackathon.`
@@ -27,6 +25,12 @@ function LocationDetails({ user }) {
     title: "",
     content: "",
     locationId: id,
+  });
+
+  const [sponsor, setSponsor] = useState({
+    name: "",
+    link: "",
+    imageUrl: null,
   });
 
   const client = axiosClient(true);
@@ -49,27 +53,44 @@ function LocationDetails({ user }) {
       .catch((err) => console.error(err));
   }, []);
 
-  const handleMessage = async () => {
+  const handleMessage = async (e) => {
+    e.preventDefault();
+
     client
       .post(`${process.env.REACT_APP_API_HOST}/location/${id}/message`, {
         message,
       })
       .then((res) => {
         notification.success("Messages sent successfully");
-        setIsMessageModalOpen(false);
+        setOpenModal("");
       })
       .catch((err) => console.error(err));
   };
 
-  const handlePublishArticle = async () => {
+  const handlePublishArticle = async (e) => {
+    e.preventDefault();
+
     client
       .post(`${process.env.REACT_APP_API_HOST}/news`, article)
       .then((res) => {
         setNews([res.data.news, ...news]);
         notification.success("Messages sent successfully");
-        setIsWriteModalOpen(false);
+        setOpenModal("");
       })
       .catch((err) => console.error(err));
+  };
+
+  const handleNewSponsor = async (e) => {
+    e.preventDefault();
+
+    client
+      .post(`${process.env.REACT_APP_API_HOST}/sponsors`, sponsor)
+      .then((res) => {
+        setNews([res.data.news, ...news]);
+        notification.success("Sponsor saved successfully");
+        setOpenModal("");
+      })
+      .catch((err) => notification.error("Failed registering a sponsor"));
   };
 
   return (
@@ -115,7 +136,7 @@ function LocationDetails({ user }) {
               <div className="py-2">
                 <button
                   className="btn btn-outline-primary"
-                  onClick={() => setIsMessageModalOpen(true)}
+                  onClick={() => setOpenModal("message")}
                 >
                   Mesage participants
                 </button>
@@ -128,7 +149,7 @@ function LocationDetails({ user }) {
                 <div>
                   <button
                     className="btn btn-primary"
-                    onClick={(e) => setIsWriteModalOpen(true)}
+                    onClick={(e) => setOpenModal("article")}
                   >
                     New article
                   </button>
@@ -143,8 +164,8 @@ function LocationDetails({ user }) {
               </div>
             ) : (
               news.map((n) => (
-                <div className="row py-3 ">
-                  <div className="col-12 col-md-10 col-lg-8" key={n._id}>
+                <div className="row py-3" key={n._id}>
+                  <div className="col-12 col-md-10 col-lg-8">
                     <h4 className="pb-2 text-lg font-weight-bold">{n.title}</h4>
                     <p className="text-sm">{n.content}</p>
                   </div>
@@ -157,15 +178,28 @@ function LocationDetails({ user }) {
               ))
             )}
           </div>
+          <div className="d-flex justify-content-between pb-5">
+            <h2 className="text-primary font-weight-bold">Sponsors</h2>
+            {user?.profile?.location_role === "Admin" && (
+              <div>
+                <button
+                  className="btn btn-primary"
+                  onClick={(e) => setOpenModal("sponsor")}
+                >
+                  New sponsor
+                </button>
+              </div>
+            )}
+          </div>
           <Modal
             onOk={handleMessage}
             okText={"Save article"}
             cancelText="Discard"
             title="Write a message to participants"
-            visible={isMessageModalOpen}
+            visible={openModal === "message"}
             closable
             on
-            onCancel={() => setIsMessageModalOpen(false)}
+            onCancel={() => setOpenModal("")}
           >
             <Input.TextArea
               onChange={(e) => setMessage(e.target.value)}
@@ -179,10 +213,10 @@ function LocationDetails({ user }) {
             okText={"Publish article"}
             cancelText="Discard"
             title="Compose a new article"
-            visible={isWriteModalOpen}
+            visible={openModal === "article"}
             closable
             on
-            onCancel={() => setIsWriteModalOpen(false)}
+            onCancel={() => setOpenModal("")}
           >
             <Input
               onChange={(e) =>
@@ -202,6 +236,38 @@ function LocationDetails({ user }) {
                 placeholder="Content"
               />
             </div>
+          </Modal>
+          <Modal
+            onOk={handleNewSponsor}
+            okText={"Save sponsor"}
+            cancelText="Discard"
+            title="New sponsor"
+            visible={openModal === "sponsor"}
+            closable
+            on
+            onCancel={() => setOpenModal("")}
+          >
+            <Input
+              onChange={(e) => setSponsor({ ...sponsor, name: e.target.value })}
+              size="large"
+              placeholder="Name"
+            />
+            <div className="py-3">
+              <Input
+                onChange={(e) =>
+                  setSponsor({ ...sponsor, link: e.target.value })
+                }
+                size="large"
+                placeholder="Website or link"
+              />
+            </div>
+            <BigUpload
+              setAvatar={(url) =>
+                setSponsor((prev) => ({ ...prev, imageUrl: url }))
+              }
+              imageUrl={sponsor.imageUrl}
+              subject="sponsor"
+            />
           </Modal>
         </Container>
       </div>
