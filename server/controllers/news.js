@@ -59,6 +59,7 @@ exports.getNewsByLocation = (req, res, next) => {
   News.find({ location: req.params.locationId })
     .populate("project")
     .populate("location")
+    .sort({ createdAt: -1 })
     .then((news) => res.status(200).send(news))
     .catch((err) => {
       console.error(err);
