@@ -24,7 +24,8 @@ const SponsorSchema = new Schema(
     },
     imageUrl: {
       type: String,
-      required: true,
+      default: "http://pharmaqaandqc.com/images/sponsor.png",
+      // required: true,
     },
   },
   {

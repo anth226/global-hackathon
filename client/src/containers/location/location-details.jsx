@@ -12,6 +12,7 @@ function LocationDetails({ user }) {
   const { id } = useParams();
   const [location, setLocation] = useState(undefined);
   const [news, setNews] = useState([]);
+  const [sponsors, setSponsors] = useState([]);
 
   const [isLoading, setisLoading] = useState(true);
   const [newsLoading, setNewsLoading] = useState(true);
@@ -30,7 +31,8 @@ function LocationDetails({ user }) {
   const [sponsor, setSponsor] = useState({
     name: "",
     link: "",
-    imageUrl: null,
+    imageUrl: "",
+    locationId: id,
   });
 
   const client = axiosClient(true);
@@ -50,6 +52,11 @@ function LocationDetails({ user }) {
         setNews(res.data);
         setNewsLoading(false);
       })
+      .catch((err) => console.error(err));
+
+    client
+      .get(`${process.env.REACT_APP_API_HOST}/sponsors/location/${id}`)
+      .then((res) => setSponsors(res.data))
       .catch((err) => console.error(err));
   }, []);
 
@@ -86,11 +93,14 @@ function LocationDetails({ user }) {
     client
       .post(`${process.env.REACT_APP_API_HOST}/sponsors`, sponsor)
       .then((res) => {
-        setNews([res.data.news, ...news]);
+        setSponsors([res.data, ...sponsors]);
         notification.success("Sponsor saved successfully");
         setOpenModal("");
       })
-      .catch((err) => notification.error("Failed registering a sponsor"));
+      .catch((err) => {
+        console.error(err);
+        notification.error("Failed registering a sponsor");
+      });
   };
 
   return (
@@ -178,19 +188,35 @@ function LocationDetails({ user }) {
               ))
             )}
           </div>
-          <div className="d-flex justify-content-between pb-5">
-            <h2 className="text-primary font-weight-bold">Sponsors</h2>
-            {user?.profile?.location_role === "Admin" && (
-              <div>
-                <button
-                  className="btn btn-primary"
-                  onClick={(e) => setOpenModal("sponsor")}
-                >
-                  New sponsor
-                </button>
-              </div>
-            )}
-          </div>
+          <section className="pb-5">
+            <div className="d-flex justify-content-between pb-5">
+              <h2 className="text-primary font-weight-bold">Sponsors</h2>
+              {user?.profile?.location_role === "Admin" && (
+                <div>
+                  <button
+                    className="btn btn-primary"
+                    onClick={(e) => setOpenModal("sponsor")}
+                  >
+                    New sponsor
+                  </button>
+                </div>
+              )}
+            </div>
+            <div className="d-flex">
+              {sponsors.map((sp) => (
+                <div key={sp._id} className="p-2">
+                  <a
+                    className="d-block rounded border p-3"
+                    href={sp.link}
+                    target="_blank"
+                  >
+                    <img className="d-block w-100" src={sp.imageUrl} />
+                    {sp.name}
+                  </a>
+                </div>
+              ))}
+            </div>
+          </section>
           <Modal
             onOk={handleMessage}
             okText={"Save article"}
