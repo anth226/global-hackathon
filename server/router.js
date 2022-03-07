@@ -26,6 +26,7 @@ const GLHContactController = require("./controllers/glhcontact");
 const RuleController = require("./controllers/rule");
 const RoomsController = require("./controllers/rooms");
 const NewsController = require("./controllers/news");
+const SponsorController = require("./controllers/sponsor");
 
 const express = require("express");
 const passport = require("passport");
@@ -76,7 +77,8 @@ module.exports = function (app) {
     fieldDataRoutes = express.Router(),
     meetingRoutes = express.Router(),
     roomsRoutes = express.Router(),
-    newsRoutes = express.Router();
+    newsRoutes = express.Router(),
+    sponsorRoutes = express.Router();
 
   // ProjectMemberController.cleanProjectMember()
   // AdminController.convertS3URL()
@@ -894,6 +896,21 @@ module.exports = function (app) {
   newsRoutes.get("/project/:projectId", NewsController.getProjectNews);
   newsRoutes.get("/location/:locationId", NewsController.getNewsByLocation);
   newsRoutes.delete("/:id", NewsController.deleteNews);
+
+  //= ========================
+  // sponsors Routes
+  //= ========================
+  apiRoutes.use("/sponsors", requireAuth, sponsorRoutes);
+  sponsorRoutes.post("/", SponsorController.createSponsor);
+  sponsorRoutes.put("/", SponsorController.updateSponsor);
+
+  sponsorRoutes.get("/", SponsorController.listSponsors);
+  sponsorRoutes.get("/:id", SponsorController.getSponsorById);
+  sponsorRoutes.get(
+    "/location/:locationId",
+    SponsorController.getSponsorsByLocation
+  );
+  sponsorRoutes.delete("/:id", SponsorController.deleteSponsor);
 
   // // List faq route
   // faqRoutes.get("/", requireAuth, FaqController.listFaq);
