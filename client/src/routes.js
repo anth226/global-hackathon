@@ -75,8 +75,6 @@ import Unsubscribe from "./containers/glhcontact/unsubscribe";
 import RequireAuth from "./containers/auth/require_auth";
 import { protectedTest } from "./actions/auth";
 import { listFieldData } from "./actions/profile";
-import createMeeting from "./containers/meeting/create-meeting";
-import attendMeeting from "./containers/meeting/attend-meeting";
 import RoomsDisplay from "./containers/rooms/rooms-index";
 import RoomPage from "./containers/rooms/RoomPage";
 import JoinRoom from "./containers/rooms/join-room";
