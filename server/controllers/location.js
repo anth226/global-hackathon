@@ -1,6 +1,7 @@
 const Location = require("../models/location");
 const User = require("../models/user");
 const sendgrid = require("../config/sendgrid");
+const Sponsor = require("../models/sponsor");
 
 exports.createLocation = async (req, res, next) => {
   try {
@@ -50,6 +51,7 @@ exports.updateLocation = async (req, res, next) => {
 exports.listLocation = (req, res, next) => {
   Location.find({ status: "approved" })
     .populate({ path: "creator", select: "email profile" })
+    .populate({ path: "sponsors", select: "name" })
     .sort({ venue: 1 })
     .exec((err, fds) => {
       if (err) {
@@ -133,6 +135,57 @@ exports.hostVerifyUser = async (req, res, next) => {
       "profile.host_verified": true,
     });
     res.status(201).json({ message: "success" });
+  } catch (err) {
+    return next(err);
+  }
+};
+
+exports.addSponsorToLocation = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { sponsorId } = req.body;
+    let location = await Location.findById(id);
+    if (!location) return res.status(404).json({ error: "Location not found" });
+    const sponsor = await Sponsor.findById(sponsorId);
+    if (!sponsor) return res.status(404).send({ error: "No sponsor found" });
+    const duplicateSponsor = await Location.findOne({
+      $and: [{ sponsors: sponsorId }, { _id: id }],
+    });
+    if (duplicateSponsor)
+      return res
+        .status(409)
+        .json({ error: "Sponsor already exist for this location" });
+    const addedSponsor = await Location.findOneAndUpdate(
+      { _id: id },
+      { $push: { sponsors: sponsorId } },
+      { safe: true, upsert: true, new: true }
+    );
+    return res.status(200).json({
+      message: "Sponsor added to location successfully",
+      data: addedSponsor,
+    });
+  } catch (err) {
+    return next(err);
+  }
+};
+
+exports.removeSponsorFromLocation = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { sponsorId } = req.body;
+    let location = await Location.findById(id);
+    if (!location) return res.status(404).json({ error: "Location not found" });
+    const sponsor = await Sponsor.findById(sponsorId);
+    if (!sponsor) return res.status(404).send({ error: "No sponsor found" });
+    const removeSponsor = await Location.findOneAndUpdate(
+      { _id: id },
+      { $pull: { sponsors: sponsorId } },
+      { safe: true, upsert: true, new: true }
+    );
+    return res.status(200).json({
+      message: "Sponsor removed from location successfully",
+      data: removeSponsor,
+    });
   } catch (err) {
     return next(err);
   }

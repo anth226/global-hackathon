@@ -2,9 +2,12 @@ import { message } from "antd";
 import Client from "./api";
 import { API_URL, createNotification, errorMessage } from "./index";
 import {
-  FETCH_HOSTED_USERS, FETCH_LOCATION_LIST,
+  FETCH_HOSTED_USERS,
+  FETCH_LOCATION_LIST,
   FETCH_PENDING_LOCATIONS,
-  SET_INVITE_LOCATION
+  SET_INVITE_LOCATION,
+  ADD_SPONSOR_TO_LOCATION,
+  REMOVE_SPONSOR_FROM_LOCATION,
 } from "./types";
 
 export function listLocation() {
@@ -71,7 +74,7 @@ export function createOtherLocation(location, email) {
 
 export function updateLocation(values) {
   const client = Client(true);
-  return async (dispatch,getState) => {
+  return async (dispatch, getState) => {
     try {
       await client.put(`${API_URL}/location`, values);
       message.success("Location has been updated successfully!");
@@ -162,6 +165,45 @@ export function sendAllNotification(data) {
       message.success(res.data.message);
     } catch (err) {
       createNotification("Broadcast Notification", errorMessage(err));
+    }
+  };
+}
+
+export function addSponsorToLocation(locationId, sponsorId) {
+  return async (dispatch) => {
+    try {
+      const client = Client(true);
+
+      let res = await client.put(
+        `${API_URL}/location/${locationId}/add-sponsor`,
+        { sponsorId }
+      );
+      dispatch({
+        type: ADD_SPONSOR_TO_LOCATION,
+        sponsor: res.data,
+      });
+      message.success("Sponsor added to location successfully");
+    } catch (err) {
+      createNotification("Add Sponsor To Location", errorMessage(err));
+    }
+  };
+}
+export function removeSponsorFromLocation(locationId, sponsorId) {
+  return async (dispatch) => {
+    try {
+      const client = Client(true);
+
+      let res = await client.put(
+        `${API_URL}/location/${locationId}/remove-sponsor`,
+        { sponsorId }
+      );
+      dispatch({
+        type: REMOVE_SPONSOR_FROM_LOCATION,
+        sponsor: res.data,
+      });
+      message.success("Sponsor removed from location successfully");
+    } catch (err) {
+      createNotification("Remove Sponsor From Location", errorMessage(err));
     }
   };
 }

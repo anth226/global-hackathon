@@ -17,6 +17,7 @@ import labelReducer from "./label";
 import resourceReducer from "./resource";
 import faqReducer from "./faq";
 import locationReducer from "./location";
+import sponsorReducer from "./sponsor";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -37,6 +38,7 @@ const rootReducer = combineReducers({
   resource: resourceReducer,
   faq: faqReducer,
   loc: locationReducer,
+  sponsor: sponsorReducer,
 });
 
 export default rootReducer;

@@ -162,4 +162,21 @@ export const FETCH_LOCATION_LIST = "fetch_location_list",
 //= =====================
 // Meeting Actions
 //= =====================
-export const FETCH_MEETING_INFO = "fetch_meeting_info"
+export const FETCH_MEETING_INFO = "fetch_meeting_info";
+
+//= =====================
+// Sponsors Actions
+//= =====================
+export const FETCH_SPONSORS_LIST = "fetch_sponsors_list";
+export const FETCH_SPONSORS_LIST_FAILED = "fetch_sponsors_list_failed";
+export const CLEAR_FETCH_SPONSORS_LIST = "clear_fetch_sponsors_list";
+export const UPDATE_SPONSORS = "update_sponsors";
+export const UPDATE_SPONSORS_FAILED = "update_sponsors_failed";
+export const CLEAR_UPDATE_SPONSORS = "clear_update_sponsors";
+export const FETCH_SPONSOR = "fetch_sponsor";
+export const FETCH_SPONSOR_FAILED = "fetch_sponsor_failed";
+export const CLEAR_FETCH_SPONSOR = "clear_fetch_sponsor";
+export const ADD_SPONSOR = "add_sponsor";
+export const ADD_SPONSOR_FAILED = "add_sponsor_failed";
+export const ADD_SPONSOR_TO_LOCATION = "add_sponsor_to_location";
+export const REMOVE_SPONSOR_FROM_LOCATION = "remove_sponsor_from_location";

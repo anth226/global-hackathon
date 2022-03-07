@@ -72,6 +72,12 @@ const LocationSchema = new Schema(
     content: {
       type: String,
     },
+    sponsors: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Sponsor",
+      },
+    ],
   },
   {
     timestamps: true,

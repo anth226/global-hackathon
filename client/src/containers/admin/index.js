@@ -7,6 +7,7 @@ import {
   UserOutlined,
   SettingOutlined,
   GlobalOutlined,
+  WalletOutlined,
 } from "@ant-design/icons";
 import { Header } from "../../components/template";
 import history from "../../history";
@@ -29,6 +30,8 @@ import JudgePage from "./setting/judge";
 import OverallGallery from "./gallery/overall";
 import LocationAll from "./location/all";
 import ResetPwdPage from "./setting/reset_password";
+import MenuItem from "antd/lib/menu/MenuItem";
+import SponsorsPage from "./sponsor/all";
 
 const { Content, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -184,6 +187,22 @@ class AdminDashboard extends Component {
                   Overall results
                 </Menu.Item>
               </SubMenu>
+              <SubMenu
+                key="sponsor"
+                title={
+                  <span>
+                    <WalletOutlined />
+                    <span>Sponsors</span>
+                  </span>
+                }
+              >
+                <MenuItem
+                  key="sponsor-all"
+                  onClick={() => this.switchPage("Sponsors", "All")}
+                >
+                  All
+                </MenuItem>
+              </SubMenu>
               {this.props.isSuper && (
                 <SubMenu
                   key="sub6"
@@ -302,6 +321,8 @@ class AdminDashboard extends Component {
         return <JudgePage />;
       case "Setting Reset_Password":
         return <ResetPwdPage />;
+      case "Sponsors All":
+        return <SponsorsPage />;
       default:
         return null;
     }

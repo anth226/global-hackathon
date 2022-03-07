@@ -26,12 +26,14 @@ const GLHContactController = require("./controllers/glhcontact");
 const RuleController = require("./controllers/rule");
 const MeetingController = require("./controllers/meeting");
 const RoomsController = require("./controllers/rooms");
+const SponsorController = require("./controllers/sponsor");
 
 const express = require("express");
 const passport = require("passport");
 const ROLE_ADMIN = require("./constants").ROLE_ADMIN;
 const multer = require("multer");
 
+const { isAdmin } = require("./middlewares/authorization");
 const passportService = require("./config/passport");
 // Middleware to require login/auth
 const requireAuth = passport.authenticate("jwt", { session: false });
@@ -76,6 +78,7 @@ module.exports = function (app) {
     fieldDataRoutes = express.Router(),
     meetingRoutes = express.Router(),
     roomsRoutes = express.Router();
+  sponsorRoutes = express.Router();
 
   // ProjectMemberController.cleanProjectMember()
   // AdminController.convertS3URL()
@@ -839,6 +842,18 @@ module.exports = function (app) {
   locationRoutes.put("/admin", requireAuth, LocationController.resolveLocation);
   // verify user location route
   locationRoutes.post("/verify/:user_id", LocationController.hostVerifyUser);
+  // Add sponsor to location route
+  locationRoutes.put(
+    "/:id/add-sponsor",
+    isAdmin,
+    LocationController.addSponsorToLocation
+  );
+  // Remove sponsor from location route
+  locationRoutes.put(
+    "/:id/remove-sponsor",
+    isAdmin,
+    LocationController.removeSponsorFromLocation
+  );
 
   //= ========================
   // GLHContact Routes
@@ -888,6 +903,12 @@ module.exports = function (app) {
   // faqRoutes.put("/bulk/list", requireAuth, FaqController.bulkUpdateFaq);
   // // delete faq route
   // faqRoutes.delete("/:id", requireAuth, FaqController.deleteFaq);
+
+  apiRoutes.use("/sponsors", sponsorRoutes);
+  sponsorRoutes.post("/new", isAdmin, SponsorController.createSponsor);
+  sponsorRoutes.get("/all", isAdmin, SponsorController.getAllSponsors);
+  sponsorRoutes.get("/:id", isAdmin, SponsorController.getSingleSponsor);
+  sponsorRoutes.put("/update/:id", isAdmin, SponsorController.updateSponsor);
 
   // Set url for API group routes
   app.use("/api", apiRoutes);

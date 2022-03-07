@@ -5,6 +5,8 @@ const mongoose = require("mongoose"),
   config = require("./config/main");
 
 // Database Setup
+mongoose.set("useFindAndModify", false);
+
 mongoose.connect(config.database, {
   useCreateIndex: true,
   useNewUrlParser: true,

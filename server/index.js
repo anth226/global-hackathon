@@ -13,6 +13,8 @@ faker = require("faker");
 const { Server } = require("socket.io");
 
 // Database Setup
+mongoose.set("useFindAndModify", false);
+
 mongoose.connect(config.database, {
   useCreateIndex: true,
   useNewUrlParser: true,
