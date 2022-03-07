@@ -24,8 +24,8 @@ const OrgMemberInvController = require("./controllers/orginvite");
 const LocationController = require("./controllers/location");
 const GLHContactController = require("./controllers/glhcontact");
 const RuleController = require("./controllers/rule");
-const MeetingController = require("./controllers/meeting");
 const RoomsController = require("./controllers/rooms");
+const NewsController = require("./controllers/news");
 
 const express = require("express");
 const passport = require("passport");
@@ -75,7 +75,8 @@ module.exports = function (app) {
     ruleRoutes = express.Router(),
     fieldDataRoutes = express.Router(),
     meetingRoutes = express.Router(),
-    roomsRoutes = express.Router();
+    roomsRoutes = express.Router(),
+    newsRoutes = express.Router();
 
   // ProjectMemberController.cleanProjectMember()
   // AdminController.convertS3URL()
@@ -867,13 +868,6 @@ module.exports = function (app) {
   ruleRoutes.post("/", requireAuth, RuleController.createRule);
 
   //= ========================
-  // Live room Routes
-  //= ========================
-  apiRoutes.use("/meeting", meetingRoutes);
-  meetingRoutes.post("/", requireAuth, MeetingController.createMeeting);
-  meetingRoutes.post("/:id/join", requireAuth, MeetingController.joinMeeting);
-
-  //= ========================
   // Rooms Routes
   //= ========================
   apiRoutes.use("/rooms", roomsRoutes);
@@ -887,6 +881,19 @@ module.exports = function (app) {
   roomsRoutes.get("/", RoomsController.listActiveRooms);
   roomsRoutes.get("/:sid", RoomsController.getRoomById);
   roomsRoutes.post("/token", RoomsController.getToken);
+
+  //= ========================
+  // news Routes
+  //= ========================
+  apiRoutes.use("/news", requireAuth, newsRoutes);
+  newsRoutes.post("/", NewsController.createNews);
+  newsRoutes.put("/", NewsController.updateNews);
+
+  newsRoutes.get("/", NewsController.listNews);
+  newsRoutes.get("/:id", NewsController.getNewsById);
+  newsRoutes.get("/project/:projectId", NewsController.getProjectNews);
+  newsRoutes.get("/location/:locationId", NewsController.getNewsByLocation);
+  newsRoutes.delete("/:id", NewsController.deleteNews);
 
   // // List faq route
   // faqRoutes.get("/", requireAuth, FaqController.listFaq);

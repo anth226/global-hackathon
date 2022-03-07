@@ -260,8 +260,12 @@ body {
 .h-100{
   min-height: 600px !important;
 }
+
 .h-screen{
   height: 96vh;
+}
+.min-h-screen{
+  min-height: 96vh;
 }
 
 input{
@@ -275,4 +279,8 @@ input{
   max-width: 100%;
   min-height: 200px;
   object-fit: cover !important;
+}
+
+.text-sm{
+  font-size: 14px;
 }

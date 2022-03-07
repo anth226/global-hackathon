@@ -304,7 +304,7 @@ class UserDashboard extends Component {
                     className="mt-4"
                   />
                 )}
-              {usertype === "Host" && location && (
+              {usertype !== "Host" && location && (
                 <Link
                   to="#"
                   className="chat-host"
@@ -313,15 +313,14 @@ class UserDashboard extends Component {
                   Contact Host <MailOutlined />
                 </Link>
               )}
-              {userInfo.location_role === "Admin" && (
+              <div>
                 <Link
                   to={`/locations/${location?._id}`}
                   className="btn btn-primary mt-3"
-                  onClick={() => this.onOpenChat(location?.creator)}
                 >
                   Go to location page
                 </Link>
-              )}
+              </div>
             </div>
           ))}
           {usertype === "Host" && is_multi_city && (
