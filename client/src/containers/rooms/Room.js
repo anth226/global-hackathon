@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Modal } from "reactstrap";
 import Participant from "./Participant";
+import { message } from "antd";
 
 import { io } from "socket.io-client";
 
@@ -72,9 +73,10 @@ const Room = ({
       })
       .then((data) => {
         setbreakOutName("");
+        message.success("Breakout room created");
       })
       .catch((err) => {
-        window.alert("Error occurred creating a room");
+        message.error("Error occurred creating a room");
       })
       .finally(() => setisModalOpen(false));
   }
@@ -82,6 +84,7 @@ const Room = ({
   function copyLink() {
     const link = `${window.origin}/rooms/join/${room.sid}`;
     navigator.clipboard.writeText(link);
+    message.success("Link copied to clipboard");
   }
 
   return (
