@@ -106,12 +106,6 @@ class Project extends Component {
 
   upvoteProject = async (vote) => {
     const { upvoteProject, getProject, match, loginMode } = this.props;
-    if (loginMode !== 0) {
-      message.warn(
-        `Only participants can upvote the ${this.props.label.project}`
-      );
-      return;
-    }
     await upvoteProject(match.params.id, vote);
     await getProject(match.params.id);
   };
@@ -165,8 +159,7 @@ class Project extends Component {
     } = this.props;
     let isCreator =
       project.project.participant &&
-      project.project.participant._id === user._id &&
-      auth.loginMode === 0;
+      project.project.participant._id === user._id;
 
     if (preview) return <PreviewGallery togglePreview={this.togglePreview} />;
 

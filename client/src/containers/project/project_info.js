@@ -198,7 +198,7 @@ class ProjectInfo extends React.Component {
             <span>
               Created By
               {curProj.participant && (
-                <Link to={`/participant/${curProj.participant._id}`}>
+                <Link to="#">
                   <img
                     src={creator.photo || UserAvatar}
                     alt=""
@@ -207,9 +207,9 @@ class ProjectInfo extends React.Component {
                 </Link>
               )}
             </span>
-            <Link to="#" onClick={this.toggleContactModal}>
+            {/* <Link to="#" onClick={this.toggleContactModal}>
               contact
-            </Link>
+            </Link> */}
           </div>
         </Col>
         <Col xl={8} md={7}>
@@ -303,7 +303,7 @@ class ProjectInfo extends React.Component {
                   </Popconfirm>
                 </div>
               )}
-            <div className="project-unfollow">
+            <div className="project-unfollow mt-4">
               {isCreator && !this.checkHaveTeamChat() && (
                 <Button
                   color="primary"
@@ -340,7 +340,6 @@ class ProjectInfo extends React.Component {
               )}
               {isCreator && gallery.currentGallery._id && (
                 <Button
-                  outline
                   color="primary"
                   size="sm"
                   onClick={toggleEditGallery}
@@ -350,7 +349,6 @@ class ProjectInfo extends React.Component {
               )}
               {isCreator && !gallery.currentGallery._id && (
                 <Button
-                  outline
                   color="primary"
                   size="sm"
                   onClick={this.onCreateGallery}

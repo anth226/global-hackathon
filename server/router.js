@@ -834,8 +834,6 @@ module.exports = function (app) {
   locationRoutes.get("/", LocationController.listLocation);
   // get pending location list route
   locationRoutes.get("/pending", LocationController.listPendingLocation);
-  //get location by Id
-  locationRoutes.get("/:id", LocationController.findLocationById);
   // update location route
   locationRoutes.put("/", requireAuth, LocationController.updateLocation);
   // delete location route
@@ -850,7 +848,9 @@ module.exports = function (app) {
   locationRoutes.put("/admin", requireAuth, LocationController.resolveLocation);
   // verify user location route
   locationRoutes.post("/verify/:user_id", LocationController.hostVerifyUser);
-
+  //get location by Id
+  locationRoutes.get("/:id", LocationController.findLocationById);
+  
   //= ========================
   // GLHContact Routes
   //= ========================
