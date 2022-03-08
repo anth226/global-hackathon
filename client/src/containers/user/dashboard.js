@@ -246,6 +246,7 @@ class UserDashboard extends Component {
                 marginBottom: 40,
                 paddingBottom: 10,
               }}
+              key={index}
             >
               <Descriptions column={2}>
                 <Descriptions.Item label="Venue">
