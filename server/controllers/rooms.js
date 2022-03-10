@@ -40,7 +40,7 @@ const createRoom = async (request, response) => {
         room: mainRoom,
       });
 
-      request.io.emit("Main room created");
+      request.io.emit("MAIN_ROOM_CREATED");
       return;
     } catch (error) {
       return response.status(400).send({
@@ -92,7 +92,7 @@ const createBreakoutRoom = async (request, response) => {
         room: mainRoom,
       });
 
-      request.io.emit("Breakout room created");
+      request.io.emit("BREAKOUT_ROOM_CREATED");
       return;
     } catch (error) {
       return response.status(400).send({

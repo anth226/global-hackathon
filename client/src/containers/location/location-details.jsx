@@ -18,9 +18,7 @@ function LocationDetails({ user }) {
   const [newsLoading, setNewsLoading] = useState(true);
   const [openModal, setOpenModal] = useState(null);
 
-  const [message, setMessage] = useState(
-    `Hello, \nThank you for your interest in attending this year's hackathon.`
-  );
+  const [message, setMessage] = useState(``);
 
   const [article, setArticle] = useState({
     title: "",

@@ -43,7 +43,7 @@ const Room = ({
     );
 
     // Listen for events
-    socket.on("Breakout room created", () => getBreakouts());
+    socket.on("BREAKOUT_ROOM_CREATED", () => getBreakouts());
 
     getBreakouts();
   }, [room]);

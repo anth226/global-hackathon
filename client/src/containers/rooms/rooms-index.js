@@ -9,8 +9,8 @@ function RoomsDisplay() {
   //   // Clean up the listeners when the component is about to unmount.
   //   return () => {
   //     if (socket) {
-  //       socket.off("Main room created");
-  //       socket.off("Breakout room created");
+  //       socket.off("MAIN_ROOM_CREATED");
+  //       socket.off("BREAKOUT_ROOM_CREATED");
   //     }
   //   };
   // }, []);

@@ -21,7 +21,7 @@ export default function AvailableRooms() {
     );
 
     // Listen for events
-    socket.on("Main room created", () => fetchRooms());
+    socket.on("MAIN_ROOM_CREATED", () => fetchRooms());
     fetchRooms();
   }, []);
 
