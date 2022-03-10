@@ -219,7 +219,7 @@ function LocationDetails({ user }) {
           </section>
           <Modal
             onOk={handleMessage}
-            okText={"Save article"}
+            okText={"Send message"}
             cancelText="Discard"
             title="Write a message to participants"
             visible={openModal === "message"}
