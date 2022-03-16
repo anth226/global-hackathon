@@ -246,7 +246,7 @@ class Locations extends Component {
                 footer={false}
                 onCancel={this.hideModal}
               >
-                <LocationProfile location={curLoc} />
+                <LocationProfile location={curLoc} isAdmin={true} />
                 {curLoc.status === "pending" && (
                   <div className="flex">
                     <Popconfirm

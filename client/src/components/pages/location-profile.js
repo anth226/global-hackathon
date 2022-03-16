@@ -1,5 +1,6 @@
 import React from "react";
 import { Descriptions } from "antd";
+import { Link } from "react-router-dom";
 
 const LocationProfile = ({ location, isAdmin }) => {
   return (
@@ -83,6 +84,10 @@ const LocationProfile = ({ location, isAdmin }) => {
           </p>
         </React.Fragment>
       )}
+
+      <a href={`/locations/${location._id}`} target="_blank" className="mt-4">
+        Goto Location Page
+      </a>
     </div>
   );
 };

@@ -53,7 +53,7 @@ exports.newNotification = function newNotification(
   content,
   senderName,
   senderPhoto,
-  file
+  files
 ) {
   const msg = {
     to: email,
@@ -61,16 +61,18 @@ exports.newNotification = function newNotification(
     subject: senderName,
     html: notificationFactory(title, content, senderName, senderPhoto),
   };
-  if (file) {
-    const attachment = fs.readFileSync(file).toString("base64");
-    msg.attachments = [
-      {
+  if (files) {
+    const atts = [];
+    for (let file of files) {
+      const attachment = fs.readFileSync(file.path).toString("base64");
+      atts.push({
         content: attachment,
-        filename: path.basename(file),
-        type: "application/pdf",
+        filename: file.originalname,
+        type: file.mimetype,
         disposition: "attachment",
-      },
-    ];
+      });
+    }
+    msg.attachments = atts;
   }
   sgMail.send(msg).catch((err) => {
     console.log(err);

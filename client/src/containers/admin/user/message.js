@@ -18,7 +18,7 @@ class Message extends Component {
       messageTxt: "",
       title: "",
       loading: false,
-      selectedFile: null,
+      selectedFiles: [],
       selectedFileList: [],
     };
   }
@@ -35,22 +35,18 @@ class Message extends Component {
     this.setState({ title: e.target.value });
   };
 
-  onChange = (info) => {
+  onChange = async (info) => {
     const nextState = {};
-    switch (info.file.status) {
-      case "uploading":
-        nextState.selectedFileList = [info.file];
-        break;
-      case "done":
-        nextState.selectedFile = info.file.originFileObj;
-        nextState.selectedFileList = [info.file];
-        break;
-
-      default:
-        // error or removed
-        nextState.selectedFile = null;
-        nextState.selectedFileList = [];
+    for (let f of info.fileList) {
+      if (f.status === "uploading") {
+        nextState.selectedFileList = info.fileList;
+        this.setState(() => nextState);
+        return;
+      }
     }
+    const selectedFiles = info.fileList.map((fl) => fl.originFileObj);
+    nextState.selectedFileList = info.fileList;
+    nextState.selectedFiles = selectedFiles;
     this.setState(() => nextState);
   };
 
@@ -61,7 +57,7 @@ class Message extends Component {
   };
 
   sendMessage = async () => {
-    const { mode, messageTxt, title, selectedFile } = this.state;
+    const { mode, messageTxt, title, selectedFiles } = this.state;
     const {
       sendAllNotification,
       sendProjectCreatorNotification,
@@ -84,7 +80,7 @@ class Message extends Component {
         this.setState({ loading: false });
         return;
       case "hosts":
-        await sendOrgNotification(data, selectedFile);
+        await sendOrgNotification(data, selectedFiles);
         this.setState({ loading: false });
         return;
       default:
@@ -140,6 +136,7 @@ class Message extends Component {
                   fileList={this.state.selectedFileList}
                   customRequest={this.dummyRequest}
                   onChange={this.onChange}
+                  multiple
                 >
                   <Button className="mt-3">Upload Document</Button>
                 </Upload>

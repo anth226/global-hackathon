@@ -140,29 +140,31 @@ function LocationDetails({ user }) {
                 </Descriptions>
               </div>
             )}
-            {user?.profile?.location_role === "Admin" && (
-              <div className="py-2">
-                <button
-                  className="btn btn-outline-primary"
-                  onClick={() => setOpenModal("message")}
-                >
-                  Mesage participants
-                </button>
-              </div>
-            )}
-
-            <div className="d-flex justify-content-between py-5">
-              <h2 className="text-primary font-weight-bold">Latest news</h2>
-              {user?.profile?.location_role === "Admin" && (
-                <div>
+            {user?.profile?.location_role === "Admin" &&
+              user?.profile?.location?._id === id && (
+                <div className="py-2">
                   <button
-                    className="btn btn-primary"
-                    onClick={(e) => setOpenModal("article")}
+                    className="btn btn-outline-primary"
+                    onClick={() => setOpenModal("message")}
                   >
-                    New article
+                    Mesage participants
                   </button>
                 </div>
               )}
+
+            <div className="d-flex justify-content-between py-5">
+              <h2 className="text-primary font-weight-bold">Latest news</h2>
+              {user?.profile?.location_role === "Admin" &&
+                user?.profile?.location?._id === id && (
+                  <div>
+                    <button
+                      className="btn btn-primary"
+                      onClick={(e) => setOpenModal("article")}
+                    >
+                      New article
+                    </button>
+                  </div>
+                )}
             </div>
             {newsLoading ? (
               [1, 2].map((i) => <Skeleton key={i} className="col-4" />)
@@ -189,16 +191,17 @@ function LocationDetails({ user }) {
           <section className="pb-5">
             <div className="d-flex justify-content-between pb-5">
               <h2 className="text-primary font-weight-bold">Sponsors</h2>
-              {user?.profile?.location_role === "Admin" && (
-                <div>
-                  <button
-                    className="btn btn-primary"
-                    onClick={(e) => setOpenModal("sponsor")}
-                  >
-                    New sponsor
-                  </button>
-                </div>
-              )}
+              {user?.profile?.location_role === "Admin" &&
+                user?.profile?.location?._id === id && (
+                  <div>
+                    <button
+                      className="btn btn-primary"
+                      onClick={(e) => setOpenModal("sponsor")}
+                    >
+                      New sponsor
+                    </button>
+                  </div>
+                )}
             </div>
             <div className="d-flex">
               {sponsors.map((sp) => (
@@ -208,7 +211,7 @@ function LocationDetails({ user }) {
                     href={sp.link}
                     target="_blank"
                   >
-                    <img className="d-block w-100" src={sp.imageUrl} />
+                    <img className="d-block sponsor-img" src={sp.imageUrl} />
                     {sp.name}
                   </a>
                 </div>

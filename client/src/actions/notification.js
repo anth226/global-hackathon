@@ -78,12 +78,14 @@ export function sendProjectCreatorNotification(data) {
   };
 }
 
-export function sendOrgNotification(data, file) {
+export function sendOrgNotification(data, fileList) {
   return async (dispatch) => {
     if (!data.title || !data.content) return;
     const client = Client(true);
     var formData = new FormData();
-    formData.append("file", file);
+    for (let f of fileList) {
+      formData.append("files", f);
+    }
     formData.append("title", data.title);
     formData.append("content", data.content);
     try {

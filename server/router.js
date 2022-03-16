@@ -621,7 +621,7 @@ module.exports = function (app) {
   notificationRoutes.post(
     "/organization",
     requireAuth,
-    upload.single("file"),
+    upload.array("files", 10),
     NotificationController.notifyOrganizations
   );
   // Get All notification route

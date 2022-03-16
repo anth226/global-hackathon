@@ -116,7 +116,7 @@ exports.notifyOrganizations = async (req, res, next) => {
     //   author: req.user._id,
     // });
     // notif = await notif.save();
-    const file = req.file ? req.file.path : null;
+    const files = req.files;
 
     for (let host of hosts) {
       await this.sendNotificationMail(
@@ -124,7 +124,7 @@ exports.notifyOrganizations = async (req, res, next) => {
         { email: host.email },
         req.body.title,
         req.body.content,
-        file
+        files
       );
     }
 
@@ -175,7 +175,7 @@ exports.sendNotificationMail = async (
   receptor,
   title,
   content,
-  file
+  files
 ) => {
   if (utils.compareIds(sender._id, receptor._id)) return;
   try {
@@ -187,7 +187,7 @@ exports.sendNotificationMail = async (
       content,
       senderName,
       sender.profile.photo,
-      file
+      files
     );
   } catch (err) {
     console.log(err);
