@@ -55,6 +55,20 @@ class HeaderTemplate extends Component {
           )}
           {authenticated && (
             <NavItem>
+              <Link className="nav-link" to="/participants">
+                Participants
+              </Link>
+            </NavItem>
+          )}
+          {authenticated && (
+            <NavItem>
+              <Link className="nav-link" to="/challenges">
+                Challenges
+              </Link>
+            </NavItem>
+          )}
+          {authenticated && (
+            <NavItem>
               <Link className="nav-link" to={"/projects"}>
                 Projects
               </Link>

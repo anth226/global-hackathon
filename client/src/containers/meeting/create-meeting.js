@@ -93,8 +93,7 @@ class CreateMeeting extends Component {
     const { project, user, auth } = this.props;
     let isCreator =
       project.project.participant &&
-      project.project.participant._id === user._id &&
-      auth.loginMode === 0;
+      project.project.participant._id === user._id
 
     return (
       <React.Fragment>
@@ -130,7 +129,6 @@ const mapStateToProps = (state) => {
     message: state.message,
     gallery: state.gallery,
     fieldData: state.profile.fieldData,
-    loginMode: state.auth.loginMode,
     label: state.label,
   };
 };

@@ -158,7 +158,6 @@ class ProjectInfo extends React.Component {
       togglePreview,
       isAdmin,
       user,
-      loginMode,
       fieldData,
       label,
       isJudge,
@@ -166,7 +165,7 @@ class ProjectInfo extends React.Component {
     const { showContactModal, visible, modalContent, chatText } = this.state;
     if (!curProj.likes) curProj.likes = [];
     let creator = curProj.participant ? curProj.participant.profile : {};
-    const isVoter = loginMode === 0 && curProj.likes.includes(user._id);
+    const isVoter =curProj.likes.includes(user._id);
 
     const menu = (
       <Menu>
@@ -288,7 +287,6 @@ class ProjectInfo extends React.Component {
             </div>
             {!this.checkFollowProject() &&
               !isCreator &&
-              loginMode === 0 &&
               !isJudge && (
                 <div>
                   <Popconfirm
@@ -369,7 +367,6 @@ class ProjectInfo extends React.Component {
                 )}
               {this.checkFollowProject() && (
                 <Button
-                  outline
                   color="primary"
                   size="sm"
                   onClick={this.leaveProject}
@@ -423,7 +420,6 @@ const mapStateToProps = (state) => {
     message: state.message,
     gallery: state.gallery,
     isAdmin: state.user.isAdmin,
-    loginMode: state.auth.loginMode,
     fieldData: state.profile.fieldData,
     isJudge: state.user.isJudge,
     label: state.label,

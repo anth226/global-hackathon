@@ -248,7 +248,7 @@ export const getCountryFlag = (name) => {
   if (!name) return "";
   for (let country of countries) {
     if (country.name.toLowerCase() === name.toLowerCase())
-      return `https://www.countryflags.io/${country.code.toLowerCase()}/shiny/64.png`;
+      return `https://countryflagsapi.com/png/${country.code.toLowerCase()}`;
   }
   return "";
 };

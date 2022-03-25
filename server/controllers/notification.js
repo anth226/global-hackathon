@@ -7,35 +7,17 @@ const Notification = require("../models/notification"),
 
 exports.notifyAllUsers = async (req, res, next) => {
   try {
-    let notif = new Notification({
-      receptors: [],
-      alias: "all",
-      title: req.body.title,
-      body: req.body.content,
-      author: req.user._id,
-    });
-    notif = await notif.save();
-
-    const io = sockets.io;
     const participants = await User.find({}).select("_id email");
-    let receptors = [];
-    for (let key in io.sockets.sockets) {
-      if (io.sockets.sockets.hasOwnProperty(key)) {
-        io.sockets.sockets[key].emit("NEW_NOTIFICATION", {
-          notification: notif,
-        });
-        receptors.push(io.sockets.sockets[key].userId);
-      }
-    }
+    const files = req.files;
+
     for (let pt of participants) {
-      if (!receptors.some((r) => utils.compareIds(r, pt._id))) {
-        this.sendNotificationMail(
-          req.user,
-          pt,
-          req.body.title,
-          req.body.content
-        );
-      }
+      this.sendNotificationMail(
+        req.user,
+        pt,
+        req.body.title,
+        req.body.content,
+        files
+      );
     }
     return res.status(200).json({ message: "Notification sent successfully" });
   } catch (err) {
@@ -49,47 +31,22 @@ exports.notifyProjectCreators = async (req, res, next) => {
     let projects = await Project.find({})
       .populate("participant")
       .select("_id email");
-    let participants = [],
-      pIds = [];
+    let participants = [];
     for (let proj of projects) {
       if (proj.participant) {
         participants.push(proj.participant);
-        pIds.push(proj.participant._id);
       }
     }
+    const files = req.files;
 
-    let notif = new Notification({
-      receptors: pIds,
-      alias: "project_creators",
-      title: req.body.title,
-      body: req.body.content,
-      author: req.user._id,
-    });
-    notif = await notif.save();
-
-    const io = sockets.io;
-    let receptors = [];
-    for (let key in io.sockets.sockets) {
-      if (io.sockets.sockets.hasOwnProperty(key)) {
-        if (
-          pIds.some((p) => utils.compareIds(p, io.sockets.sockets[key].userId))
-        ) {
-          io.sockets.sockets[key].emit("NEW_NOTIFICATION", {
-            notification: notif,
-          });
-          receptors.push(io.sockets.sockets[key].userId);
-        }
-      }
-    }
     for (let pt of participants) {
-      if (!receptors.some((r) => utils.compareIds(r, pt._id))) {
-        this.sendNotificationMail(
-          req.user,
-          pt,
-          req.body.title,
-          req.body.content
-        );
-      }
+      this.sendNotificationMail(
+        req.user,
+        pt,
+        req.body.title,
+        req.body.content,
+        files
+      );
     }
     return res.status(200).json({ message: "Notification sent successfully" });
   } catch (err) {
@@ -103,19 +60,6 @@ exports.notifyOrganizations = async (req, res, next) => {
     let hosts = await User.find({ "profile.location_role": "Admin" }).select(
       "_id email"
     );
-    // let pIds = [];
-    // for (let host of hosts) {
-    //   pIds.push(host._id);
-    // }
-
-    // let notif = new Notification({
-    //   receptors: pIds,
-    //   alias: "hosts",
-    //   title: req.body.title,
-    //   body: req.body.content,
-    //   author: req.user._id,
-    // });
-    // notif = await notif.save();
     const files = req.files;
 
     for (let host of hosts) {
@@ -127,7 +71,6 @@ exports.notifyOrganizations = async (req, res, next) => {
         files
       );
     }
-
     res.status(200).json({ message: "Notification sent successfully" });
   } catch (err) {
     res.status(500).send({ error: err });

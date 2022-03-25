@@ -105,7 +105,7 @@ class Project extends Component {
   };
 
   upvoteProject = async (vote) => {
-    const { upvoteProject, getProject, match, loginMode } = this.props;
+    const { upvoteProject, getProject, match } = this.props;
     await upvoteProject(match.params.id, vote);
     await getProject(match.params.id);
   };
@@ -150,7 +150,6 @@ class Project extends Component {
     const {
       project,
       user,
-      auth,
       gallery,
       createGallery,
       updateGallery,
@@ -415,7 +414,6 @@ const mapStateToProps = (state) => {
     message: state.message,
     gallery: state.gallery,
     fieldData: state.profile.fieldData,
-    loginMode: state.auth.loginMode,
     label: state.label,
   };
 };

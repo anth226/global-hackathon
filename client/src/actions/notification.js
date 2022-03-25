@@ -49,12 +49,18 @@ export function readNotification(notification) {
   };
 }
 
-export function sendAllNotification(data) {
+export function sendAllNotification(data, fileList) {
   return async (dispatch) => {
     const client = Client(true);
     try {
       if (!data.title || !data.content) return;
-      let res = await client.post(`${API_URL}/notification/all`, data);
+      var formData = new FormData();
+      for (let f of fileList) {
+        formData.append("files", f);
+      }
+      formData.append("title", data.title);
+      formData.append("content", data.content);
+      let res = await client.post(`${API_URL}/notification/all`, formData);
       createNotification("Broadcast Notification", res.data.message);
     } catch (err) {
       createNotification("Broadcast Notification", errorMessage(err));
@@ -62,14 +68,20 @@ export function sendAllNotification(data) {
   };
 }
 
-export function sendProjectCreatorNotification(data) {
+export function sendProjectCreatorNotification(data, fileList) {
   return async (dispatch) => {
     const client = Client(true);
     try {
       if (!data.title || !data.content) return;
+      var formData = new FormData();
+      for (let f of fileList) {
+        formData.append("files", f);
+      }
+      formData.append("title", data.title);
+      formData.append("content", data.content);
       let res = await client.post(
         `${API_URL}/notification/project-creator`,
-        data
+        formData
       );
       createNotification("Broadcast Notification", res.data.message);
     } catch (err) {

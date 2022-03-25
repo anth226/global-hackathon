@@ -10,17 +10,7 @@ import {
   LinkedinShareButton,
 } from "react-share";
 import { Container, Row, Col } from "reactstrap";
-import {
-  Tag,
-  Modal,
-  Tooltip,
-  Skeleton,
-  message,
-  Button,
-  List,
-  Card,
-  Avatar,
-} from "antd";
+import { Tag, Skeleton, message, List, Card, Avatar } from "antd";
 import { LikeOutlined, LikeFilled } from "@ant-design/icons";
 import { Header, Footer, CustomCard } from "../../components/template";
 import {
@@ -35,7 +25,6 @@ import {
 } from "../../actions/project";
 import { listChallengeComment } from "../../actions/comment";
 import ProjectAvatar from "../../assets/icon/challenge.png";
-import ShareIcon from "../../assets/icon/share.png";
 import CreateForm from "../../components/project/create_project";
 import Tags from "../../components/pages/tags";
 import Comments from "../../components/project/challenge_comment";
@@ -72,13 +61,6 @@ class Challenge extends Component {
   };
 
   handleUpvote = async (vote) => {
-    const { loginMode, label } = this.props;
-    if (loginMode !== 0) {
-      message.warn(
-        `Only ${label.participant} can upvote the ${label.challenge}`
-      );
-      return;
-    }
     const { getChallenge, upvoteChallenge, match } = this.props;
     await upvoteChallenge(match.params.id, vote);
     const challenge = await getChallenge(match.params.id);
@@ -129,9 +111,9 @@ class Challenge extends Component {
 
   checkSupporting = () => {
     const { challenge } = this.state;
-    const { authOrg, loginMode } = this.props;
+    const { authOrg } = this.props;
     let filters = challenge.supports.filter((spt) => spt._id === authOrg._id);
-    if (filters.length > 0 && loginMode === 1) return true;
+    if (filters.length > 0) return true;
     return false;
   };
 
@@ -157,8 +139,8 @@ class Challenge extends Component {
             <div className="user-dashboard list-view">
               {this.renderChallengeInfo()}
               {!loading && <Comments challengeId={match.params.id} />}
-              {this.renderProjects()}
-              {this.renderSupports()}
+              {/* {this.renderProjects()} */}
+              {/* {this.renderSupports()} */}
             </div>
           )}
         </Container>
@@ -169,7 +151,7 @@ class Challenge extends Component {
 
   renderChallengeInfo = () => {
     const { challenge, loading } = this.state;
-    const { authOrg, loginMode, user, fieldData, label } = this.props;
+    const { user, fieldData, label } = this.props;
     if (loading || !challenge._id) {
       return (
         <Row>
@@ -179,10 +161,7 @@ class Challenge extends Component {
     }
     if (!challenge.supports) challenge.supports = [];
     if (!challenge.likes) challenge.likes = [];
-    const isSupporting = this.checkSupporting();
-    const isCreator =
-      challenge.organization && challenge.organization._id === authOrg._id;
-    const isVoter = loginMode === 0 && challenge.likes.includes(user._id);
+    const isVoter = challenge.likes.includes(user._id);
 
     return (
       <Row>
@@ -192,54 +171,6 @@ class Challenge extends Component {
               <img src={challenge.logo || ProjectAvatar} alt="logo" />
             </div>
           </div>
-          <div className="flex mt-2" style={{ width: "100%" }}>
-            <div className="share-btn mr-auto">
-              <Tooltip
-                placement="right"
-                title={`Share this ${label.titleChallenge}`}
-              >
-                <img
-                  src={ShareIcon}
-                  alt="share"
-                  width="50px"
-                  height="50px"
-                  onClick={() => this.handleClickShare(true)}
-                />
-              </Tooltip>
-            </div>
-            <div className="challenge-creator">
-              <span className="mr-2">Created By</span>
-              {challenge.organization && (
-                <Link to={`/organization/${challenge.organization._id}`}>
-                  <img
-                    src={challenge.organization.logo || ProjectAvatar}
-                    alt=""
-                    title={challenge.organization.org_name}
-                  />
-                </Link>
-              )}
-              {challenge.participant && (
-                <Link to={`/participant/${challenge.participant._id}`}>
-                  <img
-                    src={challenge.participant.profile.photo || ProjectAvatar}
-                    alt=""
-                    title={challenge.participant.profile.first_name}
-                  />
-                </Link>
-              )}
-            </div>
-          </div>
-
-          <Modal
-            title={`Share current ${label.challenge}`}
-            centered
-            visible={this.state.isModalOpen}
-            footer={null}
-            onOk={() => this.handleClickShare(false)}
-            onCancel={() => this.handleClickShare(false)}
-          >
-            {this.renderModalChallengeInfo(challenge)}
-          </Modal>
         </Col>
         <Col xl={8} md={7}>
           <h3>{challenge.challenge_name}</h3>
@@ -277,24 +208,6 @@ class Challenge extends Component {
               )}
               <span> {challenge.likes.length}</span>
             </p>
-            {loginMode === 1 && !isSupporting && !isCreator && (
-              <Button
-                className="btn-challenge-action"
-                type="primary"
-                onClick={() => this.handleSupport(true)}
-              >
-                Support
-              </Button>
-            )}
-            {loginMode === 1 && isSupporting && (
-              <Button
-                className="btn-challenge-action"
-                type="primary"
-                onClick={() => this.handleSupport(false)}
-              >
-                Unsupport
-              </Button>
-            )}
           </div>
         </Col>
       </Row>
@@ -425,7 +338,6 @@ const mapStateToProps = (state) => {
   return {
     user: state.user.profile,
     authOrg: state.organization.authOrg,
-    loginMode: state.auth.loginMode,
     fieldData: state.profile.fieldData,
     isJudge: state.user.isJudge,
     label: state.label,

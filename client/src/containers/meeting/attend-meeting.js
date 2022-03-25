@@ -56,7 +56,6 @@ const mapStateToProps = (state) => {
     isAdmin: state.user.isAdmin,
     auth: state.auth,
     fieldData: state.profile.fieldData,
-    loginMode: state.auth.loginMode,
   };
 };
 

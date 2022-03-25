@@ -609,12 +609,14 @@ module.exports = function (app) {
   notificationRoutes.post(
     "/all",
     requireAuth,
+    upload.array("files", 10),
     NotificationController.notifyAllUsers
   );
   // Send project creators notification route
   notificationRoutes.post(
     "/project-creator",
     requireAuth,
+    upload.array("files", 10),
     NotificationController.notifyProjectCreators
   );
   // Send organizations notification route

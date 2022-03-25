@@ -1,6 +1,15 @@
 import React, { useState } from "react";
 import { EyeOutlined } from "@ant-design/icons";
-import { Button, Form, Input, Select, Modal, Radio, Space } from "antd";
+import {
+  Button,
+  Form,
+  Input,
+  Select,
+  Modal,
+  Radio,
+  Space,
+  Popconfirm,
+} from "antd";
 import { Link } from "react-router-dom";
 import { Col, Row } from "reactstrap";
 import { BigUpload } from "../../components/template";
@@ -8,6 +17,7 @@ import { countries } from "../../constants";
 import { processLink, getFieldData } from "../../utils/helper";
 import OrgProfileForm from "../organization/profile";
 import LocationProfile from "../../components/pages/location-profile";
+import history from "../../history";
 
 const ProfileForm = ({
   onSubmit,
@@ -52,6 +62,25 @@ const ProfileForm = ({
           </h4>
           <p>logo or profile picture</p>
           <BigUpload setAvatar={setAvatar} imageUrl={avatarURL} />
+          <p className="mt-4" style={{ fontSize: "16px" }}>
+            Host: <b>{profile.location?.venue}</b>{" "}
+            {profile.location_role !== "Admin" && (
+              <Popconfirm
+                title="Are you sure change your host location?"
+                onConfirm={() => history.push("/location-change")}
+                okText="Yes"
+                cancelText="No"
+              >
+                <Link
+                  to="#"
+                  className="ml-2"
+                  style={{ fontSize: "13px", textDecoration: "underline" }}
+                >
+                  Change
+                </Link>
+              </Popconfirm>
+            )}
+          </p>
         </Col>
         <Col md={8}>
           <div className="account-form-box">

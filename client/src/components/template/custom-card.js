@@ -48,16 +48,16 @@ const CustomCard = (props) => {
         </div>
         <div className="wide-card-desc">
           <h4>
-            <b className="mr-4">{props.title}</b>
+            <b className="mr-4">{props.title || ""}</b>
             <span
               style={{
                 fontSize: "13px",
                 fontWeight: 600,
                 float: "right",
-                paddingTop: "8px",
+                paddingTop: "12px",
               }}
             >
-              {props.location}
+              {props.location || ""}
             </span>
             {props.flag && (
               <img

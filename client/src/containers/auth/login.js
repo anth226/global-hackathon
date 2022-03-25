@@ -81,7 +81,7 @@ const LoginForm = ({ onSubmit }) => {
 
 class Login extends Component {
   componentDidMount() {
-    if (this.props.authenticated && this.props.loginMode === 0) {
+    if (this.props.authenticated) {
       history.push("/dashboard");
       return;
     }
@@ -105,7 +105,6 @@ function mapStateToProps(state) {
   return {
     errorMessage: state.auth.error,
     authenticated: state.auth.authenticated,
-    loginMode: state.auth.loginMode,
   };
 }
 

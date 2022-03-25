@@ -2,10 +2,28 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { Row, Col, Container } from "reactstrap";
-import { Skeleton, Input, Button, Checkbox, Popover, Tag, Select } from "antd";
+import {
+  Skeleton,
+  Input,
+  Button,
+  Checkbox,
+  Popover,
+  Tag,
+  Select,
+  Modal,
+} from "antd";
 import InfiniteScroll from "react-infinite-scroller";
-import { FilterOutlined, CaretDownOutlined } from "@ant-design/icons";
-import { listAllChallenge, clearSearch } from "../../actions/challenge";
+import {
+  FilterOutlined,
+  CaretDownOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
+import {
+  listAllChallenge,
+  clearSearch,
+  createChallenge,
+  updateChallenge,
+} from "../../actions/challenge";
 import { Header, Footer, CustomCard } from "../../components/template";
 import ProjectAvatar from "../../assets/icon/challenge.png";
 import Spinner from "../../components/pages/spinner";
@@ -17,6 +35,7 @@ import {
   getOneFieldData,
   getFieldDataById,
 } from "../../utils/helper";
+import { CreateChallenge } from "../../components/organization";
 
 const { Option } = Select;
 
@@ -27,6 +46,8 @@ class ChallengeList extends Component {
     this.state = {
       loading: false,
       searchStr: props.challenge.searchTxt,
+      curChallenge: {},
+      showModal: false,
     };
   }
 
@@ -38,6 +59,15 @@ class ChallengeList extends Component {
       await listAllChallenge(0, this.state);
       this.setState({ loading: false });
     }
+  };
+
+  toggleShowModal = () => {
+    this.setState({ showModal: !this.state.showModal });
+    this.onApplyFilter();
+  };
+
+  onEditModal = (chal) => {
+    this.setState({ showModal: true, curChallenge: chal });
   };
 
   onChangeSearch = (e) => {
@@ -217,19 +247,38 @@ class ChallengeList extends Component {
   };
 
   render() {
-    const { challenge, label, fieldData } = this.props;
+    const {
+      challenge,
+      label,
+      fieldData,
+      isSuper,
+      createChallenge,
+      updateChallenge,
+    } = this.props;
     const challenges = challenge.allChallenges;
-    const { loading } = this.state;
+    const { loading, showModal, curChallenge } = this.state;
     const cols = getOneFieldData(fieldData, "chl_column");
     const nCol = parseInt(cols);
-    const chlIntro = getOneFieldData(fieldData, "chl_intro")
+    const chlIntro = getOneFieldData(fieldData, "chl_intro");
 
     return (
       <React.Fragment>
         <Header />
         <Container className="content">
           <div className="dashboard">
-            <h5>{label.titleChallenge}s</h5>
+            <h5 className="flex">
+              <span>{label.titleChallenge}s</span>
+              {isSuper && (
+                <Button
+                  type="primary"
+                  className="ml-auto"
+                  onClick={this.toggleShowModal}
+                >
+                  <PlusOutlined />
+                  Create Challenge
+                </Button>
+              )}
+            </h5>
             <hr />
             {chlIntro && (
               <div
@@ -271,6 +320,16 @@ class ChallengeList extends Component {
                         columns={nCol}
                       />
                     </Link>
+                    {isSuper && (
+                      <div className="edit-chal">
+                        <Tag
+                          color="purple"
+                          onClick={() => this.onEditModal(item)}
+                        >
+                          Edit Challenge
+                        </Tag>
+                      </div>
+                    )}
                   </Col>
                 );
               })}
@@ -278,6 +337,24 @@ class ChallengeList extends Component {
           </div>
         </Container>
         <Footer />
+        {showModal && (
+          <Modal
+            title="Create Challenge"
+            visible={showModal}
+            width={800}
+            footer={false}
+            onCancel={this.toggleShowModal}
+          >
+            <CreateChallenge
+              createChallenge={createChallenge}
+              updateChallenge={updateChallenge}
+              hideChallengePage={this.toggleShowModal}
+              curChallenge={curChallenge}
+              fieldData={fieldData}
+              label={label}
+            />
+          </Modal>
+        )}
       </React.Fragment>
     );
   }
@@ -287,6 +364,8 @@ function mapStateToProps(state) {
   return {
     challenge: state.challenge,
     fieldData: state.profile.fieldData,
+    user: state.user.profile,
+    isSuper: state.user.isSuper,
     label: state.label,
   };
 }
@@ -294,4 +373,6 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {
   listAllChallenge,
   clearSearch,
+  createChallenge,
+  updateChallenge,
 })(ChallengeList);

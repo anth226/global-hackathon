@@ -110,6 +110,10 @@
       font-size: 18px;
     }
   }
+  .approved-users {
+    max-height: 80vh;
+    overflow-y: auto;
+  }
   .approved-users .ant-empty-image {
     .ant-empty-img-simple {
       display: none;

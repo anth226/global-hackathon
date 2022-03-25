@@ -301,9 +301,7 @@ class ProjectList extends Component {
                         likes={item.likes ? item.likes.length : 0}
                         columns={nCol}
                         flag={getCountryFlag(item.country)}
-                        location={`${item.city}${
-                          item.city && item.country ? ", " : ""
-                        }${item.country}`}
+                        location={item.country || ""}
                       />
                     </Link>
                   </Col>

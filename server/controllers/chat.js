@@ -16,24 +16,26 @@ exports.getConversations = async (req, res, next) => {
     let conversations = await Conversation.find({ participants: req.user._id })
       .populate({ path: "participants", select: "_id profile" })
       .sort({ createdAt: "desc" });
+    let messages = await Message.find({}).sort("-createdAt");
     let totalUnread = 0;
     let cvs = [];
     for (cv of conversations) {
       let unread = 0;
-
-      let messages = await Message.find({ conversationId: cv._id })
-        .sort("-createdAt")
-        .limit(10);
+      let mcounts = 0;
       for (let m of messages) {
         if (
+          utils.compareIds(m._doc.conversationId, cv._id) &&
           !utils.compareIds(m._doc.author, req.user._id) &&
           !m._doc.read.includes(req.user._id)
         ) {
           unread++;
         }
+        if (utils.compareIds(m._doc.conversationId, cv._id)) mcounts++;
       }
       cv._doc.unread = unread;
       totalUnread += unread;
+      if (req.user.email === "glh2022@globallegalhackathon.com" && mcounts < 2)
+        continue;
       cvs.push(cv);
     }
     return res.status(200).json({ conversations: cvs, unread: totalUnread });
@@ -492,7 +494,6 @@ exports.sendChatMessage = async (
   composedMessage,
   public_key
 ) => {
-
   let conversation = await Conversation.findOne({
     participants: [sender._id, recipient],
   });
@@ -501,7 +502,7 @@ exports.sendChatMessage = async (
       participants: [sender._id, recipient],
     });
   }
-  
+
   try {
     const newConversation = await conversation.save();
     let message = new Message({

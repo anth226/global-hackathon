@@ -6,7 +6,7 @@ import {
   useParams,
 } from "react-router-dom/cjs/react-router-dom.min";
 import { Container } from "reactstrap";
-import { Footer, Header } from "../../components/template";
+import { Header } from "../../components/template";
 
 export default function JoinRoom() {
   const [isLoading, setisLoading] = useState(true);
@@ -26,7 +26,7 @@ export default function JoinRoom() {
         .catch((er) => console.error(er));
     }
     getRoom();
-  }, []);
+  }, [id]);
 
   const joinRoom = async (roomSid, breakout = false) => {
     let identity = Date.now().toString(36);

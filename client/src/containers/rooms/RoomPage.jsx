@@ -38,7 +38,7 @@ export default function RoomPage() {
     };
 
     initiate();
-  }, []);
+  }, [token]);
 
   const changeRoom = async (roomSid, breakout = false) => {
     try {

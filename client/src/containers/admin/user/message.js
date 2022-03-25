@@ -72,11 +72,11 @@ class Message extends Component {
     const data = { title, content: messageTxt };
     switch (mode) {
       case "participants":
-        await sendAllNotification(data);
+        await sendAllNotification(data, selectedFiles);
         this.setState({ loading: false });
         return;
       case "project_creators":
-        await sendProjectCreatorNotification(data);
+        await sendProjectCreatorNotification(data, selectedFiles);
         this.setState({ loading: false });
         return;
       case "hosts":
@@ -131,16 +131,14 @@ class Message extends Component {
                 onChange={this.onChangeMessage}
                 value={messageTxt}
               />
-              {mode === "hosts" && (
-                <Upload
-                  fileList={this.state.selectedFileList}
-                  customRequest={this.dummyRequest}
-                  onChange={this.onChange}
-                  multiple
-                >
-                  <Button className="mt-3">Upload Document</Button>
-                </Upload>
-              )}
+              <Upload
+                fileList={this.state.selectedFileList}
+                customRequest={this.dummyRequest}
+                onChange={this.onChange}
+                multiple
+              >
+                <Button className="mt-3">Upload Document</Button>
+              </Upload>
               <Button
                 className="mt-5"
                 onClick={this.sendMessage}

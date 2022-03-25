@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Collapse, Button, message } from "antd";
+import { Collapse, Button } from "antd";
 import { CaretRightOutlined } from "@ant-design/icons";
 import {
   createChallengeComment,
@@ -42,10 +42,6 @@ class ChallengeComments extends React.Component {
   };
 
   createComment = async (challengeId, content, parent) => {
-    if (this.props.auth.loginMode !== 0) {
-      message.warn(`Only ${this.props.label.participant} can add comment`);
-      return;
-    }
     await this.props.createChallengeComment(challengeId, content, parent);
     await this.refreshComment();
     this.setState({ showEditor: false });
@@ -65,12 +61,6 @@ class ChallengeComments extends React.Component {
   };
 
   likeComment = async (comment, like) => {
-    if (this.props.auth.loginMode !== 0) {
-      message.warn(
-        `Only ${this.props.label.participant} can like or dislike comment`
-      );
-      return;
-    }
     if (comment.participant._id === this.props.user._id) return;
     await this.props.likeComment(comment._id, like);
     await this.refreshComment();

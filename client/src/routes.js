@@ -38,6 +38,8 @@ import Blockchain from "./containers/blockchain";
 import UserDashboard from "./containers/user/dashboard";
 import Profile from "./containers/user/profilepage";
 import ParticipantsList from "./containers/user/list";
+import LocationChange from "./containers/user/location-change";
+import Participant from "./containers/user/user";
 
 // Import judge related pages
 import JudgeDashboard from "./containers/judge/dashboard";
@@ -109,6 +111,10 @@ class Routes extends React.Component {
           <Route path="/profile" component={RequireAuth(Profile)} />
           <Route path="/dashboard" component={RequireAuth(UserDashboard)} />
           <Route path="/judge-dashboard" component={JudgeDashboard} />
+          <Route
+            path="/location-change"
+            component={RequireAuth(LocationChange)}
+          />
 
           <Route path="/blockchain" component={RequireAuth(Blockchain)} />
 
@@ -119,6 +125,8 @@ class Routes extends React.Component {
           <Route path="/challenges" component={ChallengesList} />
           <Route path="/challenge/:id" component={Challenge} />
           <Route path="/participants" component={ParticipantsList} />
+          <Route path="/participant/:id" component={Participant} />
+
           <Route exact path="/project/:id" component={RequireAuth(Project)} />
           <Route path="/projects" component={Projectslist} />
           <Route

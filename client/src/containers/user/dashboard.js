@@ -1,7 +1,13 @@
 import { MailOutlined } from "@ant-design/icons";
 import {
-  Alert, Button,
-  Descriptions, Input, Modal, Skeleton, Tabs
+  Alert,
+  Button,
+  Descriptions,
+  Input,
+  Modal,
+  Skeleton,
+  Tabs,
+  Tag,
 } from "antd";
 import React, { Component } from "react";
 import { connect } from "react-redux";
@@ -10,15 +16,24 @@ import { Col, Container, Row } from "reactstrap";
 import { protectedTest, updateUserLocation } from "../../actions/auth";
 import { createOtherLocation, listLocation } from "../../actions/location";
 import { fetchOneConversation, startConversation } from "../../actions/message";
+import {
+  updateProject,
+  getProjectsByUser,
+  listProjectByCreator,
+  getParticipant,
+} from "../../actions/project";
 import { getRule } from "../../actions/rule";
+import ProjectAvatar from "../../assets/icon/challenge.png";
 import sampleUrl from "../../assets/img/user-avatar.png";
-import { Footer, Header } from "../../components/template";
+import { Footer, Header, CustomCard } from "../../components/template";
 import history from "../../history";
 import LocationModal from "../location";
 import LocationForm from "../location/location-form";
 import Invites from "./invite";
 import MessageTab from "./message";
 import { ChooseHostForm } from "./profile-form";
+import CreateForm from "../../components/project/create_project";
+
 const { TabPane } = Tabs;
 
 class UserDashboard extends Component {
@@ -31,25 +46,49 @@ class UserDashboard extends Component {
     showChooseHostModal: false,
     agreedRule: false,
     loaded: false,
+    joinProjects: [],
+    createdProjects: [],
+    loading: false,
+    showModal: false,
+    curProj: {},
   };
 
   componentDidMount = async () => {
-    const { listLocation, getRule, user } = this.props;
+    const {
+      listLocation,
+      getRule,
+      user,
+      getProjectsByUser,
+      listProjectByCreator,
+    } = this.props;
+    this.setState({ loading: true });
     await listLocation();
     await sleep(1000);
     if (user._id) {
       const rule = await getRule(user._id);
-      this.setState({ agreedRule: !!rule });
+      const joinProjects = await getProjectsByUser(user._id);
+      const createdProjects = await listProjectByCreator(user._id);
+      this.setState({
+        joinProjects: joinProjects || [],
+        createdProjects: createdProjects || [],
+        loading: false,
+        agreedRule: !!rule,
+      });
     }
-    this.setState({ loaded: true });
+    this.setState({ loaded: true, loading: false });
   };
 
   toggleLocationModal = (location) => {
-    this.setState({ showLocationModal: !this.state.showLocationModal,selectedLocation:location });
+    this.setState({
+      showLocationModal: !this.state.showLocationModal,
+      selectedLocation: location,
+    });
   };
 
   toggleCreateLocationModal = () => {
-    this.setState({ showCreateLocationModal: !this.state.showCreateLocationModal });
+    this.setState({
+      showCreateLocationModal: !this.state.showCreateLocationModal,
+    });
   };
 
   toggleChooseHostModal = () => {
@@ -105,6 +144,19 @@ class UserDashboard extends Component {
     this.toggleCreateLocationModal();
   };
 
+  openEditModal = (curProj) => {
+    this.setState({ curProj, showModal: true });
+  };
+
+  hideModal = () => {
+    this.setState({ showModal: false, curProj: {} });
+  };
+
+  onUpdateProject = async (values) => {
+    await this.props.updateProject(values);
+    this.hideModal();
+  };
+
   renderRulesAlert = () => {
     const valid = (
       <div>
@@ -118,7 +170,7 @@ class UserDashboard extends Component {
   };
 
   render = () => {
-    const { user, loc } = this.props;
+    const { user, loc, fieldData } = this.props;
     const {
       showLocationModal,
       showCreateLocationModal,
@@ -128,6 +180,8 @@ class UserDashboard extends Component {
       showChooseHostModal,
       loaded,
       agreedRule,
+      showModal,
+      curProj,
     } = this.state;
     const userInfo = user.profile;
 
@@ -141,6 +195,9 @@ class UserDashboard extends Component {
             userInfo.location_role === "Admin" &&
             userInfo.location?.status === "approved" &&
             this.renderHostBlock()}
+          {this.renderCreatedProjects()}
+          {this.renderMemberProjects()}
+          {this.renderFollowingProjects()}
         </Container>
         {showLocationModal && (
           <Modal
@@ -200,6 +257,22 @@ class UserDashboard extends Component {
           </Modal>
         )}
         <Footer />
+        {showModal && (
+          <Modal
+            title="Update Project"
+            visible={showModal}
+            width={800}
+            footer={false}
+            onCancel={this.hideModal}
+          >
+            <CreateForm
+              onSubmit={this.onUpdateProject}
+              hideProjectCreate={this.hideModal}
+              curProject={curProj}
+              fieldData={fieldData}
+            />
+          </Modal>
+        )}
       </React.Fragment>
     );
   };
@@ -349,11 +422,98 @@ class UserDashboard extends Component {
     );
   };
 
+  renderCreatedProjects = () => {
+    const { createdProjects } = this.state;
+    if (createdProjects.length === 0) return null;
+
+    return (
+      <React.Fragment>
+        <h5 className="mt-5">Project Created</h5>
+        {this.renderSpin()}
+        <Row>
+          {createdProjects.map((item, index) => (
+            <Col key={index} lg={4} md={6} sm={12}>
+              <Link className="card-link" to={`/project/${item._id}`}>
+                <CustomCard
+                  logo={item.logo || ProjectAvatar}
+                  title={item.name}
+                  description={item.short_description}
+                  likes={item.likes ? item.likes.length : 0}
+                />
+              </Link>
+              <div className="edit-chal">
+                <Tag color="purple" onClick={() => this.openEditModal(item)}>
+                  Edit Project
+                </Tag>
+              </div>
+            </Col>
+          ))}
+        </Row>
+      </React.Fragment>
+    );
+  };
+
+  renderMemberProjects = () => {
+    const { joinProjects } = this.state;
+    const listItem = joinProjects.filter((item) => item.member === true);
+    if (listItem.length === 0) return null;
+
+    return (
+      <React.Fragment>
+        <h5 className="mt-5">Project Team Member</h5>
+        {this.renderSpin()}
+        <Row>
+          {listItem.map((item, index) => {
+            return (
+              <Col key={index} lg={4} md={6} sm={12}>
+                <Link className="card-link" to={`/project/${item.project._id}`}>
+                  <CustomCard
+                    logo={item.project.logo || ProjectAvatar}
+                    title={item.project.name}
+                    description={item.project.short_description}
+                  />
+                </Link>
+              </Col>
+            );
+          })}
+        </Row>
+      </React.Fragment>
+    );
+  };
+
+  renderFollowingProjects = () => {
+    const { joinProjects } = this.state;
+    const listItem = joinProjects.filter((item) => item.member !== true);
+    if (listItem.length === 0) return null;
+
+    return (
+      <React.Fragment>
+        <h5 className="mt-5">Project Followed</h5>
+        {this.renderSpin()}
+        <Row>
+          {listItem.map((item, index) => {
+            return (
+              <Col key={index} lg={4} md={6} sm={12}>
+                <Link className="card-link" to={`/project/${item.project._id}`}>
+                  <CustomCard
+                    logo={item.project.logo || ProjectAvatar}
+                    title={item.project.name}
+                    description={item.project.short_description}
+                  />
+                </Link>
+              </Col>
+            );
+          })}
+        </Row>
+      </React.Fragment>
+    );
+  };
+
   renderSpin = () => {
     return (
       <Row>
         <Col className="center">
-          <Skeleton active loading={true} />
+          <Skeleton active loading={this.state.loading} />
         </Col>
       </Row>
     );
@@ -369,6 +529,7 @@ const mapStateToProps = (state) => {
     message: state.message,
     user: state.user.profile,
     loc: state.loc,
+    fieldData: state.profile.fieldData,
   };
 };
 
@@ -379,5 +540,9 @@ export default connect(mapStateToProps, {
   protectedTest,
   listLocation,
   getRule,
-  createOtherLocation
+  createOtherLocation,
+  updateProject,
+  getProjectsByUser,
+  listProjectByCreator,
+  getParticipant,
 })(UserDashboard);

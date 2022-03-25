@@ -4,6 +4,7 @@ import { Row, Col, Container } from "reactstrap";
 import { readNotification } from "../../actions/notification";
 import { Header, Footer } from "../../components/template";
 import moment from "moment";
+import sampleUrl from "../../assets/img/user-avatar.png";
 
 class Notification extends Component {
   render() {
@@ -36,7 +37,7 @@ class Notification extends Component {
     let name = `${profile.first_name} ${profile.last_name}`;
     return (
       <div className="notif-author">
-        <img src={profile.photo} alt="" />
+        <img src={profile.photo || sampleUrl} alt="" />
         <div className="notif-name">
           <div className="name">{name}</div>
           <span>{moment(item.createdAt).format("MM/DD/YY  ha")}</span>

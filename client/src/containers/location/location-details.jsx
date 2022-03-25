@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container } from "reactstrap";
 import { BigUpload, Footer, Header } from "../../components/template";
-import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Descriptions, Input, Modal, Skeleton } from "antd";
 import axiosClient from "../../actions/api";
@@ -56,7 +55,7 @@ function LocationDetails({ user }) {
       .get(`${process.env.REACT_APP_API_HOST}/sponsors/location/${id}`)
       .then((res) => setSponsors(res.data))
       .catch((err) => console.error(err));
-  }, []);
+  }, [client, id]);
 
   const handleMessage = async (e) => {
     e.preventDefault();
@@ -210,8 +209,13 @@ function LocationDetails({ user }) {
                     className="d-block rounded border p-3"
                     href={sp.link}
                     target="_blank"
+                    rel="noopener noreferrer"
                   >
-                    <img className="d-block sponsor-img" src={sp.imageUrl} />
+                    <img
+                      className="d-block sponsor-img"
+                      src={sp.imageUrl}
+                      alt=""
+                    />
                     {sp.name}
                   </a>
                 </div>

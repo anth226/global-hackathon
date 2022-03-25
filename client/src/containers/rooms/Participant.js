@@ -1,9 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  AudioTrack,
-  VideoTrack,
-  Participant as VideoParticipant,
-} from "twilio-video";
 
 const Participant = ({ participant }) => {
   const [videoTracks, setVideoTracks] = useState([]);

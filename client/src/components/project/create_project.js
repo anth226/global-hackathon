@@ -5,13 +5,7 @@ import RichTextEditor from "../pages/editor";
 import { countries } from "../../constants/countries";
 import ProjectTags from "../pages/tags_addons";
 
-const CreateForm = ({
-  onSubmit,
-  curProject,
-  hideProjectCreate,
-  label,
-  fieldData,
-}) => {
+const CreateForm = ({ onSubmit, curProject, hideProjectCreate, fieldData }) => {
   const [avatarURL, setAvatar] = useState(curProject.logo);
   const [tags, setTags] = useState(curProject.tags || []);
 
@@ -39,13 +33,13 @@ const CreateForm = ({
           </div>
         </Col>
         <Col md={12} sm={24} xs={24}>
-          <span className="form-label">{label.titleProject} name*</span>
+          <span className="form-label">Project name*</span>
           <Form.Item
             name="name"
             rules={[
               {
                 required: true,
-                message: `Please input the ${label.project} name!`,
+                message: `Please input the project name!`,
               },
             ]}
           >
@@ -75,7 +69,7 @@ const CreateForm = ({
             rules={[
               {
                 required: true,
-                message: `Please input the ${label.project} short description!`,
+                message: `Please input the project short description!`,
               },
             ]}
           >
